@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "633310168534",
+    "firebase_url": "https://controlador-de-fluxo-default-rtdb.firebaseio.com",
+    "project_id": "controlador-de-fluxo",
+    "storage_bucket": "controlador-de-fluxo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:633310168534:android:e82071bab29e00ee3f5077",
+        "android_client_info": {
+          "package_name": "com.fluxo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "633310168534-im85a26o12kt7us5m7eav8rsdk6rm3u9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9g3zhJEE8krP-BMKkBW2Cq1dwztoAJHk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "633310168534-im85a26o12kt7us5m7eav8rsdk6rm3u9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

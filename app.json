@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "fluxo",
+    "slug": "fluxo",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "package": "com.fluxo"
+    }
+  }
+}

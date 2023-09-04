@@ -1,0 +1,147 @@
+import React from "react"
+import {
+    View,
+    Text,
+    StyleSheet
+} from 'react-native'
+import {dateFormat, moneyFormat} from '../assets/utils'
+
+import { ArrowDown } from "../assets/Icons/svg_arrow_down"
+import { ArrowUp } from "../assets/Icons/svg_arrow_up"
+import { Work } from "../assets/Icons/categories/svg_work"
+import { Other } from "../assets/Icons/categories/svg_other"
+import { Market } from "../assets/Icons/categories/svg_market"
+import { Bill } from "../assets/Icons/categories/svg_bill"
+import { Snack } from "../assets/Icons/categories/svg_snack"
+import { Wheel } from "../assets/Icons/categories/svg_wheel"
+import { Pet } from "../assets/Icons/categories/svg_pet"
+import { Gift } from "../assets/Icons/categories/svg_gift"
+import { Fun } from "../assets/Icons/categories/svg_fun"
+import { Health } from "../assets/Icons/categories/svg_health"
+import { Education } from "../assets/Icons/categories/svg_education"
+
+type Props = {
+    name: String,
+    value: Number,
+    date: Number,
+    type: "Entrada" | "Saída",
+    category: String,
+    user: String
+}
+
+export const Extract_item = (Props) => { 
+    const categoryColor_Icon = {
+        "Salário" : {
+            color: "brown",
+            icon() {return(<Work height={50} width={50} color="white"/>)}
+        },
+        "Mercado" : {
+            color: "violet",
+            icon() {return(<Market height={50} width={50} color="white"/>)}
+        },
+        "Conta" : {
+            color: "black",
+            icon() {return(<Bill height={50} width={50} color="white"/>)}
+        },
+        "Lanche" : {
+            color: "#ff6200",
+            icon() {return(<Snack height={50} width={50} color="white"/>)}
+        },
+        "Carro e ônibus" : {
+            color: "#50bd02",
+            icon() {return(<Wheel height={50} width={50} color="white"/>)}
+        },
+        "Animal" : {
+            color: "purple",
+            icon() {return(<Pet height={50} width={50} color="white"/>)}
+        },
+        "Presente" : {
+            color: "#025412",
+            icon() {return(<Gift height={50} width={50} color="white"/>)}
+        },
+        "Lazer" : {
+            color: "blue",
+            icon() {return(<Fun height={50} width={50} color="white"/>)}
+        },
+        "Saúde" : {
+            color: "red",
+            icon() {return(<Health height={50} width={50} color="white"/>)}
+        },
+        "Educação" : {
+            color: "#ffd000",
+            icon() {return(<Education height={50} width={50} color="white"/>)}
+        },
+        "Outro" : {
+            color: "gray",
+            icon() {return(<Other height={50} width={50} color="white"/>)}
+        }
+    }
+
+    //TROCAR POR STYLED COMPONENT
+    const styles = StyleSheet.create({
+        container:{
+            minWidth:'90%',
+            maxWidth: '90%',
+            marginBottom: 5,
+
+            borderColor: categoryColor_Icon[Props.category].color,
+            borderWidth: 5,
+            borderRadius: 20,
+
+            flexDirection: 'row'
+        },
+        iconContainer:{
+            width: "26%",
+            aspectRatio: "1/1",
+            backgroundColor: categoryColor_Icon[Props.category].color,
+
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
+        infoContainer:{
+            width: "48%",
+            paddingLeft: 5
+        },
+        name:{
+            fontSize: 20,
+            fontWeight: 'bold'
+        },
+        value:{
+            fontSize: 30,
+            fontWeight: 'bold'
+        },
+        bottomBand:{
+        //   width: "100%",
+
+          flexDirection:'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        },
+        date:{
+            fontSize: 20
+        }
+    })
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.iconContainer}>
+                {categoryColor_Icon[Props.category].icon()}
+            </View>
+            <View style={styles.infoContainer}>
+                <Text style={styles.name}>{Props.name}</Text>
+                <Text style={styles.value}>{moneyFormat(Props.value)}</Text>
+                <View style={styles.bottomBand}>
+                    <Text style={styles.date}>{dateFormat(Props.date).getHours()+":"+dateFormat(Props.date).getMinutes()}</Text>
+                    <Text>{Props.user}</Text>
+                </View>
+            </View>
+            <View style={[styles.iconContainer, {backgroundColor:"transparent"}]}>
+                {
+                Props.type == "entrada" ? 
+                    <ArrowDown height={50} width={50} color="green"/>
+                  : <ArrowUp height={50} width={50} color="red"/>
+                }
+            </View>
+        </View>
+    )
+}
