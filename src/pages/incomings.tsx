@@ -37,7 +37,7 @@ export const Incomings = () => {
                 date: date,
                 name: name,
                 user: "pedro",
-                value: Number.parseFloat(value)
+                value: value
             })
         }else{
             Alert.alert("Você preencher um nome, um valor e escolher uma categoria")

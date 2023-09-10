@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {
     StyleSheet,
+    ScrollView,
     View,
     Text,
     TouchableOpacity
@@ -121,8 +122,9 @@ export const Main = () => {
         },
         container:{
             width:'100%',
-            height: '15%',
+            height: 80,
             marginTop: 20,
+            marginBottom: 20,
     
             flexDirection: 'row',
             justifyContent: 'space-evenly'
@@ -156,52 +158,57 @@ export const Main = () => {
       });
 
     return(
-        <View style={styles.page}>
-            <Text style={styles.title}>Controle de fluxo</Text>
-            <View style={styles.container}>
-                <ValueBlock title="Entradas totais" value={entradasTotais} impact="Enter"/>
-                <ValueBlock title="Saídas totais" value={saidasTotais} impact="Leave"/>
-            </View>
-            <View style={styles.dateBar}>
-                <View style={styles.dateBar2}>
-                    <TouchableOpacity onPress={() => previousItem()} activeOpacity={dateIndex == 0 ? 100 : 0.5}>
-                        <Text style={[styles.date, styles.leftArrow]}>◀</Text>
-                    </TouchableOpacity>
+        <ScrollView 
+            contentContainerStyle={{paddingBottom: '100%'}}
+            showsVerticalScrollIndicator={false}
+        >
+            <View style={styles.page}>
+                <Text style={styles.title}>Controle de fluxo</Text>
+                <View style={styles.container}>
+                    <ValueBlock title="Entradas totais" value={entradasTotais} impact="Enter"/>
+                    <ValueBlock title="Saídas totais" value={saidasTotais} impact="Leave"/>
+                </View>
+                <View style={styles.dateBar}>
+                    <View style={styles.dateBar2}>
+                        <TouchableOpacity onPress={() => previousItem()} activeOpacity={dateIndex == 0 ? 100 : 0.5}>
+                            <Text style={[styles.date, styles.leftArrow]}>◀</Text>
+                        </TouchableOpacity>
 
-                    <Text style={[styles.date, { width: 201, marginHorizontal: 10, textAlign: "center" }]}>{selectedMonth ? selectedMonth : "-------- / ----"}</Text>
+                        <Text style={[styles.date, { width: 201, marginHorizontal: 10, textAlign: "center" }]}>{selectedMonth ? selectedMonth : "-------- / ----"}</Text>
 
-                    <TouchableOpacity onPress={() => nextItem()} activeOpacity={dateIndex == filteredMonths.length - 1 ? 100 : 0.5}>
-                        <Text style={[styles.date, styles.rightArrow]}>▶</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity onPress={() => nextItem()} activeOpacity={dateIndex == filteredMonths.length - 1 ? 100 : 0.5}>
+                            <Text style={[styles.date, styles.rightArrow]}>▶</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styles.container}>
+                    <ValueBlock title="Entradas do mês" value={entradasMes} impact="Enter"/>
+                    <ValueBlock title="Saídas do mês" value={saidasMes} impact="Leave"/>
+                </View>
+                <View style={styles.buttonBlock}>
+                    <Button 
+                        title="Extrato" 
+                        color="orange"
+                        icon={<Extract width={50} height={50} color={"white"}/>}
+                        height="30%"
+                        onPress={() => navigation.navigate("Extract")}
+                    />
+                    <Button 
+                        title="Saida" 
+                        color={theme.colors.lose}
+                        icon={<ArrowUp width={50} height={50} color={"white"}/>}
+                        height="30%"
+                        onPress={() => navigation.navigate("Outcomings")}
+                    />
+                    <Button 
+                        title="Entrada" 
+                        color={theme.colors.gain}
+                        icon={<ArrowDown width={50} height={50} color={"white"}/>}
+                        height="30%"
+                        onPress={() => navigation.navigate("Incomings")}
+                    />
                 </View>
             </View>
-            <View style={styles.container}>
-                <ValueBlock title="Entradas do mês" value={entradasMes} impact="Enter"/>
-                <ValueBlock title="Saídas do mês" value={saidasMes} impact="Leave"/>
-            </View>
-            <View style={styles.buttonBlock}>
-                <Button 
-                    title="Extrato" 
-                    color="orange"
-                    icon={<Extract width={50} height={50} color={"white"}/>}
-                    height="30%"
-                    onPress={() => navigation.navigate("Extract")}
-                />
-                <Button 
-                    title="Saida" 
-                    color={theme.colors.lose}
-                    icon={<ArrowUp width={50} height={50} color={"white"}/>}
-                    height="30%"
-                    onPress={() => navigation.navigate("Outcomings")}
-                />
-                <Button 
-                    title="Entrada" 
-                    color={theme.colors.gain}
-                    icon={<ArrowDown width={50} height={50} color={"white"}/>}
-                    height="30%"
-                    onPress={() => navigation.navigate("Incomings")}
-                />
-            </View>
-        </View>
+        </ScrollView>
     )
 }
