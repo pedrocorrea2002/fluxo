@@ -109,16 +109,16 @@ export const Main = () => {
     useEffect(() => {
         if(lancamentos.length > 0){
             const lancamentos_mes = lancamentos.filter(
-                a => a.type == "entrada"
-                    // return (monthList[dateFormat(a.date).getMonth()] == selectedMonth.split(" / ")[0]
-                    // &&
-                    // `${dateFormat(a.date).getFullYear()}` == selectedMonth.split(" / ")[1])
+                a => { 
+                    return (monthList[dateFormat(a.date).getMonth()] == selectedMonth.split(" / ")[0]
+                    &&
+                    `${dateFormat(a.date).getFullYear()}` == selectedMonth.split(" / ")[1])
+                }
                 
             )
-            console.log("lancamentos_mes: ",lancamentos_mes.map(a => [dateFormat(a.date),a.value]))
 
-            // setEntradasMes(lancamentos_mes.filter(a => a.type == "entrada").map(a => a.value).reduce((a,b) => b += a))
-            // setSaidasMes(lancamentos_mes.filter(a => a.type == "saida").map(a => a.value).reduce((a,b) => b += a))
+            setEntradasMes(lancamentos_mes.filter(a => a.type == "entrada").map(a => a.value).reduce((a,b) => b += a))
+            setSaidasMes(lancamentos_mes.filter(a => a.type == "saida").map(a => a.value).reduce((a,b) => b += a))
         }
     },[dateIndex])
     //? ////////////////////////////////////////////////////
