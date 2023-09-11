@@ -16,7 +16,7 @@ import { ArrowUp } from '../assets/Icons/svg_arrow_up';
 import { ArrowDown } from '../assets/Icons/svg_arrow_down';
 import { Extract } from '../assets/Icons/svg_extract';
 
-import { unundefined, dataFormat_toMonth, onlyUnique } from "../assets/utils";
+import { unundefined, dataFormat_toMonth, onlyUnique, dateFormat, monthList } from "../assets/utils";
 import { Filter } from "../assets/Icons/svg_filter";
 
 export const Main = () => {
@@ -53,7 +53,7 @@ export const Main = () => {
     const [months, setMonths] = useState([])
     const [filteredMonths, setFilteredMonths] = useState([])
     const [dateIndex, setDateIndex] = useState(0)
-    const [selectedMonth, setSelectedMonth] = useState([])
+    const [selectedMonth, setSelectedMonth] = useState("")
     
     //? PREENCHENDO ENTRADAS E SAIDAS /////////////////////////
     const saidasDB = database().ref('/0/saidas/')
@@ -94,7 +94,7 @@ export const Main = () => {
         setEntradasTotais(entradas.reduce((a,b) => a + b.value ,0))
         setSaidasTotais(saidas.reduce((a,b) => a + b.value ,0))
 
-        console.log(saidas.reduce((a,b) => a + b.value ,0))
+        // console.log(saidas.reduce((a,b) => a + b.value ,0))
     },[lancamentos])
 
     useEffect(() => {
@@ -104,10 +104,22 @@ export const Main = () => {
     useEffect(() => {
         setSelectedMonth(filteredMonths[0])   
     },[filteredMonths])
-
+ 
+    new Date().getMonth
     useEffect(() => {
-        // setEntradasMes(lancamentos.filter(a => a.date))
-        // setSaidasMes()
+        if(lancamentos.length > 0){
+            const lancamentos_mes = lancamentos.filter(
+                a => a.type == "entrada"
+                    // return (monthList[dateFormat(a.date).getMonth()] == selectedMonth.split(" / ")[0]
+                    // &&
+                    // `${dateFormat(a.date).getFullYear()}` == selectedMonth.split(" / ")[1])
+                
+            )
+            console.log("lancamentos_mes: ",lancamentos_mes.map(a => [dateFormat(a.date),a.value]))
+
+            // setEntradasMes(lancamentos_mes.filter(a => a.type == "entrada").map(a => a.value).reduce((a,b) => b += a))
+            // setSaidasMes(lancamentos_mes.filter(a => a.type == "saida").map(a => a.value).reduce((a,b) => b += a))
+        }
     },[dateIndex])
     //? ////////////////////////////////////////////////////
 
@@ -155,7 +167,7 @@ export const Main = () => {
         rightArrow: {
             color: dateIndex == filteredMonths.length - 1 || lancamentos.length == 0 ? "#bfbdbd" : "black"
         }
-      });
+    });
 
     return(
         <ScrollView 

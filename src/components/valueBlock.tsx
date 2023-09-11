@@ -18,6 +18,8 @@ type Props = {
 }
 
 export const ValueBlock = (Props) => {
+    // console.log("Props:", typeof(Props.value), Props.value, Props)
+
     return (
         <View style={styles.block}>
             <Text style={styles.title}>{Props.title}</Text>
