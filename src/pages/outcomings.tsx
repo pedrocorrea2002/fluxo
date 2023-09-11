@@ -37,9 +37,10 @@ export const Outcomings = () => {
             saidas.push({
                 category: category,
                 date: Date.now(),
+                id: Date.now(),
                 name: name,
                 user: "pedro",
-                value: Number.parseFloat(value)
+                value: value
             })
         }else{
             Alert.alert("Você preencher um nome, um valor e escolher uma categoria")

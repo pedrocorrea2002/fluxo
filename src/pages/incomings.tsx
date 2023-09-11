@@ -34,7 +34,8 @@ export const Incomings = () => {
         if(name && value && category){
             entradas.push({
                 category: category,
-                date: date,
+                date: Date.now(),
+                id: Date.now(),
                 name: name,
                 user: "pedro",
                 value: value
