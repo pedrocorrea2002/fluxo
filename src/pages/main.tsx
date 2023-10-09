@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {
     StyleSheet,
-    ScrollView,
     View,
     Text,
     TouchableOpacity
@@ -16,7 +15,7 @@ import { ArrowUp } from '../assets/Icons/svg_arrow_up';
 import { ArrowDown } from '../assets/Icons/svg_arrow_down';
 import { Extract } from '../assets/Icons/svg_extract';
 
-import { unundefined, dataFormat_toMonth, onlyUnique, dateFormat, monthList } from "../assets/utils";
+import { unundefined, dataFormat_toMonth, onlyUnique } from "../assets/utils";
 import { Filter } from "../assets/Icons/svg_filter";
 
 export const Main = () => {
@@ -53,7 +52,7 @@ export const Main = () => {
     const [months, setMonths] = useState([])
     const [filteredMonths, setFilteredMonths] = useState([])
     const [dateIndex, setDateIndex] = useState(0)
-    const [selectedMonth, setSelectedMonth] = useState("")
+    const [selectedMonth, setSelectedMonth] = useState([])
     
     //? PREENCHENDO ENTRADAS E SAIDAS /////////////////////////
     const saidasDB = database().ref('/0/saidas/')
@@ -94,7 +93,7 @@ export const Main = () => {
         setEntradasTotais(entradas.reduce((a,b) => a + b.value ,0))
         setSaidasTotais(saidas.reduce((a,b) => a + b.value ,0))
 
-        // console.log(saidas.reduce((a,b) => a + b.value ,0))
+        console.log(saidas.reduce((a,b) => a + b.value ,0))
     },[lancamentos])
 
     useEffect(() => {
@@ -104,22 +103,10 @@ export const Main = () => {
     useEffect(() => {
         setSelectedMonth(filteredMonths[0])   
     },[filteredMonths])
- 
-    new Date().getMonth
-    useEffect(() => {
-        if(lancamentos.length > 0){
-            const lancamentos_mes = lancamentos.filter(
-                a => { 
-                    return (monthList[dateFormat(a.date).getMonth()] == selectedMonth.split(" / ")[0]
-                    &&
-                    `${dateFormat(a.date).getFullYear()}` == selectedMonth.split(" / ")[1])
-                }
-                
-            )
 
-            setEntradasMes(lancamentos_mes.filter(a => a.type == "entrada").map(a => a.value).reduce((a,b) => b += a))
-            setSaidasMes(lancamentos_mes.filter(a => a.type == "saida").map(a => a.value).reduce((a,b) => b += a))
-        }
+    useEffect(() => {
+        // setEntradasMes(lancamentos.filter(a => a.date))
+        // setSaidasMes()
     },[dateIndex])
     //? ////////////////////////////////////////////////////
 
@@ -134,9 +121,8 @@ export const Main = () => {
         },
         container:{
             width:'100%',
-            height: 80,
+            height: '15%',
             marginTop: 20,
-            marginBottom: 20,
     
             flexDirection: 'row',
             justifyContent: 'space-evenly'
@@ -167,60 +153,55 @@ export const Main = () => {
         rightArrow: {
             color: dateIndex == filteredMonths.length - 1 || lancamentos.length == 0 ? "#bfbdbd" : "black"
         }
-    });
+      });
 
     return(
-        <ScrollView 
-            contentContainerStyle={{paddingBottom: '100%'}}
-            showsVerticalScrollIndicator={false}
-        >
-            <View style={styles.page}>
-                <Text style={styles.title}>Controle de fluxo</Text>
-                <View style={styles.container}>
-                    <ValueBlock title="Entradas totais" value={entradasTotais} impact="Enter"/>
-                    <ValueBlock title="Saídas totais" value={saidasTotais} impact="Leave"/>
-                </View>
-                <View style={styles.dateBar}>
-                    <View style={styles.dateBar2}>
-                        <TouchableOpacity onPress={() => previousItem()} activeOpacity={dateIndex == 0 ? 100 : 0.5}>
-                            <Text style={[styles.date, styles.leftArrow]}>◀</Text>
-                        </TouchableOpacity>
+        <View style={styles.page}>
+            <Text style={styles.title}>Controle de fluxo</Text>
+            <View style={styles.container}>
+                <ValueBlock title="Entradas totais" value={entradasTotais} impact="Enter"/>
+                <ValueBlock title="Saídas totais" value={saidasTotais} impact="Leave"/>
+            </View>
+            <View style={styles.dateBar}>
+                <View style={styles.dateBar2}>
+                    <TouchableOpacity onPress={() => previousItem()} activeOpacity={dateIndex == 0 ? 100 : 0.5}>
+                        <Text style={[styles.date, styles.leftArrow]}>◀</Text>
+                    </TouchableOpacity>
 
-                        <Text style={[styles.date, { width: 201, marginHorizontal: 10, textAlign: "center" }]}>{selectedMonth ? selectedMonth : "-------- / ----"}</Text>
+                    <Text style={[styles.date, { width: 201, marginHorizontal: 10, textAlign: "center" }]}>{selectedMonth ? selectedMonth : "-------- / ----"}</Text>
 
-                        <TouchableOpacity onPress={() => nextItem()} activeOpacity={dateIndex == filteredMonths.length - 1 ? 100 : 0.5}>
-                            <Text style={[styles.date, styles.rightArrow]}>▶</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={styles.container}>
-                    <ValueBlock title="Entradas do mês" value={entradasMes} impact="Enter"/>
-                    <ValueBlock title="Saídas do mês" value={saidasMes} impact="Leave"/>
-                </View>
-                <View style={styles.buttonBlock}>
-                    <Button 
-                        title="Extrato" 
-                        color="orange"
-                        icon={<Extract width={50} height={50} color={"white"}/>}
-                        height="30%"
-                        onPress={() => navigation.navigate("Extract")}
-                    />
-                    <Button 
-                        title="Saida" 
-                        color={theme.colors.lose}
-                        icon={<ArrowUp width={50} height={50} color={"white"}/>}
-                        height="30%"
-                        onPress={() => navigation.navigate("Outcomings")}
-                    />
-                    <Button 
-                        title="Entrada" 
-                        color={theme.colors.gain}
-                        icon={<ArrowDown width={50} height={50} color={"white"}/>}
-                        height="30%"
-                        onPress={() => navigation.navigate("Incomings")}
-                    />
+                    <TouchableOpacity onPress={() => nextItem()} activeOpacity={dateIndex == filteredMonths.length - 1 ? 100 : 0.5}>
+                        <Text style={[styles.date, styles.rightArrow]}>▶</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
-        </ScrollView>
+            <View style={styles.container}>
+                <ValueBlock title="Entradas do mês" value={entradasMes} impact="Enter"/>
+                <ValueBlock title="Saídas do mês" value={saidasMes} impact="Leave"/>
+            </View>
+            <View style={styles.buttonBlock}>
+                <Button 
+                    title="Extrato" 
+                    color="orange"
+                    icon={<Extract width={50} height={50} color={"white"}/>}
+                    height="30%"
+                    onPress={() => navigation.navigate("Extract")}
+                />
+                <Button 
+                    title="Saida" 
+                    color={theme.colors.lose}
+                    icon={<ArrowUp width={50} height={50} color={"white"}/>}
+                    height="30%"
+                    onPress={() => navigation.navigate("Outcomings")}
+                />
+                <Button 
+                    title="Entrada" 
+                    color={theme.colors.gain}
+                    icon={<ArrowDown width={50} height={50} color={"white"}/>}
+                    height="30%"
+                    onPress={() => navigation.navigate("Incomings")}
+                />
+            </View>
+        </View>
     )
 }

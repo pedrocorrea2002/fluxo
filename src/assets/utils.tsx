@@ -18,6 +18,16 @@ export function dataFormat_toMonth(date){
     return `${monthList[month]} / ${date2.getFullYear()}`
 }
 
+//? HORAS
+export function just_time(date = new Date){
+    return `${leadingZeros(date.getHours(),2)}:${leadingZeros(date.getMinutes(),2)}:${leadingZeros(date.getSeconds(),2)}`
+}
+
+//? DATA
+export function just_date(date = new Date){
+    return `${leadingZeros(date.getDate(),2)}/${leadingZeros(date.getMonth(),2)}/${leadingZeros(date.getFullYear(),4)}`
+}
+
 //! ///// NÚMEROS ///////////////////////////
 //? FORMATA DINHEIRO PARA O PADRÃO BRASILEIRO
 export function moneyFormat(money) {
@@ -30,6 +40,14 @@ export function unundefined(num){
     }else{
         return num
     }
+}
+
+export function leadingZeros(number, digits){
+    while(number.toString().length < digits){
+        number = `0${number}`
+    }
+
+    return number
 }
 
 //! ///// LISTAS ///////////////////////////

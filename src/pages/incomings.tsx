@@ -7,7 +7,6 @@ import {
     Alert
 } from 'react-native'
 import database from '@react-native-firebase/database'
-import DatePicker from 'react-native-datepicker'
 
 import { Input } from "../components/input";
 import { Category } from "../components/category";
@@ -19,14 +18,9 @@ import { Other } from "../assets/Icons/categories/svg_other";
 import { Work } from "../assets/Icons/categories/svg_work";
 
 export const Incomings = () => {
-    let a = new Date
     const [name, setName] = useState("")
     const [value, setValue] = useState(0)
-
     const [category, setCategory] = useState("")
-    const [date, setDate] = useState(new Date)
-    const [showableDate, setShowableDate] = useState("")
-    const [show, setShow] = useState(false)
     
     const entradas = database().ref('/0/entradas/')
 
@@ -35,15 +29,16 @@ export const Incomings = () => {
             entradas.push({
                 category: category,
                 date: Date.now(),
-                id: Date.now(),
                 name: name,
                 user: "pedro",
-                value: value
+                value: Number.parseFloat(value)
             })
         }else{
             Alert.alert("Você preencher um nome, um valor e escolher uma categoria")
         }
     }
+
+    
 
     return (
         <ScrollView
@@ -60,15 +55,8 @@ export const Incomings = () => {
                 <Input 
                     text="Valor"
                     placeholder="Digite o valor da entrada"    
-                    // onChangeText={setValue}
+                    onChangeText={setValue}
                 />
-
-                <DatePicker
-                  format="DD/MM/YYYY HH:MM:SS"
-                  style={{height:30, width:"90%"}}
-                />
-
-                
                 <Text style={styles.subtitle}>Categoria:</Text>
                 <View style={styles.category_container}>
                     <Category

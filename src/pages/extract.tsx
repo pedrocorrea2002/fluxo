@@ -39,7 +39,7 @@ export const Extract = () => {
     const [months, setMonths] = useState([])
     const [filteredMonths, setFilteredMonths] = useState([])
     const [dateIndex, setDateIndex] = useState(0)
-    const [selectedMonth, setSelectedMonth] = useState([])
+    const [selectedMonth, setSelectedMonth] = useState("")
     
     //? PREENCHENDO ENTRADAS E SAÍDAS
     const saidasDB = database().ref('/0/saidas/')
@@ -61,7 +61,6 @@ export const Extract = () => {
             for(indexEntrada in snapshot.val()){
                 listaEntradas.push(snapshot.val()[indexEntrada])
             }
-
             setEntradas(listaEntradas)
         })
     },[])

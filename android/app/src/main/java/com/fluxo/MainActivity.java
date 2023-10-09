@@ -1,4 +1,4 @@
-package com.fluxo;
+package com.company.fluxo;
 
 import android.os.Build;
 import android.os.Bundle;

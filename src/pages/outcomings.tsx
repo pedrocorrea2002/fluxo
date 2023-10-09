@@ -24,28 +24,38 @@ import { Other } from "../assets/Icons/categories/svg_other";
 import { Fun } from "../assets/Icons/categories/svg_fun";
 import { Health } from "../assets/Icons/categories/svg_health";
 import { Education } from "../assets/Icons/categories/svg_education";
+import { Meal } from "../assets/Icons/categories/svg_meal";
+import { InputDateTime } from "../components/inputDateTime";
+import { just_date, just_time } from "../assets/utils";
 
 export const Outcomings = () => {
-    const [name, setName] = useState("")
-    const [value, setValue] = useState(0)
-    const [category, setCategory] = useState("")
+    const [name,setName] = useState("")
+    const [value,setValue] = useState(0)
+    const [category,setCategory] = useState("")
+    const [date, setDate] = useState(new Date(Date.now()))
     
     const saidas = database().ref('/0/saidas/')
 
     function insertValues(){
         if(name && value && category){
-            saidas.push({
-                category: category,
-                date: Date.now(),
-                id: Date.now(),
-                name: name,
-                user: "pedro",
-                value: value
-            })
+            // saidas.push({
+            //     category: category,
+            //     date: Date.now(),
+            //     name: name,
+            //     user: "pedro",
+            //     value: value
+            // })
+
+            setName("")
+            setValue(0)
+            setCategory("")
+            setDate(new Date(Date.now()))
         }else{
             Alert.alert("Você preencher um nome, um valor e escolher uma categoria")
         }
     }
+
+    console.log(value)
 
     return (
         <ScrollView 
@@ -56,15 +66,37 @@ export const Outcomings = () => {
                 <Text style={styles.title}>Nova saída</Text>
                 <Input 
                     text="Nome"
+                    display={name}
                     placeholder="Digite o nome da saída"
                     onChangeText={setName}
                 />
                 <Input 
                     text="Valor"
+                    display={value.toLocaleString("pt-BR", {style:"currency", currency:"BRL"})}
                     placeholder="Digite o valor da saída"
-                    onChangeText={value => setValue(Number(value))}
+                    
+                    onChangeText={a => setValue(Number(a))}
                     keyboardType="decimal-pad"
                 />
+                <View style={{flexDirection:'row'}}>
+                    <InputDateTime 
+                        text="Data"
+                        side="left"
+                        date={date}
+                        setDate={setDate}
+                        mode="date"
+                        content={just_date(date)}
+                    />
+                    <InputDateTime
+                    text="Hora"
+                    side="right"
+                    date={date}
+                    setDate={setDate}
+                    mode="time"
+                    content={just_time(date)}
+                />
+                </View>
+
                 <Text style={styles.subtitle}>Categoria:</Text>
                 <View style={styles.category_container}>
                     <Category
@@ -127,6 +159,13 @@ export const Outcomings = () => {
                         title="Educação"
                         icon={Education}
                         color="#ffd000"
+                        category={category}
+                        setCategory={setCategory}
+                    />
+                    <Category
+                        title="Refeição"
+                        icon={Meal}
+                        color="#700000"
                         category={category}
                         setCategory={setCategory}
                     />
