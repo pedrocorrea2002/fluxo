@@ -20,6 +20,7 @@ import { Filter } from "../assets/Icons/svg_filter";
 
 export const Main = () => {
     const navigation = useNavigation();
+    var a = 1
 
     //? PULA PRA PRÓXIMA DATA
     function nextItem() {
@@ -55,8 +56,8 @@ export const Main = () => {
     const [selectedMonth, setSelectedMonth] = useState([])
     
     //? PREENCHENDO ENTRADAS E SAIDAS /////////////////////////
-    const saidasDB = database().ref('/0/saidas/')
-    const entradasDB = database().ref('/0/entradas/')
+    const saidasDB = database().ref('/saidas/')
+    const entradasDB = database().ref('/entradas/')
 
     useEffect(() => {
         saidasDB.once('value', snapshot => {
@@ -77,7 +78,8 @@ export const Main = () => {
 
             setEntradas(listaEntradas)
         })
-    },[])
+    },[a])
+    a = 1
 
     useEffect(() => {
         setLancamentos([
@@ -89,11 +91,19 @@ export const Main = () => {
     useEffect(() => {
         function a(a,b){return a + b.value}
 
+        //? TOTAL
         setMonths(lancamentos.sort((a, b) => { return a.date - b.date }).map(item => dataFormat_toMonth(item.date)))
         setEntradasTotais(entradas.reduce((a,b) => a + b.value ,0))
         setSaidasTotais(saidas.reduce((a,b) => a + b.value ,0))
 
-        console.log(saidas.reduce((a,b) => a + b.value ,0))
+        //? DO MÊS
+        //! Foi repetido aqui porque por algum motivo o useEffect do dateIndex está executando antes da lista de lançamentos estar preenchida e depois só executa de novo quando é trocado o mês, o que deixa os valores de mês zerados caso não for trocado de página
+        setEntradasMes(lancamentos
+            .filter(a => a.type == "entrada"  && dataFormat_toMonth(a.date) == selectedMonth)
+            .reduce((a,b) => a + b.value ,0))
+        setSaidasMes(lancamentos
+            .filter(a => a.type == "saida" && dataFormat_toMonth(a.date) == selectedMonth)
+            .reduce((a,b) => a + b.value ,0))
     },[lancamentos])
 
     useEffect(() => {
@@ -105,15 +115,23 @@ export const Main = () => {
     },[filteredMonths])
 
     useEffect(() => {
-        // setEntradasMes(lancamentos.filter(a => a.date))
-        // setSaidasMes()
+        if(lancamentos.length > 0){
+            setEntradasMes(lancamentos
+                            .filter(a => a.type == "entrada"  && dataFormat_toMonth(a.date) == selectedMonth)
+                            .reduce((a,b) => a + b.value ,0))
+            setSaidasMes(lancamentos
+                            .filter(a => a.type == "saida" && dataFormat_toMonth(a.date) == selectedMonth)
+                            .reduce((a,b) => a + b.value ,0))
+        }
     },[dateIndex])
     //? ////////////////////////////////////////////////////
 
     const styles = StyleSheet.create({
         page:{
+            flex:1,
             alignItems: 'center',
-            alignContent: 'space-between'
+            alignContent: 'space-between',
+            paddingBottom: 40
         },
         title:{
             fontSize:30,
@@ -184,21 +202,21 @@ export const Main = () => {
                     title="Extrato" 
                     color="orange"
                     icon={<Extract width={50} height={50} color={"white"}/>}
-                    height="30%"
+                    height={100}
                     onPress={() => navigation.navigate("Extract")}
                 />
                 <Button 
                     title="Saida" 
                     color={theme.colors.lose}
                     icon={<ArrowUp width={50} height={50} color={"white"}/>}
-                    height="30%"
+                    height={100}
                     onPress={() => navigation.navigate("Outcomings")}
                 />
                 <Button 
                     title="Entrada" 
                     color={theme.colors.gain}
                     icon={<ArrowDown width={50} height={50} color={"white"}/>}
-                    height="30%"
+                    height={100}
                     onPress={() => navigation.navigate("Incomings")}
                 />
             </View>

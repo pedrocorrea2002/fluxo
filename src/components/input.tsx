@@ -16,7 +16,6 @@ type Props = TextInputProps & {
 export const Input = ({text,display, ...rest}: Props) => {
     const input = useRef()
 
-    // console.log(typeof(display),display)
     return (
         <View style={styles.container}>
             <Text

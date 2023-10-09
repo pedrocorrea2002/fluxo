@@ -19,6 +19,7 @@ import { Gift } from "../assets/Icons/categories/svg_gift"
 import { Fun } from "../assets/Icons/categories/svg_fun"
 import { Health } from "../assets/Icons/categories/svg_health"
 import { Education } from "../assets/Icons/categories/svg_education"
+import { Meal } from "../assets/Icons/categories/svg_meal"
 
 type Props = {
     name: String,
@@ -33,47 +34,51 @@ export const Extract_item = (Props) => {
     const categoryColor_Icon = {
         "Salário" : {
             color: "brown",
-            icon() {return(<Work height={50} width={50} color="white"/>)}
+            icon() {return(<Work height={35} width={35} color="white"/>)}
         },
         "Mercado" : {
             color: "violet",
-            icon() {return(<Market height={50} width={50} color="white"/>)}
+            icon() {return(<Market height={35} width={35} color="white"/>)}
         },
         "Conta" : {
             color: "black",
-            icon() {return(<Bill height={50} width={50} color="white"/>)}
+            icon() {return(<Bill height={35} width={35} color="white"/>)}
         },
         "Lanche" : {
             color: "#ff6200",
-            icon() {return(<Snack height={50} width={50} color="white"/>)}
+            icon() {return(<Snack height={35} width={35} color="white"/>)}
         },
         "Carro e ônibus" : {
             color: "#50bd02",
-            icon() {return(<Wheel height={50} width={50} color="white"/>)}
+            icon() {return(<Wheel height={35} width={35} color="white"/>)}
         },
         "Animal" : {
             color: "purple",
-            icon() {return(<Pet height={50} width={50} color="white"/>)}
+            icon() {return(<Pet height={35} width={35} color="white"/>)}
         },
         "Presente" : {
             color: "#025412",
-            icon() {return(<Gift height={50} width={50} color="white"/>)}
+            icon() {return(<Gift height={35} width={35} color="white"/>)}
         },
         "Lazer" : {
             color: "blue",
-            icon() {return(<Fun height={50} width={50} color="white"/>)}
+            icon() {return(<Fun height={35} width={35} color="white"/>)}
         },
         "Saúde" : {
             color: "red",
-            icon() {return(<Health height={50} width={50} color="white"/>)}
+            icon() {return(<Health height={35} width={35} color="white"/>)}
         },
         "Educação" : {
             color: "#ffd000",
-            icon() {return(<Education height={50} width={50} color="white"/>)}
+            icon() {return(<Education height={35} width={35} color="white"/>)}
+        },
+        "Refeição" : {
+            color:"#700000",
+            icon() {return(<Meal height={35} width={35} color="white"/>)}
         },
         "Outro" : {
             color: "gray",
-            icon() {return(<Other height={50} width={50} color="white"/>)}
+            icon() {return(<Other height={35} width={35} color="white"/>)}
         }
     }
 
@@ -91,9 +96,11 @@ export const Extract_item = (Props) => {
             flexDirection: 'row'
         },
         iconContainer:{
-            width: "26%",
+            width: "20%",
             aspectRatio: "1/1",
             backgroundColor: categoryColor_Icon[Props.category].color,
+            borderBottomRightRadius: 20,
+            borderTopLeftRadius: 5,
 
             justifyContent: 'center',
             alignItems: 'center'

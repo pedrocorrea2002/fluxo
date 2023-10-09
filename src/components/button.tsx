@@ -24,14 +24,12 @@ export const Button = ({ title, color, icon, height, ...rest }: Props) => {
         },
         buttonContainer:{
             width: '90%',
-            height: `${height}`,
+            height: height,
             borderRadius: 30,
             backgroundColor: `${color}`,
             paddingHorizontal: 20
         },
         button: {
-            // paddingHorizontal: 30,
-
             flex:1,
             flexDirection: 'row',
 

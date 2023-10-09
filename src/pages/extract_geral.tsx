@@ -74,8 +74,6 @@ export const Extract = () => {
     },[entradas,saidas])
 
     useEffect(() => {
-        console.log(lancamentos)
-
         setMonths(lancamentos.sort((a, b) => { return a.date - b.date }).map(item => dataFormat_toMonth(item.date)))
     },[lancamentos])
 
