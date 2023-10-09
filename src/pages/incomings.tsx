@@ -9,6 +9,7 @@ import {
 import database from '@react-native-firebase/database'
 
 import { Input } from "../components/input";
+import { InputDateTime } from "../components/inputDateTime";
 import { Category } from "../components/category";
 import { Button } from "../components/button";
 
@@ -16,29 +17,35 @@ import { theme } from "../assets/style";
 import {Plus} from "../assets/Icons/svg_plus"
 import { Other } from "../assets/Icons/categories/svg_other";
 import { Work } from "../assets/Icons/categories/svg_work";
+import { just_date, just_time } from "../assets/utils";
 
 export const Incomings = () => {
-    const [name, setName] = useState("")
-    const [value, setValue] = useState(0)
-    const [category, setCategory] = useState("")
+    const [name,setName] = useState("")
+    const [value,setValue] = useState(0)
+    const [category,setCategory] = useState("")
+    const [date, setDate] = useState(new Date(Date.now()))
     
-    const entradas = database().ref('/0/entradas/')
+    const entradas = database().ref('/entradas/')
 
     function insertValues(){
         if(name && value && category){
             entradas.push({
                 category: category,
-                date: Date.now(),
+                date: date.getTime(),
+                id: Date.now(),
                 name: name,
                 user: "pedro",
-                value: Number.parseFloat(value)
+                value: value
             })
+            
+            setName("")
+            setValue(0)
+            setCategory("")
+            setDate(new Date(Date.now()))
         }else{
             Alert.alert("Você preencher um nome, um valor e escolher uma categoria")
         }
     }
-
-    
 
     return (
         <ScrollView
@@ -49,14 +56,36 @@ export const Incomings = () => {
                 <Text style={styles.title}>Nova entrada</Text>
                 <Input 
                     text="Nome"
+                    display={name}
+                    value={name}
                     placeholder="Digite o nome da entrada"
                     onChangeText={setName}
                 />
                 <Input 
                     text="Valor"
+                    value={value.toString()}
+                    display={value.toLocaleString("pt-BR", {style:"currency", currency:"BRL"})}                    
                     placeholder="Digite o valor da entrada"    
-                    onChangeText={setValue}
+                    onChangeText={a => setValue(Number(a))}
                 />
+                <View style={{flexDirection:'row'}}>
+                    <InputDateTime 
+                        text="Data"
+                        side="left"
+                        date={date}
+                        setDate={setDate}
+                        mode="date"
+                        content={just_date(date)}
+                    />
+                    <InputDateTime
+                        text="Hora"
+                        side="right"
+                        date={date}
+                        setDate={setDate}
+                        mode="time"
+                        content={just_time(date)}
+                    />
+                </View>
                 <Text style={styles.subtitle}>Categoria:</Text>
                 <View style={styles.category_container}>
                     <Category

@@ -42,8 +42,8 @@ export const Extract = () => {
     const [selectedMonth, setSelectedMonth] = useState("")
     
     //? PREENCHENDO ENTRADAS E SAÍDAS
-    const saidasDB = database().ref('/0/saidas/')
-    const entradasDB = database().ref('/0/entradas/')
+    const saidasDB = database().ref('/saidas/')
+    const entradasDB = database().ref('/entradas/')
     
     useEffect(() => {
         saidasDB.once('value', snapshot => {

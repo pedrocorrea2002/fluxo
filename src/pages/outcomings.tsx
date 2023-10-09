@@ -34,17 +34,18 @@ export const Outcomings = () => {
     const [category,setCategory] = useState("")
     const [date, setDate] = useState(new Date(Date.now()))
     
-    const saidas = database().ref('/0/saidas/')
+    const saidas = database().ref('/saidas/')
 
     function insertValues(){
         if(name && value && category){
-            // saidas.push({
-            //     category: category,
-            //     date: Date.now(),
-            //     name: name,
-            //     user: "pedro",
-            //     value: value
-            // })
+            saidas.push({
+                category: category,
+                id: Date.now(),
+                date: date.getTime(),
+                name: name,
+                user: "pedro",
+                value: value
+            })
 
             setName("")
             setValue(0)
@@ -54,8 +55,6 @@ export const Outcomings = () => {
             Alert.alert("Você preencher um nome, um valor e escolher uma categoria")
         }
     }
-
-    console.log(value)
 
     return (
         <ScrollView 
@@ -67,11 +66,13 @@ export const Outcomings = () => {
                 <Input 
                     text="Nome"
                     display={name}
+                    value={name}
                     placeholder="Digite o nome da saída"
                     onChangeText={setName}
                 />
                 <Input 
                     text="Valor"
+                    value={value.toString()}
                     display={value.toLocaleString("pt-BR", {style:"currency", currency:"BRL"})}
                     placeholder="Digite o valor da saída"
                     
@@ -88,13 +89,13 @@ export const Outcomings = () => {
                         content={just_date(date)}
                     />
                     <InputDateTime
-                    text="Hora"
-                    side="right"
-                    date={date}
-                    setDate={setDate}
-                    mode="time"
-                    content={just_time(date)}
-                />
+                        text="Hora"
+                        side="right"
+                        date={date}
+                        setDate={setDate}
+                        mode="time"
+                        content={just_time(date)}
+                    />
                 </View>
 
                 <Text style={styles.subtitle}>Categoria:</Text>
