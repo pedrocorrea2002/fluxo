@@ -7,10 +7,10 @@ import {
     SectionList,
 } from 'react-native'
 import database from '@react-native-firebase/database'
-import { dateFormat, dataFormat_toMonth, onlyUnique } from "../assets/utils";
+import { dateFormat, dataFormat_toMonth, onlyUnique } from "../../assets/utils";
 
-import { Filter } from "../assets/Icons/svg_filter";
-import { Extract_item } from "../components/extract_item";
+import { Filter } from "../../assets/Icons/svg_filter";
+import { Extract_item } from "../../components/extract_item";
 
 
 export const Extract = () => {
@@ -96,6 +96,7 @@ export const Extract = () => {
         },
         dateBar: {
             marginTop: 20,
+            marginBottom: 10,
             width: "100%",
             flexDirection: 'row',
             justifyContent: 'space-around',

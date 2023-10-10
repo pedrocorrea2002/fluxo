@@ -5,12 +5,13 @@ import {
     StyleSheet,
     TouchableOpacity,
     SectionList,
+    FlatList,
 } from 'react-native'
 import database from '@react-native-firebase/database'
-import { dateFormat, dataFormat_toMonth, onlyUnique } from "../assets/utils";
+import { dateFormat, dataFormat_toMonth, onlyUnique } from "../../assets/utils";
 
-import { Filter } from "../assets/Icons/svg_filter";
-import { Extract_item } from "../components/extract_item";
+import { Filter } from "../../assets/Icons/svg_filter";
+import { Extract_item } from "../../components/extract_item";
 
 
 export const Extract = () => {
@@ -96,6 +97,7 @@ export const Extract = () => {
         },
         dateBar: {
             marginTop: 20,
+            marginBottom: 10,
             width: "100%",
             flexDirection: 'row',
             justifyContent: 'space-around',
@@ -125,16 +127,19 @@ export const Extract = () => {
 
     function groupLancamentos(lista) {
         const groupedList = []
+
         lista.forEach((item) => {
-            let group = groupedList.find((item2) => item2.title === dateFormat(item.date).getUTCDate())
+            let group = groupedList.find((item2) => item2.type == item.type && item2.category == item.category)
 
             if (!group) {
                 groupedList.push({
-                    title: dateFormat(item.date).getUTCDate(),
-                    data: [item]
+                    key: `${item.type}|${item.category}`,
+                    type: item.type,
+                    category: item.category,
+                    total: item.value
                 })
-            } else {
-                group.data.push(item)
+            } else {               
+                group.total += item.value
             }
         })
 
@@ -162,23 +167,22 @@ export const Extract = () => {
                 </TouchableOpacity>
             </View>
 
-            <SectionList
-                sections={groupLancamentos(lancamentos.filter(item => (dataFormat_toMonth(item.date) == selectedMonth ? 1 : 0)).sort((a, b) => { return a.date - b.date }))}
-                keyExtractor={(item) => String(item.date)}
+            <FlatList
+                data={
+                    groupLancamentos(
+                        lancamentos.filter(item => (dataFormat_toMonth(item.date) == selectedMonth ? 1 : 0)).sort((a, b) => { return a.date - b.date })
+                    )
+                }
+                // keyExtractor={(item) => String(item.key)}
                 contentContainerStyle={{ width: "100%", alignItems: 'center', paddingBottom: "25%" }}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
                     <Extract_item
-                        name={item.name}
-                        value={item.value}
-                        date={item.date}
+                        name={item.category}
+                        value={item.total}
                         type={item.type}
                         category={item.category}
-                        user={item.user}
                     />
-                )}
-                renderSectionHeader={({ section: { title } }) => (
-                    <Text style={styles.groupHeader}>Dia {title}</Text>
                 )}
             />
         </View>

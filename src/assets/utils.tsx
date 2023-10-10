@@ -55,3 +55,13 @@ export function leadingZeros(number, digits){
 export function onlyUnique(value, index, array) {
     return array.indexOf(value) === index;
 }
+
+export function sortAlfa(a, b) {
+    if (a < b) {
+      return -1;
+    }
+    if (a > b) {
+      return 1;
+    }
+    return 0;
+}

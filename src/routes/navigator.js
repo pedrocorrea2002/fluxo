@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Extract } from '../pages/extract_categoria';
+import { Extract } from '../pages/Views/extract_pessoa_categoria';
 import { Incomings } from '../pages/incomings';
 import { Outcomings } from '../pages/outcomings';
 import { Main } from '../pages/main';

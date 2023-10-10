@@ -5,12 +5,13 @@ import {
     StyleSheet,
     TouchableOpacity,
     SectionList,
+    FlatList,
 } from 'react-native'
 import database from '@react-native-firebase/database'
-import { dateFormat, dataFormat_toMonth, onlyUnique } from "../assets/utils";
+import { dateFormat, dataFormat_toMonth, onlyUnique, sortAlfa } from "../../assets/utils";
 
-import { Filter } from "../assets/Icons/svg_filter";
-import { Extract_item } from "../components/extract_item";
+import { Filter } from "../../assets/Icons/svg_filter";
+import { Extract_item } from "../../components/extract_item";
 
 
 export const Extract = () => {
@@ -96,6 +97,7 @@ export const Extract = () => {
         },
         dateBar: {
             marginTop: 20,
+            marginBottom: 10,
             width: "100%",
             flexDirection: 'row',
             justifyContent: 'space-around',
@@ -125,19 +127,33 @@ export const Extract = () => {
 
     function groupLancamentos(lista) {
         const groupedList = []
+
         lista.forEach((item) => {
-            let group = groupedList.find((item2) => item2.title === dateFormat(item.date).getUTCDate())
+            const group = groupedList.find((item2) => item2.title == item.user)
 
             if (!group) {
                 groupedList.push({
-                    title: dateFormat(item.date).getUTCDate(),
-                    data: [item]
+                    title: item.user,
+                    data: [{
+                        type: item.type,
+                        total: item.value
+                    }]
                 })
             } else {
-                group.data.push(item)
+                const groupType = group.data.find((item3) => item3.type == item.type)
+
+                if(!groupType){
+                    group.data.push({
+                        type: item.type,
+                        total: item.value
+                    })
+                }else{
+                    groupType.total += item.value
+                }
             }
         })
 
+        console.log("a: ",JSON.stringify(groupedList))
         return groupedList
     }
 
@@ -163,22 +179,24 @@ export const Extract = () => {
             </View>
 
             <SectionList
-                sections={groupLancamentos(lancamentos.filter(item => (dataFormat_toMonth(item.date) == selectedMonth ? 1 : 0)).sort((a, b) => { return a.date - b.date }))}
-                keyExtractor={(item) => String(item.date)}
+                sections={
+                    groupLancamentos(
+                        lancamentos.filter(item => (dataFormat_toMonth(item.date) == selectedMonth ? 1 : 0)).sort((a,b) => sortAlfa(a.type,b.type))
+                    )
+                }
+                keyExtractor={(item) => item.type}
                 contentContainerStyle={{ width: "100%", alignItems: 'center', paddingBottom: "25%" }}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
                     <Extract_item
-                        name={item.name}
-                        value={item.value}
-                        date={item.date}
+                        name={item.type[0].toUpperCase() + item.type.substring(1)}
+                        value={item.total}
+                        // category={item.type}
                         type={item.type}
-                        category={item.category}
-                        user={item.user}
                     />
                 )}
                 renderSectionHeader={({ section: { title } }) => (
-                    <Text style={styles.groupHeader}>Dia {title}</Text>
+                    <Text style={styles.groupHeader}>{title[0].toUpperCase() + title.substring(1)}</Text>
                 )}
             />
         </View>
