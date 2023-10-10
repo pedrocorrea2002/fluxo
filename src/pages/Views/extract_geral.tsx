@@ -49,7 +49,7 @@ export const Extract = () => {
         saidasDB.once('value', snapshot => {
             const listaSaidas = []
 
-            for(indexSaida in snapshot.val()){
+            for(const indexSaida in snapshot.val()){
                 listaSaidas.push(snapshot.val()[indexSaida])
             }
             setSaidas(listaSaidas)
@@ -58,7 +58,7 @@ export const Extract = () => {
         entradasDB.once('value', snapshot => {
             const listaEntradas = []
 
-            for(indexEntrada in snapshot.val()){
+            for(const indexEntrada in snapshot.val()){
                 listaEntradas.push(snapshot.val()[indexEntrada])
             }
             setEntradas(listaEntradas)

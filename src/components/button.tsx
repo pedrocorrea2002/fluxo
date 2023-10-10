@@ -4,14 +4,15 @@ import {
     View,
     TouchableOpacityProps,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    DimensionValue
 } from 'react-native'
 
 type Props = TouchableOpacityProps & {
     title: String;
     color: String;
     icon: React.ReactNode;
-    height: String;
+    height: DimensionValue;
 }
 
 export const Button = ({ title, color, icon, height, ...rest }: Props) => {

@@ -15,8 +15,7 @@ import { ArrowUp } from '../assets/Icons/svg_arrow_up';
 import { ArrowDown } from '../assets/Icons/svg_arrow_down';
 import { Extract } from '../assets/Icons/svg_extract';
 
-import { unundefined, dataFormat_toMonth, onlyUnique } from "../assets/utils";
-import { Filter } from "../assets/Icons/svg_filter";
+import { dataFormat_toMonth, onlyUnique } from "../assets/utils";
 
 export const Main = () => {
     const navigation = useNavigation();
@@ -53,7 +52,7 @@ export const Main = () => {
     const [months, setMonths] = useState([])
     const [filteredMonths, setFilteredMonths] = useState([])
     const [dateIndex, setDateIndex] = useState(0)
-    const [selectedMonth, setSelectedMonth] = useState([])
+    const [selectedMonth, setSelectedMonth] = useState("")
     
     //? PREENCHENDO ENTRADAS E SAIDAS /////////////////////////
     const saidasDB = database().ref('/saidas/')
@@ -63,7 +62,7 @@ export const Main = () => {
         saidasDB.once('value', snapshot => {
             const listaSaidas = []
 
-            for(indexSaida in snapshot.val()){
+            for(let indexSaida in snapshot.val()){
                 listaSaidas.push(snapshot.val()[indexSaida])
             }
             setSaidas(listaSaidas)
@@ -72,7 +71,7 @@ export const Main = () => {
         entradasDB.once('value', snapshot => {
             const listaEntradas = []
 
-            for(indexEntrada in snapshot.val()){
+            for(let indexEntrada in snapshot.val()){
                 listaEntradas.push(snapshot.val()[indexEntrada])
             }
 
@@ -117,10 +116,10 @@ export const Main = () => {
     useEffect(() => {
         if(lancamentos.length > 0){
             setEntradasMes(lancamentos
-                            .filter(a => a.type == "entrada"  && dataFormat_toMonth(a.date) == selectedMonth)
+                            .filter(a => a.type == "entrada"  && dataFormat_toMonth(a.date) == selectedMonth.toString())
                             .reduce((a,b) => a + b.value ,0))
             setSaidasMes(lancamentos
-                            .filter(a => a.type == "saida" && dataFormat_toMonth(a.date) == selectedMonth)
+                            .filter(a => a.type == "saida" && dataFormat_toMonth(a.date) == selectedMonth.toString())
                             .reduce((a,b) => a + b.value ,0))
         }
     },[dateIndex])
