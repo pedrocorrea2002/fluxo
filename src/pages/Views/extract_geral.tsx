@@ -5,15 +5,26 @@ import {
     StyleSheet,
     TouchableOpacity,
     SectionList,
+    FlatList,
 } from 'react-native'
 import database from '@react-native-firebase/database'
 import { dateFormat, dataFormat_toMonth, onlyUnique } from "../../assets/utils";
 
 import { Filter } from "../../assets/Icons/svg_filter";
 import { Extract_item } from "../../components/extract_item";
+import { Filter_block } from "../../components/filter_block";
 
 
 export const Extract = () => {
+    const [filters,setFilters] = useState([
+            {title:"Lanche",color:'orange'},
+            {title:"Carro e ônibus",color:'orange'},
+            {title:"Saúde",color:'orange'},
+            {title:"Educação",color:'orange'},
+            {title:"Lanche",color:'orange'},
+            // {title:"Lanche",color:'orange'},
+    ])
+
     //? PULA PRA PRÓXIMA DATA
     function nextItem() {
         if (filteredMonths[dateIndex + 1] !== undefined) {
@@ -115,6 +126,41 @@ export const Extract = () => {
         rightArrow: {
             color: dateIndex == filteredMonths.length - 1 || lancamentos.length == 0 ? "#bfbdbd" : "black"
         },
+        total_header: {
+            width: '90%',
+            borderBottomWidth: 2,
+        },
+        total_header_sections:{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between'
+        },
+        total_header_section: {
+            width: '50%',
+            height: 30,
+
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'flex-start',
+        },
+        total_header_filters: {
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'flex-start',
+
+            flexWrap: 'wrap'
+        },
+        total_section_rectangle: {
+            width: 20,
+            height: 20,
+
+            borderRadius:7,
+            marginRight: 10
+        },
+        total_section_value: {
+            fontWeight: 'bold',
+            marginLeft: 10
+        },
         groupHeader: {
             minWidth: '90%',
             marginTop: 15,
@@ -162,11 +208,33 @@ export const Extract = () => {
                     <Filter width={30} height={30} color={"black"} />
                 </TouchableOpacity>
             </View>
+            <View style={styles.total_header}>
+                <View style={styles.total_header_filters}>
+                    {filters.map((item) => (
+                            <Filter_block
+                                title={item.title}
+                                color={item.color}
+                            />
+                    ))}
+                </View>
+                <View style={styles.total_header_sections}>
+                    <View style={styles.total_header_section}>
+                        <View style={[styles.total_section_rectangle, {backgroundColor: 'green'}]}></View>
+                        <Text>Entrada:</Text>
+                        <Text style={styles.total_section_value}>R$ 11.000,00</Text>
+                    </View>
+                    <View style={styles.total_header_section}>
+                        <View style={[styles.total_section_rectangle, {backgroundColor: 'red'}]}></View>
+                        <Text>Saída:</Text>
+                        <Text style={styles.total_section_value}>R$ 11.000,00</Text>
+                    </View>
+                </View>
+            </View>
 
             <SectionList
                 sections={groupLancamentos(lancamentos.filter(item => (dataFormat_toMonth(item.date) == selectedMonth ? 1 : 0)).sort((a, b) => { return a.date - b.date }))}
                 keyExtractor={(item) => String(item.date)}
-                contentContainerStyle={{ width: "100%", alignItems: 'center', paddingBottom: "25%" }}
+                contentContainerStyle={{ width: "100%", alignItems: 'center', paddingBottom: "50%" }}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
                     <Extract_item
