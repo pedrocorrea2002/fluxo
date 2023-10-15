@@ -13,6 +13,7 @@ import { dateFormat, dataFormat_toMonth, onlyUnique } from "../../assets/utils";
 import { Filter } from "../../assets/Icons/svg_filter";
 import { Extract_item } from "../../components/extract_item";
 import { Filter_block } from "../../components/filter_block";
+import { FilterModal } from "../../components/filter_modal";
 
 
 export const Extract = () => {
@@ -22,8 +23,8 @@ export const Extract = () => {
             {title:"Saúde",color:'orange'},
             {title:"Educação",color:'orange'},
             {title:"Lanche",color:'orange'},
-            // {title:"Lanche",color:'orange'},
     ])
+    const [modalVisible,setModalVisible] = useState(false)
 
     //? PULA PRA PRÓXIMA DATA
     function nextItem() {
@@ -204,7 +205,7 @@ export const Extract = () => {
                     </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => {setModalVisible(true)}}>
                     <Filter width={30} height={30} color={"black"} />
                 </TouchableOpacity>
             </View>
@@ -214,6 +215,8 @@ export const Extract = () => {
                             <Filter_block
                                 title={item.title}
                                 color={item.color}
+                                filters={filters}
+                                setFilters={setFilters}
                             />
                     ))}
                 </View>
@@ -250,6 +253,11 @@ export const Extract = () => {
                     <Text style={styles.groupHeader}>Dia {title}</Text>
                 )}
             />
+            {modalVisible &&
+                <FilterModal
+                    setModalVisible={setModalVisible}
+                />
+            }
         </View>
 
     )

@@ -8,9 +8,16 @@ import {
 type Props = {
     title: String;
     color: String;
+    filters: [];
+    setFilters: Function;
 }
 
 export const Filter_block = (Props) => {
+
+    function remove_filter(){
+        Props.setFilters(Props.filters.filter(a => a.title != Props.title))
+        console.log(Props.filters)
+    }
 
     const styles = StyleSheet.create({
         filter: {
@@ -34,7 +41,10 @@ export const Filter_block = (Props) => {
     });
 
     return (
-        <TouchableOpacity style={[styles.filter, {backgroundColor:Props.color}]}>
+        <TouchableOpacity
+            onPress={remove_filter}
+            style={[styles.filter, {backgroundColor:Props.color}]}
+        >
             <Text style={styles.filter_x}>X</Text>
             <Text style={{color:'white', fontWeight: 'bold'}}>{Props.title}</Text>
         </TouchableOpacity>
