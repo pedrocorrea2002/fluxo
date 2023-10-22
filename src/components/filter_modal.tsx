@@ -15,6 +15,8 @@ import { Meal } from '../assets/Icons/categories/svg_meal';
 import { Other } from '../assets/Icons/categories/svg_other';
 import { Work } from '../assets/Icons/categories/svg_work';
 import { OptionBlock } from './option_block';
+import { InputDateTime } from './inputDateTime';
+import { just_date, just_time } from '../assets/utils';
 
 type Props = {
     setModalVisible: Function;
@@ -27,6 +29,8 @@ export const FilterModal = (Props) => {
     const [selectedUser, setSelectedUser] = useState([])
     const [selectedOrnedacao, setSelectedOrdenacao] = useState([])
     const [selectedSentido, setSelectedSentido] = useState([])
+    const [startDate, setStartDate] = useState(new Date)
+    const [endDate, setEndDate] = useState(new Date)
     
     const [userList, setUserList] = useState([])
     const geralList = [...Props.saidas,...Props.entradas]
@@ -172,11 +176,51 @@ export const FilterModal = (Props) => {
                     ))}
                 </View>
 
-                <Text style={styles.filter_label}>Período:</Text>
+                {/* //! DATAS */}
+                <Text style={styles.filter_label}>Data inicial:</Text>
+                <View style={styles.dateBox}>
+                    <InputDateTime 
+                        text="Data"
+                        side="left"
+                        date={startDate}
+                        setDate={setStartDate}
+                        mode="date"
+                        content={just_date(startDate)}
+                    />
+                    <InputDateTime
+                        text="Hora"
+                        side="right"
+                        date={startDate}
+                        setDate={setStartDate}
+                        mode="time"
+                        content={just_time(startDate)}
+                    />
+                </View>
 
+                <Text style={styles.filter_label}>Data final:</Text>
+                <View style={styles.dateBox}>
+                    <InputDateTime 
+                        text="Data"
+                        side="left"
+                        date={endDate}
+                        setDate={setEndDate}
+                        mode="date"
+                        content={just_date(endDate)}
+                    />
+                    <InputDateTime
+                        text="Hora"
+                        side="right"
+                        date={endDate}
+                        setDate={setEndDate}
+                        mode="time"
+                        content={just_time(endDate)}
+                    />
+                </View>
+
+                {/* //! ORDENAÇÃO */}
                 <View style={styles.line}></View>
                 <Text style={styles.section_title}>ORDENAÇÃO</Text>
-                
+
                 <Text style={styles.filter_label}>
                     Campo:
                 </Text>
@@ -262,5 +306,12 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
 
         paddingHorizontal:10,
+    },
+
+    //! DATES
+    dateBox: {
+        width:'100%',
+        flexDirection:'row',
+        justifyContent:'center'
     }
 })
