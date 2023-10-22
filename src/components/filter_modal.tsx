@@ -29,7 +29,7 @@ export const FilterModal = (Props) => {
     const [selectedUser, setSelectedUser] = useState([])
     const [selectedOrnedacao, setSelectedOrdenacao] = useState([])
     const [selectedSentido, setSelectedSentido] = useState([])
-    const [startDate, setStartDate] = useState(new Date)
+    const [startDate, setStartDate] = useState(new Date(0))
     const [endDate, setEndDate] = useState(new Date)
     
     const [userList, setUserList] = useState([])
