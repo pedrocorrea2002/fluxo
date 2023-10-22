@@ -1,17 +1,19 @@
-import React, {useState, Dispatch, SetStateAction} from "react"
+import React, {useState, Dispatch, SetStateAction, useEffect} from "react"
 import {
     Text,
     StyleSheet,
     TouchableOpacity,
-    TouchableOpacityProps
+    TouchableOpacityProps,
+    Dimensions
 } from 'react-native'
 
-type Props = TouchableOpacityProps & {
+type Props = {
     title: String,
     icon: React.ReactNode,
     color: String,
-    category: String,
-    setCategory: Dispatch<SetStateAction<string>>
+    category: String[],
+    setCategory: Dispatch<SetStateAction<string>>,
+    pressBehavior:  "substitute"|"add"
 }
 
 export const Category = (Props) => {
@@ -19,16 +21,17 @@ export const Category = (Props) => {
 
     const styles = StyleSheet.create({
         category:{
-            width: '30%',
+            width: Dimensions.get("screen").width/3.5,
+            maxWidth: 110,
             aspectRatio: 1,
 
             padding: 5,
             margin: 5,
             
             borderWidth: 5,
-            borderColor: (onPressing || Props.category == Props.title ? Props.color : 'white'),
+            borderColor: (onPressing || Props.category.includes(Props.title) ? Props.color : 'white'),
             borderRadius: 15,
-            backgroundColor: (onPressing || Props.category == Props.title ? 'white' : Props.color),
+            backgroundColor: (onPressing || Props.category.includes(Props.title) ? 'white' : Props.color),
     
             alignItems: 'center',
             justifyContent: 'center'
@@ -36,23 +39,39 @@ export const Category = (Props) => {
         categoryTitle: {
             fontSize: 15,
             fontWeight: 'bold',
-            color: (onPressing || Props.category == Props.title ? Props.color : 'white'),
+            color: (onPressing || Props.category.includes(Props.title) ? Props.color : 'white'),
             textAlign: 'center'
         }
     })
 
+    function button_action(){
+        if(Props.pressBehavior == "add"){
+            if(Props.category.includes(Props.title)){
+                Props.setCategory(Props.category.filter(a => a != Props.title))
+            }else{
+                Props.setCategory([...Props.category,Props.title])
+            }
+        }else{
+            if(Props.title in Props.category){
+                Props.setCategory([])
+            }else{
+                Props.setCategory([Props.title])
+            }
+        }
+    }
+    
     return (    
         <TouchableOpacity 
             activeOpacity={100}
             style={styles.category}
             onPressIn={() => setOnPressing(true)}
             onPressOut={() => setOnPressing(false)}
-            onPress={() => Props.setCategory(Props.title)}
+            onPress={button_action}
         >
             <Props.icon
                 width={'60%'}
                 height={'60%'}
-                color={onPressing || Props.category == Props.title ? Props.color : 'white'}
+                color={onPressing || Props.category.includes(Props.title) ? Props.color : 'white'}
             />
             <Text
                 style={styles.categoryTitle}

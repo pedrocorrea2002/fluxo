@@ -22,7 +22,7 @@ import { just_date, just_time } from "../assets/utils";
 export const Incomings = () => {
     const [name,setName] = useState("")
     const [value,setValue] = useState(0)
-    const [category,setCategory] = useState("")
+    const [category,setCategory] = useState([])
     const [date, setDate] = useState(new Date(Date.now()))
     
     const entradas = database().ref('/entradas/')
@@ -30,7 +30,7 @@ export const Incomings = () => {
     function insertValues(){
         if(name && value && category){
             entradas.push({
-                category: category,
+                category: category[0],
                 date: date.getTime(),
                 id: Date.now(),
                 name: name,
@@ -40,7 +40,7 @@ export const Incomings = () => {
             
             setName("")
             setValue(0)
-            setCategory("")
+            setCategory([])
             setDate(new Date(Date.now()))
         }else{
             Alert.alert("Você preencher um nome, um valor e escolher uma categoria")
@@ -94,6 +94,7 @@ export const Incomings = () => {
                         color="brown"
                         category={category}
                         setCategory={setCategory}
+                        pressBehavior={"substitute"}
                     />
                     <Category
                         title="Outro"
@@ -101,6 +102,7 @@ export const Incomings = () => {
                         color="gray"
                         category={category}
                         setCategory={setCategory}
+                        pressBehavior={"substitute"}
                     />
                 </View>
                 <Button

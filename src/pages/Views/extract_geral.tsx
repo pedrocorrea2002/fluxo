@@ -4,8 +4,7 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
-    SectionList,
-    FlatList,
+    SectionList
 } from 'react-native'
 import database from '@react-native-firebase/database'
 import { dateFormat, dataFormat_toMonth, onlyUnique } from "../../assets/utils";
@@ -22,7 +21,7 @@ export const Extract = () => {
             {title:"Carro e ônibus",color:'orange'},
             {title:"Saúde",color:'orange'},
             {title:"Educação",color:'orange'},
-            {title:"Lanche",color:'orange'},
+            {title:"Animal",color:'orange'},
     ])
     const [modalVisible,setModalVisible] = useState(false)
 
@@ -212,12 +211,13 @@ export const Extract = () => {
             <View style={styles.total_header}>
                 <View style={styles.total_header_filters}>
                     {filters.map((item) => (
-                            <Filter_block
-                                title={item.title}
-                                color={item.color}
-                                filters={filters}
-                                setFilters={setFilters}
-                            />
+                        <Filter_block
+                            key={item.title}
+                            title={item.title}
+                            color={item.color}
+                            filters={filters}
+                            setFilters={setFilters}
+                        />
                     ))}
                 </View>
                 <View style={styles.total_header_sections}>
@@ -256,6 +256,8 @@ export const Extract = () => {
             {modalVisible &&
                 <FilterModal
                     setModalVisible={setModalVisible}
+                    saidas={saidas}
+                    entradas={entradas}
                 />
             }
         </View>

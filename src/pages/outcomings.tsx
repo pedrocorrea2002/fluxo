@@ -106,6 +106,7 @@ export const Outcomings = () => {
                         color="violet"
                         category={category}
                         setCategory={setCategory}
+                        pressBehavior={"substitute"}
                     />
                     <Category
                         title="Conta"
@@ -113,6 +114,7 @@ export const Outcomings = () => {
                         color="black"
                         category={category}
                         setCategory={setCategory}
+                        pressBehavior={"substitute"}
                     />
                     <Category
                         title="Lanche"
@@ -120,6 +122,7 @@ export const Outcomings = () => {
                         color="#ff6200"
                         category={category}
                         setCategory={setCategory}
+                        pressBehavior={"substitute"}
                     />
                     <Category
                         title="Carro e ônibus"
@@ -127,6 +130,7 @@ export const Outcomings = () => {
                         color="#50bd02"
                         category={category}
                         setCategory={setCategory}
+                        pressBehavior={"substitute"}
                     />
                     <Category
                         title="Animal"
@@ -134,6 +138,7 @@ export const Outcomings = () => {
                         color="purple"
                         category={category}
                         setCategory={setCategory}
+                        pressBehavior={"substitute"}
                     />
                     <Category
                         title="Presente"
@@ -141,6 +146,7 @@ export const Outcomings = () => {
                         color="#025412"
                         category={category}
                         setCategory={setCategory}
+                        pressBehavior={"substitute"}
                     />
                     <Category
                         title="Lazer"
@@ -148,6 +154,7 @@ export const Outcomings = () => {
                         color="blue"
                         category={category}
                         setCategory={setCategory}
+                        pressBehavior={"substitute"}
                     />
                     <Category
                         title="Saúde"
@@ -155,6 +162,7 @@ export const Outcomings = () => {
                         color="red"
                         category={category}
                         setCategory={setCategory}
+                        pressBehavior={"substitute"}
                     />
                     <Category
                         title="Educação"
@@ -162,6 +170,7 @@ export const Outcomings = () => {
                         color="#ffd000"
                         category={category}
                         setCategory={setCategory}
+                        pressBehavior={"substitute"}
                     />
                     <Category
                         title="Refeição"
@@ -169,6 +178,7 @@ export const Outcomings = () => {
                         color="#700000"
                         category={category}
                         setCategory={setCategory}
+                        pressBehavior={"substitute"}
                     />
                     <Category
                         title="Outro"
@@ -176,6 +186,7 @@ export const Outcomings = () => {
                         color="gray"
                         category={category}
                         setCategory={setCategory}
+                        pressBehavior={"substitute"}
                     />
                 </View>
                 <Button
