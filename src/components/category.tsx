@@ -52,7 +52,7 @@ export const Category = (Props) => {
                 Props.setCategory([...Props.category,Props.title])
             }
         }else{
-            if(Props.title in Props.category){
+            if(Props.category.includes(Props.title)){
                 Props.setCategory([])
             }else{
                 Props.setCategory([Props.title])

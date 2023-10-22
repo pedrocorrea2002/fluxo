@@ -1,6 +1,6 @@
 import { BlurView } from '@react-native-community/blur'
-import react, { useState } from 'react'
-import { StyleSheet, Modal, View, TouchableOpacity, Text, Dimensions } from 'react-native'
+import react, { useEffect, useState } from 'react'
+import { StyleSheet, Modal, View, TouchableOpacity, Text, Dimensions, ScrollView } from 'react-native'
 import { Category } from './category';
 import { Market } from '../assets/Icons/categories/svg_market';
 import { Bill } from '../assets/Icons/categories/svg_bill';
@@ -24,17 +24,20 @@ type Props = {
 
 export const FilterModal = (Props) => {
     const [category,setCategory] = useState([])
-    const [userList, setUserList] = useState(
-        [...Props.saidas,...Props.entradas].reduce((a,b = []) => {
-            console.log("a:",a," - b:",b)
+    const [selectedUser, setSelectedUser] = useState([])
+    const [selectedOrnedacao, setSelectedOrdenacao] = useState([])
+    const [selectedSentido, setSelectedSentido] = useState([])
+    
+    const [userList, setUserList] = useState([])
+    const geralList = [...Props.saidas,...Props.entradas]
+    const ordenacao = ["Data", "Nome"]
+    const sentido = ["Crescente", "Decrescente"]
 
-            if(!b.includes(a)){
-                b.push(a)
-            }
-        })
-    )
-
-    console.log(userList)
+    geralList.forEach(a => {
+        if(!userList.includes(a.user)){
+            setUserList([...userList, a.user])
+        }
+    })
 
     return(
         <Modal transparent>
@@ -47,9 +50,13 @@ export const FilterModal = (Props) => {
                     <Text style={styles.title}>Fechar</Text>
                 </TouchableOpacity>
             </BlurView>
+            <View style={styles.line}></View>
             
             {/* //! O PRÓPRIO MODAL */}
-            <View style={styles.modal_container}>
+            <ScrollView 
+                contentContainerStyle={styles.modal_container}
+            >
+                <Text style={styles.section_title}>FILTROS</Text>
                 <Text style={styles.filter_label}>Categorias:</Text>
                 <View style={styles.category_container}>  
                     <Category
@@ -153,14 +160,57 @@ export const FilterModal = (Props) => {
 
                 <Text style={styles.filter_label}>Pessoas:</Text>
                 <View style={styles.category_container}>
-                    <OptionBlock
-                        title={"a"}
-                        color={"black"}
-                    />
+                    {userList.map(a => (
+                        <OptionBlock
+                            key={a}
+                            title={a}
+                            color={"black"}
+                            options={selectedUser}
+                            setOptions={setSelectedUser}
+                            pressBehavior={"add"}
+                        />
+                    ))}
                 </View>
 
                 <Text style={styles.filter_label}>Período:</Text>
-            </View>
+
+                <View style={styles.line}></View>
+                <Text style={styles.section_title}>ORDENAÇÃO</Text>
+                
+                <Text style={styles.filter_label}>
+                    Campo:
+                </Text>
+                <View style={styles.category_container}>
+
+                    {ordenacao.map(a => (
+                        <OptionBlock
+                            key={a}
+                            title={a}
+                            color={"black"}
+                            options={selectedOrnedacao}
+                            setOptions={setSelectedOrdenacao}
+                            pressBehavior={"substitute"}
+                        />
+                    ))}
+                </View>
+
+                <Text style={styles.filter_label}>
+                    Sentido:
+                </Text>
+                <View style={styles.category_container}>
+
+                    {sentido.map(a => (
+                        <OptionBlock
+                            key={a}
+                            title={a}
+                            color={"black"}
+                            options={selectedSentido}
+                            setOptions={setSelectedSentido}
+                            pressBehavior={"substitute"}
+                        />
+                    ))}
+                </View>
+            </ScrollView>
         </Modal>
     )
 }
@@ -185,6 +235,20 @@ const styles = StyleSheet.create({
         minHeight: Dimensions.get('screen').height - 100,
         minWidth: '80%',
         backgroundColor:'white'
+    },
+
+    //! SECTIONS
+    line: {
+        width: '100%',
+        borderColor: 'black',
+        borderTopWidth: 2
+    },
+    section_title:{
+        width: '100%',
+
+        fontSize:30,
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
 
     //! CATEGORIES
