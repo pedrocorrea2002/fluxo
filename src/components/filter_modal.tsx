@@ -19,6 +19,8 @@ import { InputDateTime } from './inputDateTime';
 import { just_date, just_time } from '../assets/utils';
 import { Hardware } from '../assets/Icons/categories/svg_hardware';
 import { Tool } from '../assets/Icons/categories/svg_tool';
+import { Trash } from '../assets/Icons/svg_trash';
+import { Clean_Buttton } from './clean_button';
 
 type Props = {
     setModalVisible: Function;
@@ -64,6 +66,7 @@ export const FilterModal = (Props) => {
             >
                 <Text style={styles.section_title}>FILTROS</Text>
                 <Text style={styles.filter_label}>Categorias:</Text>
+                {/* //! CATEGORIAS */}
                 <View style={styles.category_container}>  
                     <Category
                         title="Mercado"
@@ -151,7 +154,7 @@ export const FilterModal = (Props) => {
                         color="#06c4d2"
                         category={category}
                         setCategory={setCategory}
-                        pressBehavior={"substitute"}
+                        pressBehavior={"add"}
                     />
                     <Category
                         title="Ferramentas"
@@ -159,7 +162,7 @@ export const FilterModal = (Props) => {
                         color="#3c3c3c"
                         category={category}
                         setCategory={setCategory}
-                        pressBehavior={"substitute"}
+                        pressBehavior={"add"}
                     />
                     <Category
                         title="Salário"
@@ -176,6 +179,12 @@ export const FilterModal = (Props) => {
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"add"}
+                    />
+                    <Clean_Buttton
+                        title="Limpar campos"
+                        icon={Trash}
+                        category={category}
+                        setCategory={setCategory}
                     />
                 </View>
                 {/* //! AQUI DEBAIXO FICA UM ESPAÇO, NÃO SEI PORQUE*/}
