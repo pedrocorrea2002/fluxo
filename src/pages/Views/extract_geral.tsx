@@ -86,6 +86,7 @@ export const Extract = () => {
 
     useEffect(() => {
         setMonths(lancamentos.sort((a, b) => { return a.date - b.date }).map(item => dataFormat_toMonth(item.date)))
+        console.log("a")
     },[lancamentos])
 
     useEffect(() => {
@@ -256,8 +257,9 @@ export const Extract = () => {
             {modalVisible &&
                 <FilterModal
                     setModalVisible={setModalVisible}
-                    saidas={saidas}
                     entradas={entradas}
+                    saidas={saidas}
+                    setLancamentos={setLancamentos}
                 />
             }
         </View>
