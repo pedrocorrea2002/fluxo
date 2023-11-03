@@ -17,6 +17,8 @@ import { Work } from '../assets/Icons/categories/svg_work';
 import { OptionBlock } from './option_block';
 import { InputDateTime } from './inputDateTime';
 import { just_date, just_time } from '../assets/utils';
+import { Hardware } from '../assets/Icons/categories/svg_hardware';
+import { Tool } from '../assets/Icons/categories/svg_tool';
 
 type Props = {
     setModalVisible: Function;
@@ -27,7 +29,7 @@ type Props = {
 export const FilterModal = (Props) => {
     const [category,setCategory] = useState([])
     const [selectedUser, setSelectedUser] = useState([])
-    const [selectedOrnedacao, setSelectedOrdenacao] = useState([])
+    const [selectedOrdenacao, setSelectedOrdenacao] = useState([])
     const [selectedSentido, setSelectedSentido] = useState([])
     const [startDate, setStartDate] = useState(new Date(0))
     const [endDate, setEndDate] = useState(new Date)
@@ -144,17 +146,33 @@ export const FilterModal = (Props) => {
                         pressBehavior={"add"}
                     />
                     <Category
-                        title="Outro"
-                        icon={Other}
-                        color="gray"
+                        title="Hardware"
+                        icon={Hardware}
+                        color="#06c4d2"
                         category={category}
                         setCategory={setCategory}
-                        pressBehavior={"add"}
+                        pressBehavior={"substitute"}
+                    />
+                    <Category
+                        title="Ferramentas"
+                        icon={Tool}
+                        color="#3c3c3c"
+                        category={category}
+                        setCategory={setCategory}
+                        pressBehavior={"substitute"}
                     />
                     <Category
                         title="Salário"
                         icon={Work}
                         color="brown"
+                        category={category}
+                        setCategory={setCategory}
+                        pressBehavior={"add"}
+                    />
+                    <Category
+                        title="Outro"
+                        icon={Other}
+                        color="gray"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"add"}
@@ -231,7 +249,7 @@ export const FilterModal = (Props) => {
                             key={a}
                             title={a}
                             color={"black"}
-                            options={selectedOrnedacao}
+                            options={selectedOrdenacao}
                             setOptions={setSelectedOrdenacao}
                             pressBehavior={"substitute"}
                         />

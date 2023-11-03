@@ -27,6 +27,8 @@ import { Education } from "../assets/Icons/categories/svg_education";
 import { Meal } from "../assets/Icons/categories/svg_meal";
 import { InputDateTime } from "../components/inputDateTime";
 import { just_date, just_time } from "../assets/utils";
+import { Hardware } from "../assets/Icons/categories/svg_hardware";
+import { Tool } from "../assets/Icons/categories/svg_tool";
 
 export const Outcomings = () => {
     const [name,setName] = useState("")
@@ -176,6 +178,22 @@ export const Outcomings = () => {
                         title="Refeição"
                         icon={Meal}
                         color="#700000"
+                        category={category}
+                        setCategory={setCategory}
+                        pressBehavior={"substitute"}
+                    />
+                    <Category
+                        title="Hardware"
+                        icon={Hardware}
+                        color="#06c4d2"
+                        category={category}
+                        setCategory={setCategory}
+                        pressBehavior={"substitute"}
+                    />
+                    <Category
+                        title="Ferramentas"
+                        icon={Tool}
+                        color="#3c3c3c"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"substitute"}
