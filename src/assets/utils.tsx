@@ -50,6 +50,16 @@ export function leadingZeros(number, digits){
     return number
 }
 
+export function numberEnsurer(number){
+    number = Number(number.replace(',',".").replaceAll('-','').replaceAll(' ',''))
+
+    if(isNaN(number)){
+        return 0
+    }else{
+        return number
+    }
+}
+
 //! ///// LISTAS ///////////////////////////
 //? ELIMINA REPETIÇÕES EM UMA LISTA
 export function onlyUnique(value, index, array) {

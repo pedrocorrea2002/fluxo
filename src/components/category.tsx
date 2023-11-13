@@ -6,11 +6,11 @@ import {
     TouchableOpacityProps,
     Dimensions
 } from 'react-native'
+import { category_front } from "../assets/front_utils"
 
 type Props = {
     title: String,
     icon: React.ReactNode,
-    color: String,
     category: String[],
     setCategory: Dispatch<SetStateAction<string>>,
     pressBehavior:  "substitute"|"add"
@@ -29,9 +29,9 @@ export const Category = (Props) => {
             margin: 5,
             
             borderWidth: 5,
-            borderColor: (onPressing || Props.category.includes(Props.title) ? Props.color : 'white'),
+            borderColor: (onPressing || Props.category.includes(Props.title) ? category_front[Props.title].color : 'white'),
             borderRadius: 15,
-            backgroundColor: (onPressing || Props.category.includes(Props.title) ? 'white' : Props.color),
+            backgroundColor: (onPressing || Props.category.includes(Props.title) ? 'white' : category_front[Props.title].color),
     
             alignItems: 'center',
             justifyContent: 'center'
@@ -39,7 +39,7 @@ export const Category = (Props) => {
         categoryTitle: {
             fontSize: 15,
             fontWeight: 'bold',
-            color: (onPressing || Props.category.includes(Props.title) ? Props.color : 'white'),
+            color: (onPressing || Props.category.includes(Props.title) ? category_front[Props.title].color : 'white'),
             textAlign: 'center'
         }
     })
@@ -59,6 +59,8 @@ export const Category = (Props) => {
             }
         }
     }
+
+    const Icon = category_front[Props.title].icon
     
     return (    
         <TouchableOpacity 
@@ -68,10 +70,10 @@ export const Category = (Props) => {
             onPressOut={() => setOnPressing(false)}
             onPress={button_action}
         >
-            <Props.icon
+            <Icon
                 width={'60%'}
                 height={'60%'}
-                color={onPressing || Props.category.includes(Props.title) ? Props.color : 'white'}
+                color={onPressing || Props.category.includes(Props.title) ? category_front[Props.title].color : 'white'}
             />
             <Text
                 style={styles.categoryTitle}

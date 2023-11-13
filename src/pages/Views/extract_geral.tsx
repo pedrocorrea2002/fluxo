@@ -13,16 +13,16 @@ import { Filter } from "../../assets/Icons/svg_filter";
 import { Extract_item } from "../../components/extract_item";
 import { Filter_block } from "../../components/filter_block";
 import { FilterModal } from "../../components/filter_modal";
+import { filter_colors } from "../../assets/front_utils";
 
 
 export const Extract = () => {
-    const [filters,setFilters] = useState([
-            {title:"Lanche",color:'orange'},
-            {title:"Carro e ônibus",color:'orange'},
-            {title:"Saúde",color:'orange'},
-            {title:"Educação",color:'orange'},
-            {title:"Animal",color:'orange'},
-    ])
+    const [filters,setFilters] = useState([{
+                title:"Ordenação crescente por data",
+                value:"Data|Crescente",
+                color:filter_colors["Ordenação"],
+                type:"order"
+            }])
     const [modalVisible,setModalVisible] = useState(false)
 
     //? PULA PRA PRÓXIMA DATA
@@ -77,15 +77,68 @@ export const Extract = () => {
     },[])
 
     useEffect(() => {
-        setLancamentos([
+        var not_filtered = [
             ...saidas.map(val => { return { type: "saida", ...val } }),
             ...entradas.map(val => { return { type: "entrada", ...val } })
-        ])
+        ]
+
+        //! EFETUANDO AS FILTRAGENS
+        let already_category = false
+        let already_user = false
+        filters.forEach(filter => {
+            console.log(JSON.stringify("not_filtered1.5:",not_filtered))
+
+            //! FILTRNADO CATEGORIAS
+            if(filter.type == "category" && !already_category){
+                console.log("category")
+                const all_categories = filters.filter(a => a.type == "category").map(a => a.value)
+
+                already_category = true
+                not_filtered = not_filtered.filter(a => all_categories.includes(a.category))
+            }
+            //! FILTRANDO USUÁRIOS
+            if(filter.type == "user" && !already_user){
+                console.log("user")
+                const all_users = filters.filter(a => a.type == "user").map(a => a.value)
+
+                already_user = true
+                not_filtered = not_filtered.filter(a => all_users.includes(a.user))
+            }
+            //! FILTRANDO POR DATA INICIAL
+            if(filter.type == "startDate"){
+                console.log("startDate")
+                not_filtered = not_filtered.filter(a => new Date(a.date) >= filter.value)
+            }
+            //! FILTRANDO POR DATA FINAL
+            if(filter.type == "endDate"){
+                console.log("endDate")
+                not_filtered = not_filtered.filter(a => new Date(a.date) <= filter.value)
+            }
+
+            if(filter.type == "order"){
+                const order = filter.value.split("|")
+                console.log("not_filtered2:",JSON.stringify(not_filtered))
+
+                switch(order[0]){
+                    // case "Data" : not_filtered = not_filtered.sort(a => a.date); break;
+                    // case "Nome" : not_filtered = not_filtered.sort(a => a.name); break;
+                    case "Data" : not_filtered = not_filtered.sort(a => a.date); break;
+                    case "Nome" : not_filtered = not_filtered.sort(a => a.name); break;
+                }
+                switch(order[1]){
+                    case "Decrescente" : not_filtered = not_filtered.reverse(); break;
+                }
+            }
+        })
+
+        console.log("not_filtered3:",JSON.stringify(not_filtered))
+
+        setLancamentos(not_filtered)//.sort((a, b) => { return a.date - b.date }))
 
     },[entradas,saidas])
 
     useEffect(() => {
-        setMonths(lancamentos.sort((a, b) => { return a.date - b.date }).map(item => dataFormat_toMonth(item.date)))
+        setMonths(lancamentos.map(item => dataFormat_toMonth(item.date)))
     },[lancamentos])
 
     useEffect(() => {
@@ -93,7 +146,8 @@ export const Extract = () => {
     },[months])
 
     useEffect(() => {
-        setSelectedMonth(filteredMonths[0])   
+        setSelectedMonth(filteredMonths[0]) 
+        console.log(filteredMonths)  
     },[filteredMonths])
 
     const styles = StyleSheet.create({
@@ -235,7 +289,7 @@ export const Extract = () => {
             </View>
 
             <SectionList
-                sections={groupLancamentos(lancamentos.filter(item => (dataFormat_toMonth(item.date) == selectedMonth ? 1 : 0)).sort((a, b) => { return a.date - b.date }))}
+                sections={groupLancamentos(lancamentos.filter(item => (dataFormat_toMonth(item.date) == selectedMonth ? 1 : 0)))}
                 keyExtractor={(item) => String(item.date)}
                 contentContainerStyle={{ width: "100%", alignItems: 'center', paddingBottom: "50%" }}
                 showsVerticalScrollIndicator={false}
@@ -259,6 +313,9 @@ export const Extract = () => {
                     entradas={entradas}
                     saidas={saidas}
                     setLancamentos={setLancamentos}
+                    filters={filters}
+                    setFilters={setFilters}
+                    load_moment={new Date(Date.now())}
                 />
             }
         </View>

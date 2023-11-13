@@ -6,6 +6,7 @@ import {
     TouchableOpacityProps,
     Dimensions
 } from 'react-native'
+import { category_front } from "../assets/front_utils"
 
 type Props = {
     title: String,
@@ -26,9 +27,9 @@ export const Clean_Buttton = (Props) => {
             margin: 5,
             
             borderWidth: 5,
-            borderColor: (onPressing ? "black" : 'white'),
+            borderColor: (onPressing ? category_front["Limpar campos"].color : 'white'),
             borderRadius: 15,
-            backgroundColor: (onPressing ? 'white' : "black"),
+            backgroundColor: (onPressing ? 'white' : category_front["Limpar campos"].color),
     
             alignItems: 'center',
             justifyContent: 'center'
@@ -36,7 +37,7 @@ export const Clean_Buttton = (Props) => {
         categoryTitle: {
             fontSize: 15,
             fontWeight: 'bold',
-            color: (onPressing ? "black" : 'white'),
+            color: (onPressing ? category_front["Limpar campos"].color : 'white'),
             textAlign: 'center'
         }
     })
@@ -44,6 +45,8 @@ export const Clean_Buttton = (Props) => {
     function button_action(){
         Props.setCategory([])
     }
+
+    const Icon = category_front[Props.title].icon
     
     return (    
         <TouchableOpacity 
@@ -53,10 +56,10 @@ export const Clean_Buttton = (Props) => {
             onPressOut={() => setOnPressing(false)}
             onPress={button_action}
         >
-            <Props.icon
+            <Icon
                 width={'60%'}
                 height={'60%'}
-                color={onPressing ? "black" : 'white'}
+                color={onPressing ? category_front["Limpar campos"].color : 'white'}
             />
             <Text
                 style={styles.categoryTitle}

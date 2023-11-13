@@ -13,22 +13,9 @@ import { Category } from "../components/category";
 import { Button } from "../components/button";
 
 import { theme } from "../assets/style";
-import {Market} from "../assets/Icons/categories/svg_market"
-import {Bill} from "../assets/Icons/categories/svg_bill"
 import {Plus} from "../assets/Icons/svg_plus"
-import {Snack} from "../assets/Icons/categories/svg_snack";
-import {Wheel} from "../assets/Icons/categories/svg_wheel";
-import {Pet} from "../assets/Icons/categories/svg_pet";
-import { Gift } from "../assets/Icons/categories/svg_gift";
-import { Other } from "../assets/Icons/categories/svg_other";
-import { Fun } from "../assets/Icons/categories/svg_fun";
-import { Health } from "../assets/Icons/categories/svg_health";
-import { Education } from "../assets/Icons/categories/svg_education";
-import { Meal } from "../assets/Icons/categories/svg_meal";
 import { InputDateTime } from "../components/inputDateTime";
-import { just_date, just_time } from "../assets/utils";
-import { Hardware } from "../assets/Icons/categories/svg_hardware";
-import { Tool } from "../assets/Icons/categories/svg_tool";
+import { just_date, just_time, numberEnsurer } from "../assets/utils";
 
 export const Outcomings = () => {
     const [name,setName] = useState("")
@@ -74,11 +61,11 @@ export const Outcomings = () => {
                 />
                 <Input 
                     text="Valor"
-                    value={value.toString()}
+                    value={value} /* //! QUANDO VOLTA A 0, O RESTANTE DO TEXTO MANTEM */
                     display={value.toLocaleString("pt-BR", {style:"currency", currency:"BRL"})}
                     placeholder="Digite o valor da saída"
                     
-                    onChangeText={a => setValue(Number(a))}
+                    onChangeText={a => {setValue(numberEnsurer(a))}}
                     keyboardType="decimal-pad"
                 />
                 <View style={{flexDirection:'row'}}>
@@ -104,104 +91,78 @@ export const Outcomings = () => {
                 <View style={styles.category_container}>
                     <Category
                         title="Mercado"
-                        icon={Market}
-                        color="violet"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"substitute"}
                     />
                     <Category
                         title="Conta"
-                        icon={Bill}
-                        color="black"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"substitute"}
                     />
                     <Category
                         title="Lanche"
-                        icon={Snack}
-                        color="#ff6200"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"substitute"}
                     />
                     <Category
                         title="Carro e ônibus"
-                        icon={Wheel}
-                        color="#50bd02"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"substitute"}
                     />
                     <Category
                         title="Animal"
-                        icon={Pet}
-                        color="purple"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"substitute"}
                     />
                     <Category
                         title="Presente"
-                        icon={Gift}
-                        color="#025412"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"substitute"}
                     />
                     <Category
                         title="Lazer"
-                        icon={Fun}
-                        color="blue"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"substitute"}
                     />
                     <Category
                         title="Saúde"
-                        icon={Health}
-                        color="red"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"substitute"}
                     />
                     <Category
                         title="Educação"
-                        icon={Education}
-                        color="#ffd000"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"substitute"}
                     />
                     <Category
                         title="Refeição"
-                        icon={Meal}
-                        color="#700000"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"substitute"}
                     />
                     <Category
                         title="Hardware"
-                        icon={Hardware}
-                        color="#06c4d2"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"substitute"}
                     />
                     <Category
                         title="Ferramentas"
-                        icon={Tool}
-                        color="#3c3c3c"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"substitute"}
                     />
                     <Category
                         title="Outro"
-                        icon={Other}
-                        color="gray"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"substitute"}

@@ -2,39 +2,25 @@ import react, {useState } from 'react'
 import { BlurView } from '@react-native-community/blur'
 import { StyleSheet, Modal, View, TouchableOpacity, Text, Dimensions, ScrollView } from 'react-native'
 
-import { Market } from '../assets/Icons/categories/svg_market';
-import { Bill } from '../assets/Icons/categories/svg_bill';
-import { Snack } from '../assets/Icons/categories/svg_snack';
-import { Wheel } from '../assets/Icons/categories/svg_wheel';
-import { Pet } from '../assets/Icons/categories/svg_pet';
-import { Gift } from '../assets/Icons/categories/svg_gift';
-import { Fun } from '../assets/Icons/categories/svg_fun';
-import { Health } from '../assets/Icons/categories/svg_health';
-import { Education } from '../assets/Icons/categories/svg_education';
-import { Meal } from '../assets/Icons/categories/svg_meal';
-import { Other } from '../assets/Icons/categories/svg_other';
-import { Work } from '../assets/Icons/categories/svg_work';
-import { Hardware } from '../assets/Icons/categories/svg_hardware';
-import { Tool } from '../assets/Icons/categories/svg_tool';
-import { Trash } from '../assets/Icons/svg_trash';
-
 import { Category } from './category';
 import { Clean_Buttton } from './clean_button';
 import { OptionBlock } from './option_block';
 import { InputDateTime } from './inputDateTime';
 
 import { dateFormat, just_date, just_time } from '../assets/utils';
+import { filter_colors } from '../assets/front_utils';
 
 type Props = {
     setModalVisible: Function;
     entradas: [];
     saidas: [];
     setLancamentos: Function;
+    load_moment: Date;
 }
 
 export const FilterModal = (Props) => {
     const [category,setCategory] = useState([])
-    const [selectedUser, setSelectedUser] = useState([])
+    const [selectedUsers, setSelectedUsers] = useState([])
     const [selectedOrdenacao, setSelectedOrdenacao] = useState([])
     const [selectedSentido, setSelectedSentido] = useState([])
     const [startDate, setStartDate] = useState(new Date(0))
@@ -52,54 +38,108 @@ export const FilterModal = (Props) => {
     })
 
     function closeButton(){
-        console.log("startDate: ",startDate)
-        console.log("endDate: ",endDate)
-        
-        //! FILTRANDO ENTRADAS
-        let entradas_filtered = Props.entradas.filter(a => (
-                (category.length > 0 ? category.includes(a.category) : true) && //? FILTRO DE CATEGORIAS
-                (selectedUser.length > 0 ? selectedUser.includes(a.user) : true) && //? FILTRO DE USUÁRIO
-                a.date >= startDate && //? FILTRO DE DATA INICIAL
-                a.date <= endDate //? FILTRO DE DATA FINAL
-        ))
+        let filters = []
 
-        //! FILTRANDO SAÍDAS
-        let saidas_filtered = Props.saidas.filter(b => (
-                (category.length > 0 ? category.includes(b.category) : true) && //? FILTRO DE CATEGORIAS
-                (selectedUser.length > 0 ? selectedUser.includes(b.user) : true) && //? FILTRO DE USUÁRIO
-                b.date >= startDate && //? FILTRO DE DATA INICIAL
-                b.date <= endDate //? FILTRO DE DATA FINAL
-        ))
-
-        console.log("entradas_filtered: ",entradas_filtered)
-        console.log("saidas_filtered: ",saidas_filtered)
-
-        //! ORDENANDO ENTRADAS E SAÍDAS
-        switch(selectedOrdenacao){
-            case ["Data"] : {
-                entradas_filtered = entradas_filtered.sort(a => a.date)
-                saidas_filtered = saidas_filtered.sort(b => b.date)
-            }; break;
-            case ["Nome"] : {
-                entradas_filtered = entradas_filtered.sort(a => a.name)
-                saidas_filtered = saidas_filtered.sort(b => b.name)
-            }; break;
-        }
-        console.log("n")
-
-        //! DEFININDO DIREÇÃO DA ORDENAÇÃO
-        switch(selectedSentido){
-            case ["Decrescente"] : {
-                entradas_filtered = entradas_filtered = entradas_filtered = entradas_filtered.reverse()
-                saidas_filtered = saidas_filtered = saidas_filtered = saidas_filtered.reverse()
+        //! ADICIONDO FILTROS POR CATEGORIA
+        if(category.length > 0){
+            for(let a in category){
+                filters.push({
+                    title:a,
+                    value:a,
+                    color: filter_colors["Categoria"],
+                    type: "category"
+                })
             }
         }
 
-        //! RENDERIZANDO ALTERAÇÕES E FECHANDO MODAL
-        Props.setLancamentos([
-            ...entradas_filtered.map(val => { return { type: "saida", ...val } }),
-            ...saidas_filtered.map(val => { return { type: "entrada", ...val } })
-        ])
+        //! ADICIONANDO FILTROS POR USUÁRIO
+        if(selectedUsers.length > 0){
+            for(let b in selectedUsers){
+                filters.push({
+                    title:`Usuário: ${b}`,
+                    value:b,
+                    color: filter_colors["Usuário"],
+                    type:"user"
+                })
+            }
+        }
+
+         if(startDate != new Date(0)){
+            filters.push({
+                title:`Data inicial: ${just_date(startDate)} ${just_time(startDate)}`,
+                value: startDate,
+                color: filter_colors["Data inicial"],
+                type:"startDate"
+            })
+        }
+
+        if(`${just_date(endDate)} ${just_time(endDate)}` != `${just_date(Props.load_moment)} ${just_time(Props.load_moment)}`){
+            filters.push({
+                title:`Data final: ${just_date(endDate)} ${just_time(endDate)}`,
+                value: endDate,
+                color: filter_colors["Data final"],
+                type:"endDate"
+            })
+        }
+
+        
+        if(`${selectedOrdenacao[0]}|${selectedSentido[0]}` != Props.filters.filter(a => a.type=="order")[0].value){
+            filters.push({
+                title:`Ordenação ${selectedSentido[0].toLowerCase()} por ${selectedOrdenacao[0].toLowerCase()}`,
+                value: `${selectedOrdenacao[0]}|${selectedSentido[0]}`,
+                color: filter_colors["Ordenação"],
+                type:"order"
+            })
+        }
+
+        Props.setFilters(filters)
+
+        // console.log("startDate: ",startDate)
+        // console.log("endDate: ",endDate)
+        
+        // //! FILTRANDO ENTRADAS
+        // let entradas_filtered = Props.entradas.filter(a => (
+        //         (category.length > 0 ? category.includes(a.category) : true) && //? FILTRO DE CATEGORIAS
+        //         (selectedUsers.length > 0 ? selectedUsers.includes(a.user) : true) && //? FILTRO DE USUÁRIO
+        //         a.date >= startDate && //? FILTRO DE DATA INICIAL
+        //         a.date <= endDate //? FILTRO DE DATA FINAL
+        // ))
+
+        // //! FILTRANDO SAÍDAS
+        // let saidas_filtered = Props.saidas.filter(b => (
+        //         (category.length > 0 ? category.includes(b.category) : true) && //? FILTRO DE CATEGORIAS
+        //         (selectedUsers.length > 0 ? selectedUsers.includes(b.user) : true) && //? FILTRO DE USUÁRIO
+        //         b.date >= startDate && //? FILTRO DE DATA INICIAL
+        //         b.date <= endDate //? FILTRO DE DATA FINAL
+        // ))
+
+        // //! ORDENANDO ENTRADAS E SAÍDAS
+        // switch(selectedOrdenacao){
+        //     case ["Data"] : {
+        //         entradas_filtered = entradas_filtered.sort(a => a.date)
+        //         saidas_filtered = saidas_filtered.sort(b => b.date)
+        //     }; break;
+        //     case ["Nome"] : {
+        //         entradas_filtered = entradas_filtered.sort(a => a.name)
+        //         saidas_filtered = saidas_filtered.sort(b => b.name)
+        //     }; break;
+        // }
+
+        // //! DEFININDO DIREÇÃO DA ORDENAÇÃO
+        // switch(selectedSentido){
+        //     case ["Decrescente"] : {
+        //         entradas_filtered = entradas_filtered = entradas_filtered = entradas_filtered.reverse()
+        //         saidas_filtered = saidas_filtered = saidas_filtered = saidas_filtered.reverse()
+        //     }
+        // }
+
+
+
+        // //! RENDERIZANDO ALTERAÇÕES E FECHANDO MODAL
+        // Props.setLancamentos([
+        //     ...entradas_filtered.map(val => { return { type: "saida", ...val } }),
+        //     ...saidas_filtered.map(val => { return { type: "entrada", ...val } })
+        // ])
 
         Props.setModalVisible(false)
     }
@@ -127,119 +167,90 @@ export const FilterModal = (Props) => {
                 <View style={styles.category_container}>  
                     <Category
                         title="Mercado"
-                        icon={Market}
-                        color="violet"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"add"}
                     />
                     <Category
                         title="Conta"
-                        icon={Bill}
-                        color="black"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"add"}
                     />
                     <Category
                         title="Lanche"
-                        icon={Snack}
-                        color="#ff6200"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"add"}
                     />
                     <Category
                         title="Carro e ônibus"
-                        icon={Wheel}
-                        color="#50bd02"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"add"}
                     />
                     <Category
                         title="Animal"
-                        icon={Pet}
-                        color="purple"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"add"}
                     />
                     <Category
                         title="Presente"
-                        icon={Gift}
-                        color="#025412"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"add"}
                     />
                     <Category
                         title="Lazer"
-                        icon={Fun}
-                        color="blue"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"add"}
                     />
                     <Category
                         title="Saúde"
-                        icon={Health}
-                        color="red"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"add"}
                     />
                     <Category
                         title="Educação"
-                        icon={Education}
-                        color="#ffd000"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"add"}
                     />
                     <Category
                         title="Refeição"
-                        icon={Meal}
-                        color="#700000"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"add"}
                     />
                     <Category
                         title="Hardware"
-                        icon={Hardware}
-                        color="#06c4d2"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"add"}
                     />
                     <Category
                         title="Ferramentas"
-                        icon={Tool}
-                        color="#3c3c3c"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"add"}
                     />
                     <Category
                         title="Salário"
-                        icon={Work}
-                        color="brown"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"add"}
                     />
                     <Category
                         title="Outro"
-                        icon={Other}
-                        color="gray"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"add"}
                     />
                     <Clean_Buttton
                         title="Limpar campos"
-                        icon={Trash}
                         category={category}
                         setCategory={setCategory}
                     />
@@ -253,8 +264,8 @@ export const FilterModal = (Props) => {
                             key={a}
                             title={a}
                             color={"black"}
-                            options={selectedUser}
-                            setOptions={setSelectedUser}
+                            options={selectedUsers}
+                            setOptions={setSelectedUsers}
                             pressBehavior={"add"}
                         />
                     ))}

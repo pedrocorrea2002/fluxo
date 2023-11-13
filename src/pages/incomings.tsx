@@ -17,7 +17,7 @@ import { theme } from "../assets/style";
 import {Plus} from "../assets/Icons/svg_plus"
 import { Other } from "../assets/Icons/categories/svg_other";
 import { Work } from "../assets/Icons/categories/svg_work";
-import { just_date, just_time } from "../assets/utils";
+import { just_date, just_time, numberEnsurer } from "../assets/utils";
 
 export const Incomings = () => {
     const [name,setName] = useState("")
@@ -63,10 +63,10 @@ export const Incomings = () => {
                 />
                 <Input 
                     text="Valor"
-                    value={value.toString()}
+                    value={value}
                     display={value.toLocaleString("pt-BR", {style:"currency", currency:"BRL"})}                    
                     placeholder="Digite o valor da entrada"    
-                    onChangeText={a => setValue(Number(a))}
+                    onChangeText={a => setValue(numberEnsurer(a))}
                 />
                 <View style={{flexDirection:'row'}}>
                     <InputDateTime 
