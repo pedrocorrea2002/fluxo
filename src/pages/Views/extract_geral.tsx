@@ -86,8 +86,6 @@ export const Extract = () => {
         let already_category = false
         let already_user = false
         filters.forEach(filter => {
-            console.log(JSON.stringify("not_filtered1.5:",not_filtered))
-
             //! FILTRNADO CATEGORIAS
             if(filter.type == "category" && !already_category){
                 console.log("category")
@@ -117,8 +115,8 @@ export const Extract = () => {
 
             if(filter.type == "order"){
                 const order = filter.value.split("|")
-                console.log("not_filtered2:",JSON.stringify(not_filtered))
 
+                console.log("order: ",order)
                 switch(order[0]){
                     // case "Data" : not_filtered = not_filtered.sort(a => a.date); break;
                     // case "Nome" : not_filtered = not_filtered.sort(a => a.name); break;
@@ -131,9 +129,7 @@ export const Extract = () => {
             }
         })
 
-        console.log("not_filtered3:",JSON.stringify(not_filtered))
-
-        setLancamentos(not_filtered)//.sort((a, b) => { return a.date - b.date }))
+        setLancamentos(not_filtered)
 
     },[entradas,saidas])
 
@@ -147,7 +143,6 @@ export const Extract = () => {
 
     useEffect(() => {
         setSelectedMonth(filteredMonths[0]) 
-        console.log(filteredMonths)  
     },[filteredMonths])
 
     const styles = StyleSheet.create({
@@ -239,8 +234,11 @@ export const Extract = () => {
             }
         })
 
+        console.log("groupedList:",JSON.stringify(groupedList))
         return groupedList
     }
+
+    console.log("lancamentos: ",JSON.stringify(lancamentos))
 
     return (
         <View style={styles.page}>
@@ -251,7 +249,7 @@ export const Extract = () => {
                         <Text style={[styles.date, styles.leftArrow]}>◀</Text>
                     </TouchableOpacity>
 
-                    <Text style={[styles.date, { width: 201, marginHorizontal: 10, textAlign: "center" }]}>{selectedMonth ? selectedMonth : "-------- / ----"}</Text>
+                    <Text style={[styles.date, { width: 250, marginHorizontal: 10, textAlign: "center" }]}>{selectedMonth ? selectedMonth : "-------- / ----"}</Text>
 
                     <TouchableOpacity onPress={() => nextItem()} activeOpacity={dateIndex == filteredMonths.length - 1 ? 100 : 0.5}>
                         <Text style={[styles.date, styles.rightArrow]}>▶</Text>

@@ -28,7 +28,13 @@ export const Incomings = () => {
     const entradas = database().ref('/entradas/')
 
     function insertValues(){
-        if(name && value && category){
+        console.log("name:",name)
+        console.log("value:",value)
+        console.log("category:",category)
+
+        if(name && value && category[0]){
+            console.log("entrei")
+
             entradas.push({
                 category: category[0],
                 date: date.getTime(),
@@ -43,7 +49,7 @@ export const Incomings = () => {
             setCategory([])
             setDate(new Date(Date.now()))
         }else{
-            Alert.alert("Você preencher um nome, um valor e escolher uma categoria")
+            Alert.alert("Você deve preencher um nome, um valor e escolher uma categoria")
         }
     }
 

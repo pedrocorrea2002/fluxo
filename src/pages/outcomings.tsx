@@ -20,13 +20,13 @@ import { just_date, just_time, numberEnsurer } from "../assets/utils";
 export const Outcomings = () => {
     const [name,setName] = useState("")
     const [value,setValue] = useState(0)
-    const [category,setCategory] = useState("")
+    const [category,setCategory] = useState([])
     const [date, setDate] = useState(new Date(Date.now()))
     
     const saidas = database().ref('/saidas/')
 
     function insertValues(){
-        if(name && value && category){
+        if(name && value && category[0]){
             saidas.push({
                 category: category,
                 id: Date.now(),
@@ -38,10 +38,10 @@ export const Outcomings = () => {
 
             setName("")
             setValue(0)
-            setCategory("")
+            setCategory([])
             setDate(new Date(Date.now()))
         }else{
-            Alert.alert("Você preencher um nome, um valor e escolher uma categoria")
+            Alert.alert("Você deve preencher um nome, um valor e escolher uma categoria")
         }
     }
 

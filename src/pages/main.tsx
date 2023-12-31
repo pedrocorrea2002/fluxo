@@ -185,7 +185,7 @@ export const Main = () => {
                         <Text style={[styles.date, styles.leftArrow]}>◀</Text>
                     </TouchableOpacity>
 
-                    <Text style={[styles.date, { width: 201, marginHorizontal: 10, textAlign: "center" }]}>{selectedMonth ? selectedMonth : "-------- / ----"}</Text>
+                    <Text style={[styles.date, { width: 250, marginHorizontal: 10, textAlign: "center" }]}>{selectedMonth ? selectedMonth : "-------- / ----"}</Text>
 
                     <TouchableOpacity onPress={() => nextItem()} activeOpacity={dateIndex == filteredMonths.length - 1 ? 100 : 0.5}>
                         <Text style={[styles.date, styles.rightArrow]}>▶</Text>

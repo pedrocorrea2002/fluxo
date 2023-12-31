@@ -19,6 +19,8 @@ export const Filter_block = (Props) => {
         console.log(Props.filters)
     }
 
+    //! console.log("Props:",Props) //! tem uma função dentro de mim
+
     const styles = StyleSheet.create({
         filter: {
             height: 20,

@@ -76,6 +76,14 @@ export const Extract_item = (Props) => {
             color:"#700000",
             icon() {return(<Meal height={35} width={35} color="white"/>)}
         },
+        "Hardware" : {
+            color:"#06c4d2",
+            icon() {return(<Meal height={35} width={35} color="white"/>)}
+        },
+        "Ferramentas" : {
+            color:"#3c3c3c",
+            icon() {return(<Meal height={35} width={35} color="white"/>)}
+        },
         "Outro" : {
             color: "gray",
             icon() {return(<Other height={35} width={35} color="white"/>)}
@@ -97,7 +105,7 @@ export const Extract_item = (Props) => {
             maxWidth: '90%',
             marginBottom: 5,
 
-            borderColor: categoryColor_Icon[Props.category ? Props.category : Props.type].color,
+            borderColor: categoryColor_Icon[Props.category].color,
             borderWidth: 5.5,
             borderRadius: 20,
 
@@ -106,7 +114,7 @@ export const Extract_item = (Props) => {
         iconContainer:{
             width: "20%",
             aspectRatio: "1/1",
-            backgroundColor: categoryColor_Icon[Props.category ? Props.category : Props.type].color,
+            backgroundColor: categoryColor_Icon[Props.category].color,
             borderBottomRightRadius: 20,
             borderTopLeftRadius: 10,
             borderBottomLeftRadius: 5,
