@@ -21,8 +21,8 @@ type Props = {
 export const FilterModal = (Props) => {
     const [category,setCategory] = useState([])
     const [selectedUsers, setSelectedUsers] = useState([])
-    const [selectedOrdenacao, setSelectedOrdenacao] = useState([])
-    const [selectedSentido, setSelectedSentido] = useState([])
+    const [selectedOrdenacao, setSelectedOrdenacao] = useState(["Data"])
+    const [selectedSentido, setSelectedSentido] = useState(["Crescente"])
     const [startDate, setStartDate] = useState(new Date(0))
     const [endDate, setEndDate] = useState(new Date)
     
@@ -44,8 +44,8 @@ export const FilterModal = (Props) => {
         if(category.length > 0){
             for(let a in category){
                 filters.push({
-                    title:a,
-                    value:a,
+                    title:category[a],
+                    value:category[a],
                     color: filter_colors["Categoria"],
                     type: "category"
                 })
@@ -64,10 +64,9 @@ export const FilterModal = (Props) => {
             }
         }
 
-        console.log("startDate: ",startDate.toString())
-        console.log("date_0: ",new Date(0).toString())
-         if(startDate != new Date(0)){ //! porque diferente?
-            console.log("entrei aqui")
+        
+        //  if(startDate != new Date(0)){ //! porque diferente?
+        if(startDate.toDateString() != new Date(0).toDateString()){
             filters.push({
                 title:`Data inicial: ${just_date(startDate)} ${just_time(startDate)}`,
                 value: startDate,
@@ -75,7 +74,7 @@ export const FilterModal = (Props) => {
                 type:"startDate"
             })
         }
-
+        
         if(`${just_date(endDate)} ${just_time(endDate)}` != `${just_date(Props.load_moment)} ${just_time(Props.load_moment)}`){
             filters.push({
                 title:`Data final: ${just_date(endDate)} ${just_time(endDate)}`,
@@ -85,7 +84,8 @@ export const FilterModal = (Props) => {
             })
         }
         
-        if(!Props.filters.filter(a => a.type=="order")[0] || `${selectedOrdenacao[0]}|${selectedSentido[0]}` != Props.filters.filter(a => a.type=="order")[0].value){
+        console.log("aaaa:",Props.filters.filter(a => a.type=="order")[0])
+        if(Props.filters.filter(a => a.type=="order")[0] || `${selectedOrdenacao[0]}|${selectedSentido[0]}` != Props.filters.filter(a => a.type=="order")[0].value){
             filters.push({
                 title:`Ordenação ${selectedSentido[0].toLowerCase()} por ${selectedOrdenacao[0].toLowerCase()}`,
                 value: `${selectedOrdenacao[0]}|${selectedSentido[0]}`,

@@ -6,7 +6,7 @@ export const monthList = {
 //? CONVERTE Epoch PARA Date
 export function dateFormat(date) {
     const date2 = new Date(0)
-    date2.setUTCMilliseconds(date)
+    date2.setMilliseconds(date)
 
     return date2
 }
@@ -26,7 +26,7 @@ export function just_time(date = new Date) {
 
 //? DATA
 export function just_date(date = new Date) {
-    return `${leadingZeros(date.getDate(), 2)}/${leadingZeros(date.getMonth(), 2)}/${leadingZeros(date.getFullYear(), 4)}`
+    return `${leadingZeros(date.getDate(), 2)}/${leadingZeros(date.getMonth() + 1, 2)}/${leadingZeros(date.getFullYear(), 4)}`
 }
 
 //! ///// NÚMEROS ///////////////////////////

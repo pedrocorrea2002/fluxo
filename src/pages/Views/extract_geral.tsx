@@ -98,6 +98,8 @@ export const Extract = () => {
         let already_category = false
         let already_user = false
         filters.forEach(filter => {
+            console.log("filter: ",filter)
+
             //! FILTRNADO CATEGORIAS
             if(filter.type == "category" && !already_category){
                 console.log("category")
@@ -230,11 +232,11 @@ export const Extract = () => {
     function groupLancamentos(lista) {
         const groupedList = []
         lista.forEach((item) => {
-            let group = groupedList.find((item2) => item2.title === dateFormat(item.date).getUTCDate())
+            let group = groupedList.find((item2) => item2.title === dateFormat(item.date).getDate())
 
             if (!group) {
                 groupedList.push({
-                    title: dateFormat(item.date).getUTCDate(),
+                    title: dateFormat(item.date).getDate(),
                     data: [item]
                 })
             } else {
