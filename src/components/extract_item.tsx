@@ -4,7 +4,7 @@ import {
     Text,
     StyleSheet
 } from 'react-native'
-import {dateFormat, moneyFormat} from '../assets/utils'
+import {dateFormat, leadingZeros, moneyFormat} from '../assets/utils'
 
 import { ArrowDown } from "../assets/Icons/svg_arrow_down"
 import { ArrowUp } from "../assets/Icons/svg_arrow_up"
@@ -159,7 +159,7 @@ export const Extract_item = (Props) => {
                 <Text style={styles.name}>{Props.name}</Text>
                 <Text style={styles.value}>{moneyFormat(Props.value)}</Text>
                 <View style={styles.bottomBand}>
-                    <Text style={styles.date}>{Props.date ? dateFormat(Props.date).getHours()+":"+dateFormat(Props.date).getMinutes() : ""}</Text>
+                    <Text style={styles.date}>{Props.date ? leadingZeros(dateFormat(Props.date).getHours(),2)+":"+leadingZeros(dateFormat(Props.date).getMinutes(),2) : ""}</Text>
                     <Text style={styles.user}>{Props.user}</Text>
                 </View>
             </View>

@@ -47,6 +47,8 @@ export const Main = () => {
     const [entradasMes, setEntradasMes] = useState(0)
     const [saidasTotais, setSaidasTotais] = useState(0)
     const [saidasMes, setSaidasMes] = useState(0)
+    const [saldoTotal, setSaldoTotal] = useState(0)
+    const [saldoMes, setSaldoMes] = useState(0)
     
     //? VARIÁVEIS DE MÊS
     const [months, setMonths] = useState([])
@@ -106,6 +108,10 @@ export const Main = () => {
     },[lancamentos])
 
     useEffect(() => {
+        setSaldoTotal(entradasTotais - saidasTotais)
+    },[entradasTotais,saidasTotais])
+
+    useEffect(() => {
         setFilteredMonths(months.filter(onlyUnique))
     },[months])
 
@@ -123,6 +129,10 @@ export const Main = () => {
                             .reduce((a,b) => a + b.value ,0))
         }
     },[dateIndex])
+
+    useEffect(() => {
+        setSaldoMes(entradasMes - saidasMes)
+    },[entradasMes,saidasMes])
     //? ////////////////////////////////////////////////////
 
     const styles = StyleSheet.create({
@@ -138,9 +148,10 @@ export const Main = () => {
         },
         container:{
             width:'100%',
-            height: '15%',
+            // height: '15%',
             marginTop: 20,
-    
+            flexWrap: "wrap",
+            
             flexDirection: 'row',
             justifyContent: 'space-evenly'
         },
@@ -178,6 +189,7 @@ export const Main = () => {
             <View style={styles.container}>
                 <ValueBlock title="Entradas totais" value={entradasTotais} impact="Enter"/>
                 <ValueBlock title="Saídas totais" value={saidasTotais} impact="Leave"/>
+                <ValueBlock title="Saldo total" value={saldoTotal} impact="neutral"/>
             </View>
             <View style={styles.dateBar}>
                 <View style={styles.dateBar2}>
@@ -195,6 +207,7 @@ export const Main = () => {
             <View style={styles.container}>
                 <ValueBlock title="Entradas do mês" value={entradasMes} impact="Enter"/>
                 <ValueBlock title="Saídas do mês" value={saidasMes} impact="Leave"/>
+                <ValueBlock title="Saldo do mês" value={saldoMes} impact="neutral"/>
             </View>
             <View style={styles.buttonBlock}>
                 <Button 

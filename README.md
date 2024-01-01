@@ -21,3 +21,5 @@ valores vindo zero no filtro de mês da tela inicial
 
 valores não carregando em um primeiro momento na tela de extrato
 NÃO É CULPA DO filters NO [] DO useEffect()
+
+bloco de saldo

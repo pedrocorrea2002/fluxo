@@ -70,9 +70,10 @@ export const Extract = () => {
             for(const indexEntrada in snapshot.val()){
                 listaEntradas.push(snapshot.val()[indexEntrada])
             }
+
+            setEntradas(listaEntradas)
         })
 
-        setEntradas(listaEntradas)
 
         //* Pegando saídas do firebase e jogando em um array
         const listaSaidas = []
@@ -83,9 +84,10 @@ export const Extract = () => {
             for(const indexSaida in snapshot.val()){
                 listaSaidas.push(snapshot.val()[indexSaida])
             }
+
+            setSaidas(listaSaidas)
         })
 
-        setSaidas(listaSaidas)
     },[])
 
     useEffect(() => {
@@ -130,18 +132,16 @@ export const Extract = () => {
             if(filter.type == "order"){
                 const order = filter.value.split("|")
 
+                console.log("aaafafaf: ",not_filtered.map((item,index,array) => {return new Date(item.date).getFullYear()}))
                 not_filtered = not_filtered.sort((a,b) => sortMonth_other(a,b,order[0],order[1]))
             }
-
-            
         })
 
         // console.log("itens:",not_filtered.length)
         // console.log(not_filtered.map((item,index,array) => {return just_date(dateFormat(item.date)).concat(" ",item.name," \n")}))
-        console.log(not_filtered.map((item,index,array) => {return item.date}))
         
         setLancamentos(not_filtered)
-    },[entradas,saidas,filters])
+    },[entradas,saidas])
 
     useEffect(() => {
         setMonths(lancamentos.map(item => dataFormat_toMonth(item.date)))
@@ -149,6 +149,7 @@ export const Extract = () => {
 
     useEffect(() => {
         setFilteredMonths(months.filter(onlyUnique))
+        console.log("months:",filteredMonths)
     },[months])
 
     useEffect(() => {

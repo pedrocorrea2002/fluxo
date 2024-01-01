@@ -3,12 +3,14 @@ import {
     View,
     Text,
     Image,
-    StyleSheet
+    StyleSheet,
+    Dimensions
 } from 'react-native'
 
 import { theme } from '../assets/style';
 import { ArrowUp } from '../assets/Icons/svg_arrow_up';
 import { ArrowDown } from '../assets/Icons/svg_arrow_down';
+import { Balance } from '../assets/Icons/svg_balance';
 
 type Props = {
     title: String;
@@ -24,7 +26,9 @@ export const ValueBlock = (Props) => {
             <View style={{flexDirection:'row'}}>
                 {Props.impact == "Enter" ?
                     <ArrowDown width={40} height={40} color={theme.colors.gain}/> :
-                    <ArrowUp width={40} height={40} color={theme.colors.lose}/>
+                    Props.impact == "Leave" ?
+                        <ArrowUp width={40} height={40} color={theme.colors.lose}/> :
+                        <Balance width={40} height={40} color={theme.colors.balance}/>
                 }
 
                 <Text style={styles.value}>R$ {Props.value.toFixed(2)}</Text>
@@ -35,7 +39,7 @@ export const ValueBlock = (Props) => {
 
 const styles = StyleSheet.create({
     block: {
-        width: '45%',
+        width: Dimensions.get('window').width * 0.45,
         height: 100,
         borderRadius: 20,
 

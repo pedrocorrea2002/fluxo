@@ -85,14 +85,18 @@ export function sortMonth_other(a, b, criteria, direction) {
     let date_a = dateFormat(a.date)
     let date_b = dateFormat(b.date)
     let year_a = date_a.getFullYear()
-    let year_b = date_a.getFullYear()
+    let year_b = date_b.getFullYear()
     let month_a = date_a.getMonth()
     let month_b = date_b.getMonth()
 
+    if(year_a == 2024){
+        console.log("year_a:",year_a," -- year_b:",year_b)
+    }
+    
     //* ordenação por ano
     if (year_a > year_b) {
         return direction == "Crescente" ? 1 : -1
-    } else if (year_b < year_b) {
+    } else if (year_a < year_b) {
         return direction == "Crescente" ? -1 : 1
     } else {
         //* ordenação por mês
