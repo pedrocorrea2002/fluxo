@@ -54,10 +54,10 @@ export const Extract = () => {
     const [selectedMonth, setSelectedMonth] = useState("")
     
     //? PREENCHENDO ENTRADAS E SAÍDAS
-    // const saidasDB = database().ref('/saidas/')
-    // const entradasDB = database().ref('/entradas/')
-    const saidasDB = dados.saidas
-    const entradasDB = dados.entradas
+    const saidasDB = database().ref('/saidas/')
+    const entradasDB = database().ref('/entradas/')
+    // const saidasDB = dados.saidas
+    // const entradasDB = dados.entradas
     
     useEffect(() => {
         //* Pegando entradas do firebase e jogando em um array
