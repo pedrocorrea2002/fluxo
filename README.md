@@ -2,8 +2,8 @@ data lá no topo
 entrada e saída como 11k (pode ser a entrada e saída do mês)
 
 
-ordenação decrescente por nome, REPROVADA
-31 no final em decrescente
+<!-- //ordenação decrescente por nome, REPROVADA -->
+<!-- //31 no final em decrescente -->
 
 
 datas repetidas:
