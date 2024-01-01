@@ -63,29 +63,29 @@ export const Extract = () => {
         //* Pegando entradas do firebase e jogando em um array
         const listaEntradas = []
 
-        for(const indexEntrada in entradasDB){
-            listaEntradas.push(entradasDB[indexEntrada])
-        }
+        // for(const indexEntrada in entradasDB){
+        //     listaEntradas.push(entradasDB[indexEntrada])
+        // }
+        entradasDB.once('value', snapshot => {
+            for(const indexEntrada in snapshot.val()){
+                listaEntradas.push(snapshot.val()[indexEntrada])
+            }
+        })
+
         setEntradas(listaEntradas)
 
         //* Pegando saídas do firebase e jogando em um array
         const listaSaidas = []
-        for(const indexSaida in saidasDB){
-            listaSaidas.push(saidasDB[indexSaida])
-        }
-        setSaidas(listaSaidas)
-            
-        // entradasDB.once('value', snapshot => {
-            // for(const indexEntrada in snapshot.val()){
-            //     listaEntradas.push(snapshot.val()[indexEntrada])
-            // }
-        // })
+        // for(const indexSaida in saidasDB){
+        //     listaSaidas.push(saidasDB[indexSaida])
+        // }
+        saidasDB.once('value', snapshot => {
+            for(const indexSaida in snapshot.val()){
+                listaSaidas.push(snapshot.val()[indexSaida])
+            }
+        })
 
-        // saidasDB.once('value', snapshot => {
-            // for(const indexSaida in snapshot.val()){
-                // listaSaidas.push(snapshot.val()[indexSaida])
-            // }
-        // })
+        setSaidas(listaSaidas)
     },[])
 
     useEffect(() => {
