@@ -1,4 +1,4 @@
-{
+export const dados = {
   "entradas": {
     "-Na51TuSOiFpYu2_8zb1": {
       "category": "Outro",
@@ -500,7 +500,7 @@
     },
     "-NhxLqcdm6ml5kEkBsBf": {
       "category": "Outro",
-      "date": 1698607800000,
+      "date": 1698607800001,
       "id": 1698615224003,
       "name": "Filtro de linha",
       "user": "pedro",
@@ -508,7 +508,7 @@
     },
     "-NhxLx_0Capcz6VE_Zox": {
       "category": "Conta",
-      "date": 1698607800000,
+      "date": 1698607800002,
       "id": 1698615252418,
       "name": "Amazon prime",
       "user": "pedro",
@@ -564,7 +564,7 @@
     },
     "-NjmhwLRQOrBrW7xx-uM": {
       "category": "Hardware",
-      "date": 1700519400000,
+      "date": 1700519400001,
       "id": 1700584212536,
       "name": "TV Samsung",
       "user": "pedro",

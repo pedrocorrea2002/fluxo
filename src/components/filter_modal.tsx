@@ -64,7 +64,10 @@ export const FilterModal = (Props) => {
             }
         }
 
-         if(startDate != new Date(0)){
+        console.log("startDate: ",startDate.toString())
+        console.log("date_0: ",new Date(0).toString())
+         if(startDate != new Date(0)){ //! porque diferente?
+            console.log("entrei aqui")
             filters.push({
                 title:`Data inicial: ${just_date(startDate)} ${just_time(startDate)}`,
                 value: startDate,
@@ -81,9 +84,8 @@ export const FilterModal = (Props) => {
                 type:"endDate"
             })
         }
-
         
-        if(`${selectedOrdenacao[0]}|${selectedSentido[0]}` != Props.filters.filter(a => a.type=="order")[0].value){
+        if(!Props.filters.filter(a => a.type=="order")[0] || `${selectedOrdenacao[0]}|${selectedSentido[0]}` != Props.filters.filter(a => a.type=="order")[0].value){
             filters.push({
                 title:`Ordenação ${selectedSentido[0].toLowerCase()} por ${selectedOrdenacao[0].toLowerCase()}`,
                 value: `${selectedOrdenacao[0]}|${selectedSentido[0]}`,

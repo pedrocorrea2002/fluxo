@@ -7,13 +7,14 @@ import {
     SectionList
 } from 'react-native'
 import database from '@react-native-firebase/database'
-import { dateFormat, dataFormat_toMonth, onlyUnique } from "../../assets/utils";
+import { dateFormat, dataFormat_toMonth, onlyUnique, just_date, sortAlfa, sortMonth_other } from "../../assets/utils";
 
 import { Filter } from "../../assets/Icons/svg_filter";
 import { Extract_item } from "../../components/extract_item";
 import { Filter_block } from "../../components/filter_block";
 import { FilterModal } from "../../components/filter_modal";
 import { filter_colors } from "../../assets/front_utils";
+import { dados } from '../../../controlador-de-fluxo-default-rtdb-export'
 
 
 export const Extract = () => {
@@ -53,27 +54,38 @@ export const Extract = () => {
     const [selectedMonth, setSelectedMonth] = useState("")
     
     //? PREENCHENDO ENTRADAS E SAÍDAS
-    const saidasDB = database().ref('/saidas/')
-    const entradasDB = database().ref('/entradas/')
+    // const saidasDB = database().ref('/saidas/')
+    // const entradasDB = database().ref('/entradas/')
+    const saidasDB = dados.saidas
+    const entradasDB = dados.entradas
     
     useEffect(() => {
-        saidasDB.once('value', snapshot => {
-            const listaSaidas = []
+        //* Pegando entradas do firebase e jogando em um array
+        const listaEntradas = []
 
-            for(const indexSaida in snapshot.val()){
-                listaSaidas.push(snapshot.val()[indexSaida])
-            }
-            setSaidas(listaSaidas)
-        })
-    
-        entradasDB.once('value', snapshot => {
-            const listaEntradas = []
+        for(const indexEntrada in entradasDB){
+            listaEntradas.push(entradasDB[indexEntrada])
+        }
+        setEntradas(listaEntradas)
 
-            for(const indexEntrada in snapshot.val()){
-                listaEntradas.push(snapshot.val()[indexEntrada])
-            }
-            setEntradas(listaEntradas)
-        })
+        //* Pegando saídas do firebase e jogando em um array
+        const listaSaidas = []
+        for(const indexSaida in saidasDB){
+            listaSaidas.push(saidasDB[indexSaida])
+        }
+        setSaidas(listaSaidas)
+            
+        // entradasDB.once('value', snapshot => {
+            // for(const indexEntrada in snapshot.val()){
+            //     listaEntradas.push(snapshot.val()[indexEntrada])
+            // }
+        // })
+
+        // saidasDB.once('value', snapshot => {
+            // for(const indexSaida in snapshot.val()){
+                // listaSaidas.push(snapshot.val()[indexSaida])
+            // }
+        // })
     },[])
 
     useEffect(() => {
@@ -116,22 +128,18 @@ export const Extract = () => {
             if(filter.type == "order"){
                 const order = filter.value.split("|")
 
-                console.log("order: ",order)
-                switch(order[0]){
-                    // case "Data" : not_filtered = not_filtered.sort(a => a.date); break;
-                    // case "Nome" : not_filtered = not_filtered.sort(a => a.name); break;
-                    case "Data" : not_filtered = not_filtered.sort(a => a.date); break;
-                    case "Nome" : not_filtered = not_filtered.sort(a => a.name); break;
-                }
-                switch(order[1]){
-                    case "Decrescente" : not_filtered = not_filtered.reverse(); break;
-                }
+                not_filtered = not_filtered.sort((a,b) => sortMonth_other(a,b,order[0],order[1]))
             }
+
+            
         })
 
+        // console.log("itens:",not_filtered.length)
+        // console.log(not_filtered.map((item,index,array) => {return just_date(dateFormat(item.date)).concat(" ",item.name," \n")}))
+        console.log(not_filtered.map((item,index,array) => {return item.date}))
+        
         setLancamentos(not_filtered)
-
-    },[entradas,saidas])
+    },[entradas,saidas,filters])
 
     useEffect(() => {
         setMonths(lancamentos.map(item => dataFormat_toMonth(item.date)))
@@ -234,11 +242,8 @@ export const Extract = () => {
             }
         })
 
-        console.log("groupedList:",JSON.stringify(groupedList))
         return groupedList
     }
-
-    console.log("lancamentos: ",JSON.stringify(lancamentos))
 
     return (
         <View style={styles.page}>
