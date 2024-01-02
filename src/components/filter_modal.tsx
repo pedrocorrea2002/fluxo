@@ -43,6 +43,7 @@ export const FilterModal = (Props) => {
         //! ADICIONDO FILTROS POR CATEGORIA
         if(category.length > 0){
             for(let a in category){
+                console.log("aqui")
                 filters.push({
                     title:category[a],
                     value:category[a],
@@ -75,7 +76,7 @@ export const FilterModal = (Props) => {
             })
         }
         
-        if(`${just_date(endDate)} ${just_time(endDate)}` != `${just_date(Props.load_moment)} ${just_time(Props.load_moment)}`){
+        if(just_date(endDate) != just_date(Props.load_moment)){
             filters.push({
                 title:`Data final: ${just_date(endDate)} ${just_time(endDate)}`,
                 value: endDate,
@@ -84,7 +85,6 @@ export const FilterModal = (Props) => {
             })
         }
         
-        console.log("aaaa:",Props.filters.filter(a => a.type=="order")[0])
         if(Props.filters.filter(a => a.type=="order")[0] || `${selectedOrdenacao[0]}|${selectedSentido[0]}` != Props.filters.filter(a => a.type=="order")[0].value){
             filters.push({
                 title:`Ordenação ${selectedSentido[0].toLowerCase()} por ${selectedOrdenacao[0].toLowerCase()}`,

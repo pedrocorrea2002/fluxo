@@ -69,7 +69,7 @@ export const Incomings = () => {
                 />
                 <Input 
                     text="Valor"
-                    value={value.toString()}
+                    value={value}
                     display={value.toLocaleString("pt-BR", {style:"currency", currency:"BRL"})}                    
                     placeholder="Digite o valor da entrada"    
                     onChangeText={a => setValue(numberEnsurer(a))}

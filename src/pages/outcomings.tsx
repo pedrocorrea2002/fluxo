@@ -61,7 +61,7 @@ export const Outcomings = () => {
                 />
                 <Input 
                     text="Valor"
-                    value={value.toString()} /* //! QUANDO VOLTA A 0, O RESTANTE DO TEXTO MANTEM */
+                    value={value} /* //! QUANDO VOLTA A 0, O RESTANTE DO TEXTO MANTEM */
                     display={value.toLocaleString("pt-BR", {style:"currency", currency:"BRL"})}
                     placeholder="Digite o valor da saída"
                     

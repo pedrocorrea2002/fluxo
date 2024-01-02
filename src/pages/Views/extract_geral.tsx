@@ -7,7 +7,7 @@ import {
     SectionList
 } from 'react-native'
 import database from '@react-native-firebase/database'
-import { dateFormat, dataFormat_toMonth, onlyUnique, just_date, sortAlfa, sortMonth_other } from "../../assets/utils";
+import { dateFormat, dataFormat_toMonth, onlyUnique, just_date, sortAlfa, sortMonth_other, moneyFormat } from "../../assets/utils";
 
 import { Filter } from "../../assets/Icons/svg_filter";
 import { Extract_item } from "../../components/extract_item";
@@ -99,6 +99,8 @@ export const Extract = () => {
         //! EFETUANDO AS FILTRAGENS
         let already_category = false
         let already_user = false
+
+        console.log("filters:",filters)
         filters.forEach(filter => {
             console.log("filter: ",filter)
 
@@ -132,7 +134,6 @@ export const Extract = () => {
             if(filter.type == "order"){
                 const order = filter.value.split("|")
 
-                console.log("aaafafaf: ",not_filtered.map((item,index,array) => {return new Date(item.date).getFullYear()}))
                 not_filtered = not_filtered.sort((a,b) => sortMonth_other(a,b,order[0],order[1]))
             }
         })
@@ -141,7 +142,7 @@ export const Extract = () => {
         // console.log(not_filtered.map((item,index,array) => {return just_date(dateFormat(item.date)).concat(" ",item.name," \n")}))
         
         setLancamentos(not_filtered)
-    },[entradas,saidas])
+    },[entradas,saidas,filters])
 
     useEffect(() => {
         setMonths(lancamentos.map(item => dataFormat_toMonth(item.date)))
@@ -153,7 +154,8 @@ export const Extract = () => {
     },[months])
 
     useEffect(() => {
-        setSelectedMonth(filteredMonths[0]) 
+        setSelectedMonth(filteredMonths[0])
+        setDateIndex(0)
     },[filteredMonths])
 
     const styles = StyleSheet.create({
@@ -284,12 +286,24 @@ export const Extract = () => {
                     <View style={styles.total_header_section}>
                         <View style={[styles.total_section_rectangle, {backgroundColor: 'green'}]}></View>
                         <Text>Entrada:</Text>
-                        <Text style={styles.total_section_value}>R$ 11.000,00</Text>
+                        <Text style={styles.total_section_value}>
+                            {
+                                moneyFormat(lancamentos.filter(item => (
+                                    dataFormat_toMonth(item.date) == selectedMonth && item.type == "entrada" ? 1 : 0
+                                )).reduce((sum,a) => sum += a.value,0))
+                            }
+                        </Text>
                     </View>
                     <View style={styles.total_header_section}>
                         <View style={[styles.total_section_rectangle, {backgroundColor: 'red'}]}></View>
                         <Text>Saída:</Text>
-                        <Text style={styles.total_section_value}>R$ 11.000,00</Text>
+                        <Text style={styles.total_section_value}>
+                            {
+                                moneyFormat(lancamentos.filter(item => (
+                                    dataFormat_toMonth(item.date) == selectedMonth && item.type == "saida" ? 1 : 0
+                                )).reduce((sum,a) => sum += a.value,0))
+                            }
+                        </Text>
                     </View>
                 </View>
             </View>

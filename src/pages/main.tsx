@@ -3,7 +3,8 @@ import {
     StyleSheet,
     View,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    ScrollView
 } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import database from '@react-native-firebase/database'
@@ -90,8 +91,6 @@ export const Main = () => {
     },[entradas,saidas])
 
     useEffect(() => {
-        function a(a,b){return a + b.value}
-
         //? TOTAL
         setMonths(lancamentos.sort((a, b) => { return a.date - b.date }).map(item => dataFormat_toMonth(item.date)))
         setEntradasTotais(entradas.reduce((a,b) => a + b.value ,0))
@@ -144,16 +143,19 @@ export const Main = () => {
         },
         title:{
             fontSize:30,
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            marginBottom: 10,
         },
         container:{
-            width:'100%',
-            // height: '15%',
-            marginTop: 20,
-            flexWrap: "wrap",
+            // width:,
+            height: 200,
+            // marginTop: 20,
+            marginLeft: 20,
+            paddingRight: 60,
+            // flexWrap: "wrap",
             
             flexDirection: 'row',
-            justifyContent: 'space-evenly'
+            // justifyContent: 'space-evenly'
         },
         buttonBlock: {
             width:'100%',
@@ -186,11 +188,11 @@ export const Main = () => {
     return(
         <View style={styles.page}>
             <Text style={styles.title}>Controle de fluxo</Text>
-            <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.container} horizontal>
                 <ValueBlock title="Entradas totais" value={entradasTotais} impact="Enter"/>
                 <ValueBlock title="Saídas totais" value={saidasTotais} impact="Leave"/>
                 <ValueBlock title="Saldo total" value={saldoTotal} impact="neutral"/>
-            </View>
+            </ScrollView>
             <View style={styles.dateBar}>
                 <View style={styles.dateBar2}>
                     <TouchableOpacity onPress={() => previousItem()} activeOpacity={dateIndex == 0 ? 100 : 0.5}>
@@ -204,11 +206,11 @@ export const Main = () => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.container} horizontal>
                 <ValueBlock title="Entradas do mês" value={entradasMes} impact="Enter"/>
                 <ValueBlock title="Saídas do mês" value={saidasMes} impact="Leave"/>
                 <ValueBlock title="Saldo do mês" value={saldoMes} impact="neutral"/>
-            </View>
+            </ScrollView>
             <View style={styles.buttonBlock}>
                 <Button 
                     title="Extrato" 

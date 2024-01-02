@@ -20,6 +20,7 @@ import { Fun } from "../assets/Icons/categories/svg_fun"
 import { Health } from "../assets/Icons/categories/svg_health"
 import { Education } from "../assets/Icons/categories/svg_education"
 import { Meal } from "../assets/Icons/categories/svg_meal"
+import { Hardware } from "../assets/Icons/categories/svg_hardware"
 
 type Props = {
     name: String,
@@ -78,7 +79,7 @@ export const Extract_item = (Props) => {
         },
         "Hardware" : {
             color:"#06c4d2",
-            icon() {return(<Meal height={35} width={35} color="white"/>)}
+            icon() {return(<Hardware height={35} width={35} color="white"/>)}
         },
         "Ferramentas" : {
             color:"#3c3c3c",
