@@ -3,7 +3,7 @@
     
   ### ℹ️ About
   
-  This application was made to solve my own problem with the spend management. The main idea was to measure by month how much money I was spending in each category of spent, another important feature for me was to measure how much of my salary I was saving in the end of the month.
+  This application was made to solve my own problem with finantial management. The main idea was to measure by month how much money I was spending in each category of spent, another important feature for me was to measure how much of my salary I was saving in the end of the month.
   While there are lots of another ways to manage spents, like using a spreadsheet or an already existing application, I was looking for a solution that would be fast to use, and I wishing to pass by the experience of creating a full application from the initial planning until the last feature.
   
   ### ⚠️ Requirements
@@ -48,7 +48,7 @@
   ### ℹ️ Sobre
 
   Esta aplicação foi feita para resolver meu próprio problema de gerenciamento de gastos. A principal ideia por trás desta aplicação era poder medir o quanto eu estava gastando por mês em uma mesma categoria de gastos, outra funcionalidade que eu considerava importante era medir o quanto eu estava conseguindo salvar por mês do meu salário.
-  Embora ajam diversas outras formas de fazer um controle de gastos eficiênte, seja via planilha, seja via algum aplicativo já existente para esse fim, eu queria uma solução que fosse rápida de usar e também queria passar pela experiência de criar um aplicativo ReactNative do zero, desde o planejamento até a última funcionalidade.
+  Embora ajam diversas outras formas de fazer um controle de gastos eficiente, seja via planilha, seja via algum aplicativo já existente para esse fim, eu queria uma solução que fosse rápida de usar e também queria passar pela experiência de criar um aplicativo ReactNative do zero, desde o planejamento até a última funcionalidade.
   
   ### ⚠️ Requisitos 
   - node (Version 16.16.1 or superior) -- Not tested in lower versions
