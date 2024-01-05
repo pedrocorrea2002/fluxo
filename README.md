@@ -1,5 +1,5 @@
 <details>
-  <summary><h1>🇬🇧 English version 🇬🇧</h1></summary>
+  <summary><h2>English version</h2></summary>
     
   ### ℹ️ About
   
@@ -43,7 +43,7 @@
 </details>
 
 <details>
-  <summary><h1>🇧🇷 Versão portuguesa 🇧🇷</h1></summary>
+  <summary><h2>Versão portuguesa (BR)</h2></summary>
 
   ### ℹ️ Sobre
 
