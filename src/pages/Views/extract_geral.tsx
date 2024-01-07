@@ -14,13 +14,12 @@ import { Extract_item } from "../../components/extract_item";
 import { Filter_block } from "../../components/filter_block";
 import { FilterModal } from "../../components/filter_modal";
 import { filter_colors } from "../../assets/front_utils";
-import { dados } from '../../../controlador-de-fluxo-default-rtdb-export'
-
+import { theme } from "../../assets/style";
 
 export const Extract = () => {
     const [filters,setFilters] = useState([{
                 title:"Ordenação crescente por data",
-                value:"Data|Crescente",
+                value:"Data|Decrescente",
                 color:filter_colors["Ordenação"],
                 type:"order"
             }])
@@ -100,13 +99,9 @@ export const Extract = () => {
         let already_category = false
         let already_user = false
 
-        console.log("filters:",filters)
         filters.forEach(filter => {
-            console.log("filter: ",filter)
-
             //! FILTRNADO CATEGORIAS
             if(filter.type == "category" && !already_category){
-                console.log("category")
                 const all_categories = filters.filter(a => a.type == "category").map(a => a.value)
 
                 already_category = true
@@ -114,7 +109,6 @@ export const Extract = () => {
             }
             //! FILTRANDO USUÁRIOS
             if(filter.type == "user" && !already_user){
-                console.log("user")
                 const all_users = filters.filter(a => a.type == "user").map(a => a.value)
 
                 already_user = true
@@ -122,12 +116,10 @@ export const Extract = () => {
             }
             //! FILTRANDO POR DATA INICIAL
             if(filter.type == "startDate"){
-                console.log("startDate")
                 not_filtered = not_filtered.filter(a => new Date(a.date) >= filter.value)
             }
             //! FILTRANDO POR DATA FINAL
             if(filter.type == "endDate"){
-                console.log("endDate")
                 not_filtered = not_filtered.filter(a => new Date(a.date) <= filter.value)
             }
 
@@ -138,8 +130,10 @@ export const Extract = () => {
             }
         })
 
-        // console.log("itens:",not_filtered.length)
-        // console.log(not_filtered.map((item,index,array) => {return just_date(dateFormat(item.date)).concat(" ",item.name," \n")}))
+        //* caso a ordenação personalizada for excluída e não houve mais filtro nenhum sobrando, é aplicado a ordenação padrão
+        if(filters.length == 0){
+            not_filtered = not_filtered.sort((a,b) => sortMonth_other(a,b,"Data","Decrescente"))
+        }
         
         setLancamentos(not_filtered)
     },[entradas,saidas,filters])
@@ -150,7 +144,6 @@ export const Extract = () => {
 
     useEffect(() => {
         setFilteredMonths(months.filter(onlyUnique))
-        console.log("months:",filteredMonths)
     },[months])
 
     useEffect(() => {
@@ -194,16 +187,16 @@ export const Extract = () => {
         },
         total_header_sections:{
             display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            flexDirection: 'row'
         },
         total_header_section: {
-            width: '50%',
             height: 30,
 
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'flex-start',
+            marginHorizontal: 5
         },
         total_header_filters: {
             display: 'flex',
@@ -284,7 +277,7 @@ export const Extract = () => {
                 </View>
                 <View style={styles.total_header_sections}>
                     <View style={styles.total_header_section}>
-                        <View style={[styles.total_section_rectangle, {backgroundColor: 'green'}]}></View>
+                        <View style={[styles.total_section_rectangle, {backgroundColor: theme.colors.gain}]}></View>
                         <Text>Entrada:</Text>
                         <Text style={styles.total_section_value}>
                             {
@@ -295,7 +288,7 @@ export const Extract = () => {
                         </Text>
                     </View>
                     <View style={styles.total_header_section}>
-                        <View style={[styles.total_section_rectangle, {backgroundColor: 'red'}]}></View>
+                        <View style={[styles.total_section_rectangle, {backgroundColor: theme.colors.lose}]}></View>
                         <Text>Saída:</Text>
                         <Text style={styles.total_section_value}>
                             {

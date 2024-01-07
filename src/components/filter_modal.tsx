@@ -43,7 +43,6 @@ export const FilterModal = (Props) => {
         //! ADICIONDO FILTROS POR CATEGORIA
         if(category.length > 0){
             for(let a in category){
-                console.log("aqui")
                 filters.push({
                     title:category[a],
                     value:category[a],
@@ -85,9 +84,6 @@ export const FilterModal = (Props) => {
                 type:"endDate"
             })
         }
-
-        console.log("selectedOrdenacao:",selectedOrdenacao)
-        console.log("selectedOrdenacao:",selectedOrdenacao)
         
         if(!Props.filters.filter(a => a.type=="order")[0] || `${selectedOrdenacao[0]}|${selectedSentido[0]}` != Props.filters.filter(a => a.type=="order")[0].value){
             filters.push({
@@ -99,54 +95,6 @@ export const FilterModal = (Props) => {
         }
 
         Props.setFilters(filters)
-
-        // console.log("startDate: ",startDate)
-        // console.log("endDate: ",endDate)
-        
-        // //! FILTRANDO ENTRADAS
-        // let entradas_filtered = Props.entradas.filter(a => (
-        //         (category.length > 0 ? category.includes(a.category) : true) && //? FILTRO DE CATEGORIAS
-        //         (selectedUsers.length > 0 ? selectedUsers.includes(a.user) : true) && //? FILTRO DE USUÁRIO
-        //         a.date >= startDate && //? FILTRO DE DATA INICIAL
-        //         a.date <= endDate //? FILTRO DE DATA FINAL
-        // ))
-
-        // //! FILTRANDO SAÍDAS
-        // let saidas_filtered = Props.saidas.filter(b => (
-        //         (category.length > 0 ? category.includes(b.category) : true) && //? FILTRO DE CATEGORIAS
-        //         (selectedUsers.length > 0 ? selectedUsers.includes(b.user) : true) && //? FILTRO DE USUÁRIO
-        //         b.date >= startDate && //? FILTRO DE DATA INICIAL
-        //         b.date <= endDate //? FILTRO DE DATA FINAL
-        // ))
-
-        // //! ORDENANDO ENTRADAS E SAÍDAS
-        // switch(selectedOrdenacao){
-        //     case ["Data"] : {
-        //         entradas_filtered = entradas_filtered.sort(a => a.date)
-        //         saidas_filtered = saidas_filtered.sort(b => b.date)
-        //     }; break;
-        //     case ["Nome"] : {
-        //         entradas_filtered = entradas_filtered.sort(a => a.name)
-        //         saidas_filtered = saidas_filtered.sort(b => b.name)
-        //     }; break;
-        // }
-
-        // //! DEFININDO DIREÇÃO DA ORDENAÇÃO
-        // switch(selectedSentido){
-        //     case ["Decrescente"] : {
-        //         entradas_filtered = entradas_filtered = entradas_filtered = entradas_filtered.reverse()
-        //         saidas_filtered = saidas_filtered = saidas_filtered = saidas_filtered.reverse()
-        //     }
-        // }
-
-
-
-        // //! RENDERIZANDO ALTERAÇÕES E FECHANDO MODAL
-        // Props.setLancamentos([
-        //     ...entradas_filtered.map(val => { return { type: "saida", ...val } }),
-        //     ...saidas_filtered.map(val => { return { type: "entrada", ...val } })
-        // ])
-
         Props.setModalVisible(false)
     }
 

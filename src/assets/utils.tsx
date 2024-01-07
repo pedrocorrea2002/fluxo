@@ -89,30 +89,24 @@ export function sortMonth_other(a, b, criteria, direction) {
     let month_a = date_a.getMonth()
     let month_b = date_b.getMonth()
 
-    if(year_a == 2024){
-        console.log("year_a:",year_a," -- year_b:",year_b)
-    }
-
-    //! NÃO ESTOU ENTRANDO AQUI QUANDO O FILTRO É EXCLUÍDO
-    console.log("ADFAFASFA:",direction)
-    
+    //! NÃO ESTOU ENTRANDO AQUI QUANDO O FILTRO É EXCLUÍDO   
     //* ordenação por ano
     if (year_a > year_b) {
-        return direction == "Decrescente" ? -1 : 1
+        return direction == "Crescente" ? 1 : -1
     } else if (year_a < year_b) {
-        return direction == "Decrescente" ? 1 : -1
+        return direction == "Crescente" ? -1 : 1
     } else {
         //* ordenação por mês
         if (month_a > month_b) {
-            return direction == "Decrescente" ? -1 : 1
+            return direction == "Crescente" ? 1 : -1
         } else if (month_a < month_b) {
-            return direction == "Decrescente" ? 1 : -1
+            return direction == "Crescente" ? -1 : 1
         } else {
             //* ordenação pelo critério
             if (a[criteria] > b[criteria]) {
-                return direction == "Decrescente" ? -1 : 1
+                return direction == "Crescente" ? 1 : -1
             }else if (a[criteria] < b[criteria]) {
-                return direction == "Decrescente" ? 1 : -1
+                return direction == "Crescente" ? 1 : 1
             }else if(criteria == "date"){
                  //* se o critério for a data e o dia for exatamente o mesmo, é ordenado pelo nome em ordem crescente
                 if (a.name > b.name) {
