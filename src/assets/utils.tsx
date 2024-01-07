@@ -120,3 +120,43 @@ export function sortMonth_other(a, b, criteria, direction) {
         }
     }
 }
+
+export function sortMonth_category(a, b, direction) {
+    //^ PRIORIDADE: ano, mes, criteria, nome (se data)
+    let date_a = dateFormat(a.date)
+    let date_b = dateFormat(b.date)
+    let year_a = date_a.getFullYear()
+    let year_b = date_b.getFullYear()
+    let month_a = date_a.getMonth()
+    let month_b = date_b.getMonth()
+
+    //! NÃO ESTOU ENTRANDO AQUI QUANDO O FILTRO É EXCLUÍDO   
+    //* ordenação por ano
+    if (year_a > year_b) {
+        return direction == "Crescente" ? 1 : -1
+    } else if (year_a < year_b) {
+        return direction == "Crescente" ? -1 : 1
+    } else {
+        //* ordenação por mês
+        if (month_a > month_b) {
+            return direction == "Crescente" ? 1 : -1
+        } else if (month_a < month_b) {
+            return direction == "Crescente" ? -1 : 1
+        } else {
+            //* ordenação pelo critério
+            if (a.type > b.type) {
+                return direction == "Crescente" ? 1 : -1
+            }else if (a.type < a.type) {
+                return direction == "Crescente" ? 1 : 1
+            }else{
+                if (a.category > b.category) {
+                    return direction == "Crescente" ? 1 : -1
+                }else if (a.category < a.category) {
+                    return direction == "Crescente" ? 1 : 1
+                }else{
+                    return 0
+                }
+            }
+        }
+    }
+}

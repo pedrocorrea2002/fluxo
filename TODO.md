@@ -11,9 +11,9 @@
 <!-- // 1700519400000 -->
 
 
-getMonth() = month - 1
-getHours = hour (Brasil UTC)
-getUTCHours = hour + 3
+<!-- //getMonth() = month - 1 -->
+<!-- //getHours = hour (Brasil UTC) -->
+<!-- //getUTCHours = hour + 3 -->
 
 
 <!-- //ordenando por mês e não por ano -->
@@ -24,6 +24,6 @@ getUTCHours = hour + 3
 
 <!-- //bloco de saldo - vertical lista -->
 
-testar filtro e ordenação
+<!-- //testar filtro e ordenação -->
 
-eliminado um bug de quando fazia o filtro por categoria estando em um mês do meio da lista
+<!-- //eliminado um bug de quando fazia o filtro por categoria estando em um mês do meio da lista -->
