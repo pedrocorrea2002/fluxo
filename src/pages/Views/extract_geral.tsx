@@ -7,7 +7,7 @@ import {
     SectionList
 } from 'react-native'
 import database from '@react-native-firebase/database'
-import { dateFormat, dataFormat_toMonth, onlyUnique, just_date, sortAlfa, sortMonth_other, moneyFormat } from "../../assets/utils";
+import { dateFormat, dataFormat_toMonth, onlyUnique, sortMonth_other, moneyFormat } from "../../assets/utils";
 
 import { Filter } from "../../assets/Icons/svg_filter";
 import { Extract_item } from "../../components/extract_item";

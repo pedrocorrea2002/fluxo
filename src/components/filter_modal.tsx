@@ -55,14 +55,15 @@ export const FilterModal = (Props) => {
 
         //! ADICIONANDO FILTROS POR USUÁRIO
         if(selectedUsers.length > 0){
-            for(let b in selectedUsers){
+            // for(let b in selectedUsers){
+            selectedUsers.forEach(b => {
                 filters.push({
                     title:`Usuário: ${b}`,
                     value:b,
                     color: filter_colors["Usuário"],
                     type:"user"
                 })
-            }
+            })
         }
 
         
@@ -84,8 +85,11 @@ export const FilterModal = (Props) => {
                 type:"endDate"
             })
         }
+
+        console.log("selectedOrdenacao:",selectedOrdenacao)
+        console.log("selectedOrdenacao:",selectedOrdenacao)
         
-        if(Props.filters.filter(a => a.type=="order")[0] || `${selectedOrdenacao[0]}|${selectedSentido[0]}` != Props.filters.filter(a => a.type=="order")[0].value){
+        if(!Props.filters.filter(a => a.type=="order")[0] || `${selectedOrdenacao[0]}|${selectedSentido[0]}` != Props.filters.filter(a => a.type=="order")[0].value){
             filters.push({
                 title:`Ordenação ${selectedSentido[0].toLowerCase()} por ${selectedOrdenacao[0].toLowerCase()}`,
                 value: `${selectedOrdenacao[0]}|${selectedSentido[0]}`,

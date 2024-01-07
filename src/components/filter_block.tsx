@@ -13,7 +13,6 @@ type Props = {
 }
 
 export const Filter_block = (Props) => {
-
     function remove_filter(){
         Props.setFilters(Props.filters.filter(a => a.title != Props.title))
         console.log(Props.filters)
