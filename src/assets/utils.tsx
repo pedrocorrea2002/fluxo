@@ -160,6 +160,7 @@ export function sortMonth_category(a, b, direction) {
         }
     }
 }
+//TODO: Não está ordenando por ano
 
 export function sortTotal_Category(a,b){
     if (a.type > b.type) {

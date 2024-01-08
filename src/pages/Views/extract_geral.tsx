@@ -255,6 +255,7 @@ export const Extract = () => {
         <View style={styles.page}>
             <Text style={styles.title}>Extrato</Text>
             <View style={styles.dateBar}>
+                {/* //* ABA PARA TROCAR O MÊS */}
                 <View style={styles.dateBar2}>
                     <TouchableOpacity onPress={() => previousItem()} activeOpacity={dateIndex == 0 ? 100 : 0.5}>
                         <Text style={[styles.date, styles.leftArrow]}>◀</Text>
@@ -267,16 +268,21 @@ export const Extract = () => {
                     </TouchableOpacity>
                 </View>
 
+                {/* //* BOTÃO DE TROCA DE TELA */}
                 <TouchableOpacity 
                     onPress={() => {navigation.navigate("Extract_categoria")}}
                     style={{width:30,height:30}}
                 >
                     <Image source={require("../../assets/change_screen.png")} style={{width:30,height:30}}/>
                 </TouchableOpacity>
+
+                {/* //* BOTÃO DE FILTRO E ORDENAÇÃO */}
                 <TouchableOpacity onPress={() => {setModalVisible(true)}}>
                     <Filter width={30} height={30} color={"black"} />
                 </TouchableOpacity>
             </View>
+
+            {/* //* BARRA DE FILTROS ATIVOS E ORDENAÇÃO */}
             <View style={styles.total_header}>
                 <View style={styles.total_header_filters}>
                     {filters.map((item) => (
@@ -289,6 +295,8 @@ export const Extract = () => {
                         />
                     ))}
                 </View>
+
+                {/* //* BARRA DE TOTAIS DE ENTRADA E SAÍDA */}
                 <View style={styles.total_header_sections}>
                     <View style={styles.total_header_section}>
                         <View style={[styles.total_section_rectangle, {backgroundColor: theme.colors.gain}]}></View>
@@ -315,6 +323,7 @@ export const Extract = () => {
                 </View>
             </View>
 
+            {/* //* LISTA DE ENTRADAS E SAÍDAS */}
             <SectionList
                 sections={groupLancamentos(lancamentos.filter(item => (dataFormat_toMonth(item.date) == selectedMonth ? 1 : 0)))}
                 keyExtractor={(item) => String(item.date)}

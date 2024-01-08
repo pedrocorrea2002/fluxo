@@ -149,9 +149,8 @@ export const Extract_categoria = () => {
     },[lancamentos])
 
     useEffect(() => {
+        console.log("month:",lancamentos.map(a => `${dataFormat_toMonth(dateFormat(a.date))}\n`))
         setFilteredMonths(["Total",...months.filter(onlyUnique)])
-
-        console.log("months:",months.filter(onlyUnique))
     },[months])
 
     useEffect(() => {
@@ -266,6 +265,7 @@ export const Extract_categoria = () => {
                     </TouchableOpacity>
                 </View>
 
+                {/* //* BOTÃO DE TROCA DE TELA */}
                 <TouchableOpacity 
                     onPress={() => {navigation.navigate("Extract")}}
                     style={{width:30,height:30}}
@@ -273,6 +273,7 @@ export const Extract_categoria = () => {
                     <Image source={require("../../assets/change_screen.png")} style={{width:30,height:30}}/>
                 </TouchableOpacity>
 
+                {/* //* BOTÃO DE FILTRO E ORDENAÇÃO */}
                 <TouchableOpacity onPress={() => {setModalVisible(true)}}>
                     <Filter width={30} height={30} color={"black"} />
                 </TouchableOpacity>
