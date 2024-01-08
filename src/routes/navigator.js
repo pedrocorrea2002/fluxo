@@ -1,9 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Extract_categoria } from '../pages/Views/total_categoria';
 import { Incomings } from '../pages/incomings';
 import { Outcomings } from '../pages/outcomings';
 import { Main } from '../pages/main';
+import { Extract } from '../pages/Views/extract_geral';
+import { Extract_categoria } from '../pages/Views/total_categoria';
 
 function Navigator() {
     const Stack = createNativeStackNavigator();
@@ -30,6 +31,11 @@ function Navigator() {
                 />
                 <Stack.Screen
                     name="Extract"
+                    component={Extract}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Extract_categoria"
                     component={Extract_categoria}
                     options={{ headerShown: false }}
                 />

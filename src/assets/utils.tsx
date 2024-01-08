@@ -145,18 +145,34 @@ export function sortMonth_category(a, b, direction) {
         } else {
             //* ordenação pelo critério
             if (a.type > b.type) {
-                return direction == "Crescente" ? 1 : -1
-            }else if (a.type < a.type) {
-                return direction == "Crescente" ? 1 : 1
+                return 1
+            }else if (a.type < b.type) {
+                return -1
             }else{
                 if (a.category > b.category) {
-                    return direction == "Crescente" ? 1 : -1
-                }else if (a.category < a.category) {
-                    return direction == "Crescente" ? 1 : 1
+                    1
+                }else if (a.category < b.category) {
+                    -1
                 }else{
                     return 0
                 }
             }
+        }
+    }
+}
+
+export function sortTotal_Category(a,b){
+    if (a.type > b.type) {
+        return 1
+    }else if (a.type < b.type) {
+        return -1
+    }else{
+        if (a.category > b.category) {
+            return 1
+        }else if (a.category < b.category) {
+            return -1
+        }else{
+            return 0
         }
     }
 }

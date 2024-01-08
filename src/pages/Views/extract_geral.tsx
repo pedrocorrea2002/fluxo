@@ -4,7 +4,8 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
-    SectionList
+    SectionList,
+    Image
 } from 'react-native'
 import database from '@react-native-firebase/database'
 import { dateFormat, dataFormat_toMonth, onlyUnique, sortMonth_other, moneyFormat } from "../../assets/utils";
@@ -15,8 +16,11 @@ import { Filter_block } from "../../components/filter_block";
 import { FilterModal } from "../../components/filter_modal";
 import { filter_colors } from "../../assets/front_utils";
 import { theme } from "../../assets/style";
+import { useNavigation } from "@react-navigation/native";
 
 export const Extract = () => {
+    const navigation = useNavigation();
+
     const [filters,setFilters] = useState([{
                 title:"Ordenação crescente por data",
                 value:"Data|Decrescente",
@@ -222,6 +226,10 @@ export const Extract = () => {
 
             fontSize: 30,
             fontWeight: 'bold'
+        },
+        change_screen_button: {
+            width: 30,
+            height: 30
         }
     })
 
@@ -259,6 +267,12 @@ export const Extract = () => {
                     </TouchableOpacity>
                 </View>
 
+                <TouchableOpacity 
+                    onPress={() => {navigation.navigate("Extract_categoria")}}
+                    style={{width:30,height:30}}
+                >
+                    <Image source={require("../../assets/change_screen.png")} style={{width:30,height:30}}/>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() => {setModalVisible(true)}}>
                     <Filter width={30} height={30} color={"black"} />
                 </TouchableOpacity>

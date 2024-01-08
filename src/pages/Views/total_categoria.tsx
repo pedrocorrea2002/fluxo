@@ -1,14 +1,15 @@
-import React, { useState,useEffect } from "react"
+import React, { useState,useEffect, cloneElement } from "react"
 import {
     View,
     Text,
     StyleSheet,
     TouchableOpacity,
     SectionList,
-    FlatList
+    FlatList,
+    Image
 } from 'react-native'
 import database from '@react-native-firebase/database'
-import { dateFormat, dataFormat_toMonth, onlyUnique, sortMonth_other, moneyFormat, sortMonth_category } from "../../assets/utils";
+import { dateFormat, dataFormat_toMonth, onlyUnique, moneyFormat, sortMonth_category, just_date, sortTotal_Category } from "../../assets/utils";
 
 import { Filter } from "../../assets/Icons/svg_filter";
 import { Extract_item } from "../../components/extract_item";
@@ -17,8 +18,11 @@ import { FilterModal } from "../../components/filter_modal";
 import { filter_colors } from "../../assets/front_utils";
 import { theme } from "../../assets/style";
 import { Extract_item_category } from "../../components/extract_item_category";
+import { useNavigation } from "@react-navigation/native";
 
 export const Extract_categoria = () => {
+    const navigation = useNavigation();
+
     const [filters,setFilters] = useState([{
                 title:"Ordenação crescente por data",
                 value:"Data|Decrescente",
@@ -136,8 +140,6 @@ export const Extract_categoria = () => {
         if(filters.length == 0){
             not_filtered = not_filtered.sort((a,b) => sortMonth_category(a,b,"Decrescente"))
         }
-
-        console.log("fsffaafs:",not_filtered)
         
         setLancamentos(not_filtered)
     },[entradas,saidas,filters])
@@ -147,7 +149,9 @@ export const Extract_categoria = () => {
     },[lancamentos])
 
     useEffect(() => {
-        setFilteredMonths(months.filter(onlyUnique))
+        setFilteredMonths(["Total",...months.filter(onlyUnique)])
+
+        console.log("months:",months.filter(onlyUnique))
     },[months])
 
     useEffect(() => {
@@ -232,17 +236,17 @@ export const Extract_categoria = () => {
 
     function groupLancamentos(lista) {
         const groupedList = []
+
         lista.forEach((item) => {
             let group = groupedList.findIndex((item2) => item2.category == item.category && item.type == item2.type)
 
             if(group != -1){
                 groupedList[group].value += item.value
             }else{
-                groupedList.push(item)
+                groupedList.push(JSON.parse(JSON.stringify(item)))
             }
         })
 
-        console.log(JSON.stringify(groupedList))
         return groupedList
     }
 
@@ -261,6 +265,13 @@ export const Extract_categoria = () => {
                         <Text style={[styles.date, styles.rightArrow]}>▶</Text>
                     </TouchableOpacity>
                 </View>
+
+                <TouchableOpacity 
+                    onPress={() => {navigation.navigate("Extract")}}
+                    style={{width:30,height:30}}
+                >
+                    <Image source={require("../../assets/change_screen.png")} style={{width:30,height:30}}/>
+                </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => {setModalVisible(true)}}>
                     <Filter width={30} height={30} color={"black"} />
@@ -284,9 +295,14 @@ export const Extract_categoria = () => {
                         <Text>Entrada:</Text>
                         <Text style={styles.total_section_value}>
                             {
-                                moneyFormat(lancamentos.filter(item => (
-                                    dataFormat_toMonth(item.date) == selectedMonth && item.type == "entrada" ? 1 : 0
-                                )).reduce((sum,a) => sum += a.value,0))
+                                moneyFormat(
+                                    selectedMonth == "Total" ? 
+                                        lancamentos.filter(item => (item.type == "entrada" ? 1 : 0)).reduce((sum,a) => sum += a.value,0)  
+                                    : 
+                                        lancamentos.filter(item => (
+                                            dataFormat_toMonth(item.date) == selectedMonth && item.type == "entrada" ? 1 : 0
+                                        )).reduce((sum,a) => sum += a.value,0)
+                                )
                             }
                         </Text>
                     </View>
@@ -295,9 +311,14 @@ export const Extract_categoria = () => {
                         <Text>Saída:</Text>
                         <Text style={styles.total_section_value}>
                             {
-                                moneyFormat(lancamentos.filter(item => (
-                                    dataFormat_toMonth(item.date) == selectedMonth && item.type == "saida" ? 1 : 0
-                                )).reduce((sum,a) => sum += a.value,0))
+                                moneyFormat(
+                                    selectedMonth == "Total" ? 
+                                        lancamentos.filter(item => (item.type == "saida" ? 1 : 0)).reduce((sum,a) => sum += a.value,0)  
+                                    : 
+                                        lancamentos.filter(item => (
+                                            dataFormat_toMonth(item.date) == selectedMonth && item.type == "saida" ? 1 : 0
+                                        )).reduce((sum,a) => sum += a.value,0)
+                                )
                             }
                         </Text>
                     </View>
@@ -305,7 +326,10 @@ export const Extract_categoria = () => {
             </View>
 
             <FlatList
-                data={groupLancamentos(lancamentos.filter(item => (dataFormat_toMonth(item.date) == selectedMonth ? 1 : 0)))}
+                data={selectedMonth == "Total" ? 
+                    groupLancamentos(lancamentos.sort((a,b) => sortTotal_Category(a,b))) :
+                    groupLancamentos(lancamentos.filter(item => (dataFormat_toMonth(item.date) == selectedMonth ? 1 : 0)))
+                }
                 keyExtractor={(item) => String(item.date)}
                 contentContainerStyle={{ width: "100%", alignItems: 'center', paddingBottom: "50%" }}
                 showsVerticalScrollIndicator={false}
