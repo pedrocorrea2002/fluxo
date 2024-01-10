@@ -5,6 +5,7 @@ import { Outcomings } from '../pages/outcomings';
 import { Main } from '../pages/main';
 import { Extract } from '../pages/Views/extract_geral';
 import { Extract_categoria } from '../pages/Views/total_categoria';
+import { Chart_screen } from '../pages/Views/chart_screen';
 
 function Navigator() {
     const Stack = createNativeStackNavigator();
@@ -37,6 +38,11 @@ function Navigator() {
                 <Stack.Screen
                     name="Extract_categoria"
                     component={Extract_categoria}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Chart_screen"
+                    component={Chart_screen}
                     options={{ headerShown: false }}
                 />
             </Stack.Navigator>

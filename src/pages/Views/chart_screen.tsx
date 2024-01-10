@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     SectionList,
     FlatList,
-    Image
+    Image,
+    Dimensions
 } from 'react-native'
 import database from '@react-native-firebase/database'
 import { dateFormat, dataFormat_toMonth, onlyUnique, moneyFormat, sortMonth_category, just_date, sortTotal_Category } from "../../assets/utils";
@@ -15,12 +16,17 @@ import { Filter } from "../../assets/Icons/svg_filter";
 import { Extract_item } from "../../components/extract_item";
 import { Filter_block } from "../../components/filter_block";
 import { FilterModal } from "../../components/filter_modal";
-import { filter_colors } from "../../assets/front_utils";
+import { category_front, filter_colors } from "../../assets/front_utils";
 import { theme } from "../../assets/style";
 import { Extract_item_category } from "../../components/extract_item_category";
 import { useNavigation } from "@react-navigation/native";
 
-export const Extract_categoria = () => {
+import {
+    PieChart,
+    LineChart
+} from "react-native-chart-kit"
+
+export const Chart_screen = () => {
     const navigation = useNavigation();
 
     const [filters,setFilters] = useState([{
@@ -63,7 +69,11 @@ export const Extract_categoria = () => {
     const entradasDB = database().ref('/entradas/')
     // const saidasDB = dados.saidas
     // const entradasDB = dados.entradas
-    
+
+    //? DADOS PARA ALIMENTAR OS GRÁFICOS
+    const [entradasPieData, setEntradasPieData] = useState([])
+    const [saidasPieData, setSaidasPieData] = useState([])
+
     useEffect(() => {
         //* Pegando entradas do firebase e jogando em um array
         const listaEntradas = []
@@ -92,7 +102,6 @@ export const Extract_categoria = () => {
 
             setSaidas(listaSaidas)
         })
-
     },[])
 
     useEffect(() => {
@@ -157,6 +166,45 @@ export const Extract_categoria = () => {
         setSelectedMonth(filteredMonths[0])
         setDateIndex(0)
     },[filteredMonths])
+
+    useEffect(() => {
+        //* PREENCHENDO O DATASET DO GRÁFICO COM BASE NO MÊS ESCOLHIDO
+        let month_entradas_data = groupLancamentos(
+            lancamentos.filter(item => item.type == "entrada" && (selectedMonth == "Total" ? true : (dataFormat_toMonth(item.date) == selectedMonth)))
+        )
+
+        let month_saidas_data = groupLancamentos(
+            lancamentos.filter(item => item.type == "saida" && (selectedMonth == "Total" ? true : (dataFormat_toMonth(item.date) == selectedMonth)))
+        )
+
+        setEntradasPieData([])
+        setSaidasPieData([])
+
+        console.log("month_entradas_data:",month_entradas_data)
+        console.log("month_saidas_data:",month_saidas_data)
+        
+        //* preenchendo dados do gráfico de pizza de entradas
+        setEntradasPieData(month_entradas_data.map(a => {return {
+            name: a.category,
+            value: a.value,
+            color: category_front[a.category].color,
+            legendFontColor: category_front[a.category].color,
+            legendFontSize: 12
+        }}))
+
+        //* preenchendo dados do gráfico de pizza de saídas
+        setSaidasPieData(month_saidas_data.map(a => {return {
+            name: a.category,
+            value: a.value,
+            color: category_front[a.category].color,
+            legendFontColor: category_front[a.category].color,
+            legendFontSize: 12
+        }}))
+    },[selectedMonth])
+
+    useEffect(() => {
+
+    },[entradasPieData,saidasPieData])
 
 
     const styles = StyleSheet.create({
@@ -233,6 +281,17 @@ export const Extract_categoria = () => {
         }
     })
 
+    const chartConfig = {
+        backgroundGradientFrom: "#1E2923",
+        backgroundGradientFromOpacity: 0,
+        backgroundGradientTo: "#08130D",
+        backgroundGradientToOpacity: 0.5,
+        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+        strokeWidth: 2, // optional, default 3
+        barPercentage: 0.5,
+        useShadowColorFromDataset: false
+    }
+
     function groupLancamentos(lista) {
         const groupedList = []
 
@@ -267,7 +326,7 @@ export const Extract_categoria = () => {
 
                 {/* //* BOTÃO DE TROCA DE TELA */}
                 <TouchableOpacity 
-                    onPress={() => {navigation.navigate("Chart_screen")}}
+                    onPress={() => {navigation.navigate("Extract")}}
                     style={{width:30,height:30}}
                 >
                     <Image source={require("../../assets/change_screen.png")} style={{width:30,height:30}}/>
@@ -326,24 +385,26 @@ export const Extract_categoria = () => {
                 </View>
             </View>
 
-            <FlatList
-                data={selectedMonth == "Total" ? 
-                    groupLancamentos(lancamentos.sort((a,b) => sortTotal_Category(a,b))) :
-                    groupLancamentos(lancamentos.filter(item => (dataFormat_toMonth(item.date) == selectedMonth ? 1 : 0)))
-                }
-                keyExtractor={(item) => String(item.date)}
-                contentContainerStyle={{ width: "100%", alignItems: 'center', paddingBottom: "50%" }}
-                showsVerticalScrollIndicator={false}
-                renderItem={({ item }) => (
-                    <Extract_item_category
-                        name={item.name}
-                        value={item.value}
-                        date={item.date}
-                        type={item.type}
-                        category={item.category}
-                        user={item.user}
-                    />
-                )}
+            <Text style={styles.date}>Entradas</Text>
+            <PieChart
+                chartConfig={chartConfig}
+                data={entradasPieData} 
+                height={200}
+                width={Dimensions.get("window").width}
+                accessor="value"
+                backgroundColor = 'white'
+                paddingLeft="2"
+            />
+
+            <Text style={styles.date}>Saídas</Text>
+            <PieChart
+                chartConfig={chartConfig}
+                data={saidasPieData}
+                height={200}
+                width={Dimensions.get("window").width}
+                accessor="value"
+                backgroundColor = 'white'
+                paddingLeft="2"
             />
             {modalVisible &&
                 <FilterModal
