@@ -163,11 +163,6 @@ export const Chart_screen = () => {
     },[months])
 
     useEffect(() => {
-        setSelectedMonth(filteredMonths[0])
-        setDateIndex(0)
-    },[filteredMonths])
-
-    useEffect(() => {
         //* PREENCHENDO O DATASET DO GRÁFICO COM BASE NO MÊS ESCOLHIDO
         let month_entradas_data = groupLancamentos(
             lancamentos.filter(item => item.type == "entrada" && (selectedMonth == "Total" ? true : (dataFormat_toMonth(item.date) == selectedMonth)))
@@ -200,12 +195,12 @@ export const Chart_screen = () => {
             legendFontColor: category_front[a.category].color,
             legendFontSize: 12
         }}))
-    },[selectedMonth])
+    },[selectedMonth,lancamentos])
 
     useEffect(() => {
-
-    },[entradasPieData,saidasPieData])
-
+        setSelectedMonth(filteredMonths[0])
+        setDateIndex(0)
+    },[filteredMonths])
 
     const styles = StyleSheet.create({
         page: {
@@ -405,6 +400,8 @@ export const Chart_screen = () => {
                 accessor="value"
                 backgroundColor = 'white'
                 paddingLeft="2"
+                avoidFalseZero
+
             />
             {modalVisible &&
                 <FilterModal

@@ -239,6 +239,8 @@ export const Extract_categoria = () => {
         lista.forEach((item) => {
             let group = groupedList.findIndex((item2) => item2.category == item.category && item.type == item2.type)
 
+            console.log(item.type," - ",item.category," -- ",group)
+
             if(group != -1){
                 groupedList[group].value += item.value
             }else{

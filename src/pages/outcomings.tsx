@@ -15,7 +15,7 @@ import { Button } from "../components/button";
 import { theme } from "../assets/style";
 import {Plus} from "../assets/Icons/svg_plus"
 import { InputDateTime } from "../components/inputDateTime";
-import { just_date, just_time, numberEnsurer } from "../assets/utils";
+import { just_date, just_time } from "../assets/utils";
 
 export const Outcomings = () => {
     const [name,setName] = useState("")
@@ -28,12 +28,12 @@ export const Outcomings = () => {
     function insertValues(){
         if(name && value && category[0]){
             saidas.push({
-                category: category,
+                category: category[0],
                 id: Date.now(),
                 date: date.getTime(),
                 name: name,
                 user: "pedro",
-                value: value
+                value: value/100
             })
 
             setName("")
@@ -61,11 +61,10 @@ export const Outcomings = () => {
                 />
                 <Input 
                     text="Valor"
-                    value={value} /* //! QUANDO VOLTA A 0, O RESTANTE DO TEXTO MANTEM */
-                    display={value.toLocaleString("pt-BR", {style:"currency", currency:"BRL"})}
-                    placeholder="Digite o valor da saída"
-                    
-                    onChangeText={a => {setValue(numberEnsurer(a))}}
+                    value={value.toString()} /* //! QUANDO VOLTA A 0, O RESTANTE DO TEXTO MANTEM */
+                    display={(Number(value)/100).toLocaleString("pt-BR", {style:"currency", currency:"BRL"})}
+                    placeholder="Digite o valor da saída"              
+                    onChangeText={a => {setValue(Number(a))}}
                     keyboardType="decimal-pad"
                 />
                 <View style={{flexDirection:'row'}}>

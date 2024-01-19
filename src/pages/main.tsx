@@ -127,7 +127,7 @@ export const Main = () => {
                             .filter(a => a.type == "saida" && dataFormat_toMonth(a.date) == selectedMonth.toString())
                             .reduce((a,b) => a + b.value ,0))
         }
-    },[dateIndex])
+    },[dateIndex,selectedMonth])
 
     useEffect(() => {
         setSaldoMes(entradasMes - saidasMes)
