@@ -1,3 +1,5 @@
+![altText](https://github.com/pedrocorrea2002/fluxo/blob/main/Demonstração.gif?raw=true)
+
 <details>
   <summary><h2>English version</h2></summary>
     
