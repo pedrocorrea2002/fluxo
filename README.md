@@ -1,6 +1,6 @@
 ![altText](https://github.com/pedrocorrea2002/fluxo/blob/main/Demonstração.gif?raw=true)
 
-<details>
+<details close>
   <summary><b>English version</b></summary>
   
   ### ℹ️ About
@@ -51,7 +51,7 @@
 </details>
 </details>
 <br>
-<details>
+<details close>
   <summary><b>Versão portuguesa (BR)</b></summary>
 
   ### ℹ️ Sobre
