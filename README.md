@@ -1,4 +1,4 @@
-![image](https://github.com/pedrocorrea2002/fluxo/assets/63562843/f993ad7f-d70b-4f4a-8632-51ecd30835dc)![altText](https://github.com/pedrocorrea2002/fluxo/blob/main/Demonstração.gif?raw=true)
+![altText](https://github.com/pedrocorrea2002/fluxo/blob/main/Demonstração.gif?raw=true)
 
 <details>
   <summary><b>English version</b></summary>
@@ -17,8 +17,10 @@
   - expo (Version 6.3.10 or superior) -- Not tested in lower versions
   - Java(TM) SE Runtime Environment (Version 19.0.2+7-14 or superior) -- Not tested in lower versions
   <br>
+  
   If you need some help to update or configure your environment [click here](https://www.notion.so/Atualiza-o-vers-es-diferentes-484cad4aa4354355b366d6524e7d2bc5) and [here](https://www.oracle.com/java/technologies/javase/jdk19-archive-downloads.html).
   <br>
+  
   If you don't want to test the project on your own cellphone, you will need to install Android Studio, [see how to configure Android Studio in the minute 3:35](https://www.youtube.com/watch?v=ZGIU5aIRi9M).
   </details>
   <details>
@@ -59,14 +61,17 @@
   
   <details>
   <summary><b>⚠️ Requisitos</b></summary>
+    
   - node (Version 16.16.1 or superior) -- Not tested in lower versions
   - npm (Version 9.8.1 or superior) -- Not tested in lower versions
   - yarn (Version 1.12.19 or superior) -- Not tested in lower versions
   - expo (Version 6.3.10 or superior) -- Not tested in lower versions
   - Java(TM) SE Runtime Environment (Version 19.0.2+7-14 or superior) -- Not tested in lower versions
   <br>
+  
   Se você precisar de ajuda para atualizar ou configurar seu ambiente [clique aqui](https://www.notion.so/Atualiza-o-vers-es-diferentes-484cad4aa4354355b366d6524e7d2bc5) e [aqui](https://www.java.com/en/download/).
   <br>
+  
   Se você quer testar o projeto no seu próprio celular, você vai precisar instalar o Android Studio, [veja como configurar o Android Studio](https://www.youtube.com/watch?v=SHSL58EMGTc).
   </details>
   <details>
