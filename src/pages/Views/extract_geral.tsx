@@ -326,7 +326,7 @@ export const Extract = () => {
             {/* //* LISTA DE ENTRADAS E SAÍDAS */}
             <SectionList
                 sections={groupLancamentos(lancamentos.filter(item => (dataFormat_toMonth(item.date) == selectedMonth ? 1 : 0)))}
-                keyExtractor={(item) => String(item.date)}
+                keyExtractor={(item) => String(item.id)}
                 contentContainerStyle={{ width: "100%", alignItems: 'center', paddingBottom: "50%" }}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
