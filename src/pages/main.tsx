@@ -111,7 +111,7 @@ export const Main = () => {
     },[entradasTotais,saidasTotais])
 
     useEffect(() => {
-        setFilteredMonths(months.filter(onlyUnique))
+        setFilteredMonths(months.filter(onlyUnique).reverse())
     },[months])
 
     useEffect(() => {
