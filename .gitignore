@@ -37,4 +37,4 @@ yarn-error.*
 #locks
 yarn.lock
 package-lock.json
-/Demonstração.gif
+Demonstração.gif
