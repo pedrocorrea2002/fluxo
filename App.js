@@ -2,6 +2,7 @@ import React from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, View } from 'react-native';
 import Navigator from './src/routes/navigator';
+import { MenuProvider } from 'react-native-popup-menu';
 import { Extract } from './src/pages/Views/extract_geral';
 
 export default function App() {
@@ -11,7 +12,9 @@ export default function App() {
         hideTransitionAnimation='fade'
         hidden
       />
-      <Navigator/>
+      <MenuProvider>
+        <Navigator/>
+      </MenuProvider>
     </SafeAreaView>
   )
 }

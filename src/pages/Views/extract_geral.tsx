@@ -62,7 +62,11 @@ export const Extract = () => {
     // const saidasDB = dados.saidas
     // const entradasDB = dados.entradas
     
+    const [a,setA] = useState(0)
+
     useEffect(() => {
+        console.log("estou aqui")
+
         //* Pegando entradas do firebase e jogando em um array
         const listaEntradas = []
 
@@ -71,7 +75,7 @@ export const Extract = () => {
         // }
         entradasDB.once('value', snapshot => {
             for(const indexEntrada in snapshot.val()){
-                listaEntradas.push(snapshot.val()[indexEntrada])
+                listaEntradas.push({...snapshot.val()[indexEntrada], itemId:indexEntrada})
             }
 
             setEntradas(listaEntradas)
@@ -85,13 +89,12 @@ export const Extract = () => {
         // }
         saidasDB.once('value', snapshot => {
             for(const indexSaida in snapshot.val()){
-                listaSaidas.push(snapshot.val()[indexSaida])
+                listaSaidas.push({...snapshot.val()[indexSaida], itemId:indexSaida})
             }
 
             setSaidas(listaSaidas)
         })
-
-    },[])
+    },[a])
 
     useEffect(() => {
         var not_filtered = [
@@ -176,7 +179,7 @@ export const Extract = () => {
             flexDirection: 'row',
         },
         date: {
-            fontSize: 30,
+            fontSize: 25,
             fontWeight: 'bold',
         },
         leftArrow: {
@@ -331,12 +334,15 @@ export const Extract = () => {
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
                     <Extract_item
+                        itemId={item.itemId}
                         name={item.name}
                         value={item.value}
                         date={item.date}
                         type={item.type}
                         category={item.category}
                         user={item.user}
+                        a={a}
+                        setA={setA}
                     />
                 )}
                 renderSectionHeader={({ section: { title } }) => (

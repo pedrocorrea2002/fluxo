@@ -1,9 +1,13 @@
-import React from "react"
+import React, { Dispatch, SetStateAction, useState } from "react"
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    Dimensions,
+    Modal
 } from 'react-native'
+import database from '@react-native-firebase/database'
+import {Menu, MenuTrigger, MenuOptions, MenuOption} from 'react-native-popup-menu'
 import {dateFormat, leadingZeros, moneyFormat} from '../assets/utils'
 
 import { ArrowDown } from "../assets/Icons/svg_arrow_down"
@@ -23,15 +27,30 @@ import { Meal } from "../assets/Icons/categories/svg_meal"
 import { Hardware } from "../assets/Icons/categories/svg_hardware"
 
 type Props = {
+    itemId: String,
     name: String,
     value: Number,
     date: Number,
     type: "Entrada" | "Saída",
     category: String,
-    user: String
+    user: String,
+    a: Number,
+    setA: Dispatch<SetStateAction<Number>>
 }
 
-export const Extract_item = (Props) => { 
+export const Extract_item = (Props) => {
+    const [confirmationPopUp, setConfirmationPopUp] = useState(false)
+
+    function deletarItem(){
+        let defaultPath = Props.type == 'Entrada' ? '/entradas/' : '/saidas/'
+
+        //! MODAL DE CONFIRMAÇÃO
+        database().ref(defaultPath).child(Props.itemId).remove()
+
+        //! RECARREGAR LISTA
+        Props.setA(Props.a + 1) //adicionar loading
+    }
+
     const categoryColor_Icon = {
         "Salário" : {
             color: "brown",
@@ -124,7 +143,7 @@ export const Extract_item = (Props) => {
             alignItems: 'center'
         },
         infoContainer:{
-            width: "48%",
+            width: (Dimensions.get("screen").width * 0.9) - 133,
             paddingLeft: 5
         },
         name:{
@@ -132,7 +151,7 @@ export const Extract_item = (Props) => {
             fontWeight: 'bold'
         },
         value:{
-            fontSize: 30,
+            fontSize: 25,
             fontWeight: 'bold'
         },
         bottomBand:{
@@ -144,10 +163,15 @@ export const Extract_item = (Props) => {
         },
         date:{
             display: Props.date ? "flex" : "none",
-            fontSize: 20
+            fontSize: 15
         },
         user:{
             display: Props.user ? "flex" : "none"
+        },
+
+        // OPÇÕES DE AÇÃO POR ITEM
+        optionsButtonText: {
+            fontSize: 30
         }
     })
 
@@ -164,12 +188,25 @@ export const Extract_item = (Props) => {
                     <Text style={styles.user}>{Props.user}</Text>
                 </View>
             </View>
-            <View style={[styles.iconContainer, {backgroundColor:"transparent"}]}>
+            <View style={[styles.iconContainer, {backgroundColor:"transparent", width:50, alignSelf:"center", position:"absolute", right:0}]}>
                 {Props.category && (
                     Props.type == "entrada" ? 
                         <ArrowDown height={50} width={50} color="green"/>
                     : <ArrowUp height={50} width={50} color="red"/>
                 )}
+                <Menu>
+                    <MenuTrigger>
+                        <Text style={styles.optionsButtonText}>㊂</Text>
+                    </MenuTrigger>
+                    <MenuOptions>
+                        <MenuOption>
+                            <Text>Editar</Text>
+                        </MenuOption>
+                        <MenuOption onSelect={() => deletarItem()}>
+                            <Text>Deletar</Text>
+                        </MenuOption>
+                    </MenuOptions>
+                </Menu>
             </View>
         </View>
     )

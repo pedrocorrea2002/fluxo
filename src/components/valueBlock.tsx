@@ -31,7 +31,7 @@ export const ValueBlock = (Props) => {
                         <Balance width={40} height={40} color={theme.colors.balance}/>
                 }
 
-                <Text style={styles.value}>R$ {Props.value.toFixed(2)}</Text>
+                <Text style={styles.value}>{Props.value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Text>
             </View>
         </View>
     )
@@ -39,10 +39,11 @@ export const ValueBlock = (Props) => {
 
 const styles = StyleSheet.create({
     block: {
-        width: Dimensions.get('window').width * 0.45,
+        width: "auto",
         height: 100,
         borderRadius: 20,
         marginHorizontal: 10,
+        paddingHorizontal: 10,
 
         alignItems: 'center',
         justifyContent: 'center',

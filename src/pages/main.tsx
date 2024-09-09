@@ -174,7 +174,7 @@ export const Main = () => {
             flexDirection: 'row',
         },
         date: {
-            fontSize: 30,
+            fontSize: 25,
             fontWeight: 'bold',
         },
         leftArrow: {
