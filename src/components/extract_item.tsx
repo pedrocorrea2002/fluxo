@@ -4,7 +4,8 @@ import {
     Text,
     StyleSheet,
     Dimensions,
-    Modal
+    Modal,
+    TouchableOpacity
 } from 'react-native'
 import database from '@react-native-firebase/database'
 import {Menu, MenuTrigger, MenuOptions, MenuOption} from 'react-native-popup-menu'
@@ -40,6 +41,11 @@ type Props = {
 
 export const Extract_item = (Props) => {
     const [confirmationPopUp, setConfirmationPopUp] = useState(false)
+    const [thisSize, setThisSize] = useState(0);
+
+    function showConfirmationPopUp(){
+        setConfirmationPopUp(true)
+    }
 
     function deletarItem(){
         let defaultPath = Props.type == 'Entrada' ? '/entradas/' : '/saidas/'
@@ -172,42 +178,90 @@ export const Extract_item = (Props) => {
         // OPÇÕES DE AÇÃO POR ITEM
         optionsButtonText: {
             fontSize: 30
+        },
+
+        // MODO DE CONFIRMAÇÃO DE EXCLUSÃO
+        confirmationPopUpContainer:{
+            backgroundColor:categoryColor_Icon[Props.category].color,
+            height:thisSize,
+            flexDirection: "column"
+        },
+        confirmationPopUpPiece1:{
+            width:"auto",
+            height: "50%"
+        },
+        confirmationPopUpText:{
+            fontSize:20,
+            color: "white",
+            fontWeight: "bold"
+        },
+        confirmationPopUpPiece2:{
+            height:"50%",
+            flexDirection:"row",
+            justifyContent:"space-evenly"
+        },
+        confirmationPopUpBottom:{
+            width: "40%"
+        },
+        confirmationPopUpBottomText:{
+            textAlign:"center",
+            fontSize:25,
+            fontWeight:"bold",
+            color: "white"
         }
     })
 
     return (
-        <View style={styles.container}>
-            <View style={styles.iconContainer}>
-                {categoryColor_Icon[Props.category ? Props.category : Props.type].icon()}
-            </View>
-            <View style={styles.infoContainer}>
-                <Text style={styles.name}>{Props.name}</Text>
-                <Text style={styles.value}>{moneyFormat(Props.value)}</Text>
-                <View style={styles.bottomBand}>
-                    <Text style={styles.date}>{Props.date ? leadingZeros(dateFormat(Props.date).getHours(),2)+":"+leadingZeros(dateFormat(Props.date).getMinutes(),2) : ""}</Text>
-                    <Text style={styles.user}>{Props.user}</Text>
+        <>  
+            {!confirmationPopUp ? 
+                <View style={styles.container} onLayout={(a) => setThisSize(a.nativeEvent.layout.height)}>
+                    <View style={styles.iconContainer}>
+                        {categoryColor_Icon[Props.category ? Props.category : Props.type].icon()}
+                    </View>
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.name}>{Props.name}</Text>
+                        <Text style={styles.value}>{moneyFormat(Props.value)}</Text>
+                        <View style={styles.bottomBand}>
+                            <Text style={styles.date}>{Props.date ? leadingZeros(dateFormat(Props.date).getHours(),2)+":"+leadingZeros(dateFormat(Props.date).getMinutes(),2) : ""}</Text>
+                            <Text style={styles.user}>{Props.user}</Text>
+                        </View>
+                    </View>
+                    <View style={[styles.iconContainer, {backgroundColor:"transparent", width:50, alignSelf:"center", position:"absolute", right:0}]}>
+                        {Props.category && (
+                            Props.type == "entrada" ? 
+                                <ArrowDown height={50} width={50} color="green"/>
+                            : <ArrowUp height={50} width={50} color="red"/>
+                        )}
+                        <Menu>
+                            <MenuTrigger>
+                                <Text style={styles.optionsButtonText}>㊂</Text>
+                            </MenuTrigger>
+                            <MenuOptions>
+                                <MenuOption>
+                                    <Text>Editar</Text>
+                                </MenuOption>
+                                <MenuOption onSelect={() => showConfirmationPopUp()}>
+                                    <Text>Deletar</Text>
+                                </MenuOption>
+                            </MenuOptions>
+                        </Menu>
+                    </View>
                 </View>
-            </View>
-            <View style={[styles.iconContainer, {backgroundColor:"transparent", width:50, alignSelf:"center", position:"absolute", right:0}]}>
-                {Props.category && (
-                    Props.type == "entrada" ? 
-                        <ArrowDown height={50} width={50} color="green"/>
-                    : <ArrowUp height={50} width={50} color="red"/>
-                )}
-                <Menu>
-                    <MenuTrigger>
-                        <Text style={styles.optionsButtonText}>㊂</Text>
-                    </MenuTrigger>
-                    <MenuOptions>
-                        <MenuOption>
-                            <Text>Editar</Text>
-                        </MenuOption>
-                        <MenuOption onSelect={() => deletarItem()}>
-                            <Text>Deletar</Text>
-                        </MenuOption>
-                    </MenuOptions>
-                </Menu>
-            </View>
-        </View>
+            :
+                <View style={[styles.container, styles.confirmationPopUpContainer]}>
+                    <View style={styles.confirmationPopUpPiece1}>
+                        <Text style={styles.confirmationPopUpText}> Deseja mesmo excluir?</Text>
+                    </View>
+                    <View style={styles.confirmationPopUpPiece2}>
+                        <TouchableOpacity style={styles.confirmationPopUpBottom} onPress={() => deletarItem()}>
+                            <Text style={[styles.confirmationPopUpBottomText]}>Sim</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.confirmationPopUpBottom} onPress={() => setConfirmationPopUp(false)}>
+                            <Text style={[styles.confirmationPopUpBottomText]}>Não</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            }
+        </>
     )
 }
