@@ -97,16 +97,48 @@ export const Incomings = () => {
                 <View style={styles.category_container}>
                     <Category
                         title="Salário"
-                        icon={Work}
-                        color="brown"
+                        category={category}
+                        setCategory={setCategory}
+                        pressBehavior={"substitute"}
+                    />
+                    <Category
+                        title="Benefício"
+                        category={category}
+                        setCategory={setCategory}
+                        pressBehavior={"substitute"}
+                    />
+                    <Category
+                        title="Serviço extra"
+                        category={category}
+                        setCategory={setCategory}
+                        pressBehavior={"substitute"}
+                    />
+                    <Category
+                        title="Venda"
+                        category={category}
+                        setCategory={setCategory}
+                        pressBehavior={"substitute"}
+                    />
+                    <Category
+                        title="Câmbio"
+                        category={category}
+                        setCategory={setCategory}
+                        pressBehavior={"substitute"}
+                    />
+                    <Category
+                        title="Renda fixa"
+                        category={category}
+                        setCategory={setCategory}
+                        pressBehavior={"substitute"}
+                    />
+                    <Category
+                        title="Investir"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"substitute"}
                     />
                     <Category
                         title="Outro"
-                        icon={Other}
-                        color="gray"
                         category={category}
                         setCategory={setCategory}
                         pressBehavior={"substitute"}

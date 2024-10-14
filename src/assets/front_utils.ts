@@ -13,6 +13,12 @@ import { Work } from './Icons/categories/svg_work';
 import { Hardware } from './Icons/categories/svg_hardware';
 import { Tool } from './Icons/categories/svg_tool';
 import { Trash } from './Icons/svg_trash';
+import { Service } from './Icons/categories/svg_service';
+import { Benefit } from './Icons/categories/svg_benefit';
+import { Sale } from './Icons/categories/svg_sale';
+import { Coin } from './Icons/categories/svg_coin';
+import { Passive } from './Icons/categories/svg_passive';
+import { Investment } from './Icons/categories/svg_investment';
 
 export const category_front = {
     "Mercado":{color:"violet",icon:Market},
@@ -28,6 +34,12 @@ export const category_front = {
     "Hardware":{color:"#06c4d2",icon:Hardware},
     "Ferramentas":{color:"#3c3c3c",icon:Tool},
     "Salário":{color:"brown",icon:Work},
+    "Benefício":{color:"#d11174",icon:Benefit},
+    "Serviço extra":{color:"#070380",icon:Service},
+    "Venda":{color:"#39ff03",icon:Sale},
+    "Câmbio":{color:"#727501",icon:Coin},
+    "Renda fixa":{color:"#7703fc",icon:Passive},
+    "Investir":{color:"#350178",icon:Investment},
     "Outro":{color:"gray",icon:Other},
     "Limpar campos":{color:"black",icon:Trash}
 }

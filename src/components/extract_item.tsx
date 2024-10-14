@@ -35,8 +35,7 @@ type Props = {
     type: "Entrada" | "Saída",
     category: String,
     user: String,
-    a: Number,
-    setA: Dispatch<SetStateAction<Number>>
+    gettingEntradasSaida: Dispatch<SetStateAction<null>>
 }
 
 export const Extract_item = (Props) => {
@@ -48,13 +47,13 @@ export const Extract_item = (Props) => {
     }
 
     function deletarItem(){
-        let defaultPath = Props.type == 'Entrada' ? '/entradas/' : '/saidas/'
+        let defaultPath = Props.type == 'entrada' ? '/entradas/' : '/saidas/'
 
         //! MODAL DE CONFIRMAÇÃO
         database().ref(defaultPath).child(Props.itemId).remove()
 
         //! RECARREGAR LISTA
-        Props.setA(Props.a + 1) //adicionar loading
+        Props.waitForDelection(Props.itemId)
     }
 
     const categoryColor_Icon = {

@@ -20,6 +20,10 @@ import { useNavigation } from "@react-navigation/native";
 
 export const Extract = () => {
     const navigation = useNavigation();
+    const [realoadingTries, setReloadingTries] = useState(0)
+    const [realoading, setReloading] = useState(false)
+    console.log("reloading")
+
 
     const [filters,setFilters] = useState([{
                 title:"Ordenação crescente por data",
@@ -64,36 +68,39 @@ export const Extract = () => {
     
     const [a,setA] = useState(0)
 
-    useEffect(() => {
-        console.log("estou aqui")
-
+    //? buscando no firebase as entradas e saídas
+    function gettingEntradasSaida(){
         //* Pegando entradas do firebase e jogando em um array
         const listaEntradas = []
-
+        
         // for(const indexEntrada in entradasDB){
-        //     listaEntradas.push(entradasDB[indexEntrada])
-        // }
-        entradasDB.once('value', snapshot => {
-            for(const indexEntrada in snapshot.val()){
-                listaEntradas.push({...snapshot.val()[indexEntrada], itemId:indexEntrada})
-            }
+            //     listaEntradas.push(entradasDB[indexEntrada])
+            // }
+            entradasDB.once('value', snapshot => {
+                for(const indexEntrada in snapshot.val()){
+                    listaEntradas.push({...snapshot.val()[indexEntrada], itemId:indexEntrada})
+                }
+    
+                setEntradas(listaEntradas)
+            })
+            
+            
+            //* Pegando saídas do firebase e jogando em um array
+            const listaSaidas = []
+            // for(const indexSaida in saidasDB){
+            //     listaSaidas.push(saidasDB[indexSaida])
+            // }
+            saidasDB.once('value', snapshot => {
+                for(const indexSaida in snapshot.val()){
+                    listaSaidas.push({...snapshot.val()[indexSaida], itemId:indexSaida})
+                }
+    
+                setSaidas(listaSaidas)
+            })
+    }
 
-            setEntradas(listaEntradas)
-        })
-
-
-        //* Pegando saídas do firebase e jogando em um array
-        const listaSaidas = []
-        // for(const indexSaida in saidasDB){
-        //     listaSaidas.push(saidasDB[indexSaida])
-        // }
-        saidasDB.once('value', snapshot => {
-            for(const indexSaida in snapshot.val()){
-                listaSaidas.push({...snapshot.val()[indexSaida], itemId:indexSaida})
-            }
-
-            setSaidas(listaSaidas)
-        })
+    useEffect(() => {
+        gettingEntradasSaida()
     },[a])
 
     useEffect(() => {
@@ -157,6 +164,24 @@ export const Extract = () => {
         setSelectedMonth(filteredMonths[0])
         setDateIndex(0)
     },[filteredMonths])
+
+    function waitForDelection(itemId){
+        console.log("realoadingTries: ",realoadingTries)
+        console.log("itemID: ", (lancamentos.map(b => b.itemId).includes(itemId)))
+        console.log("itemID2: ", typeof(itemId))
+        console.log("lancamentos: ", typeof(lancamentos.map(b => b.itemId)[0]))
+
+        if(realoadingTries <= 5 && lancamentos.map(b => b.itemId).includes(itemId)){
+            setTimeout(() => {
+                console.log("setTimeOut",realoadingTries)
+
+                setReloadingTries(realoadingTries + 1)
+                setReloading(true)
+                gettingEntradasSaida()
+                waitForDelection(itemId)
+            },1000)
+        }
+    }
 
     const styles = StyleSheet.create({
         page: {
@@ -326,6 +351,13 @@ export const Extract = () => {
                 </View>
             </View>
 
+            {/* //* RECARREGANDO */ }
+            {realoading ? 
+                <Text>Recarregando</Text>
+            :
+                <></>
+            }
+
             {/* //* LISTA DE ENTRADAS E SAÍDAS */}
             <SectionList
                 sections={groupLancamentos(lancamentos.filter(item => (dataFormat_toMonth(item.date) == selectedMonth ? 1 : 0)))}
@@ -341,8 +373,7 @@ export const Extract = () => {
                         type={item.type}
                         category={item.category}
                         user={item.user}
-                        a={a}
-                        setA={setA}
+                        waitForDelection={waitForDelection}
                     />
                 )}
                 renderSectionHeader={({ section: { title } }) => (
